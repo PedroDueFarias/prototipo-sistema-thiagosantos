@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0f9d9a">
+<meta name="theme-color" content="#11A69C">
 <title>Painel Studio Thiago Santos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,10 +12,10 @@
 /* Direção: painel claro e arejado, verde-azulado do studio como acento, vermelho/âmbar só para estado.
    Layout: menu lateral no notebook, barra inferior no celular, tudo em cards clicáveis. */
 :root{
-  --bg:#f2f7f7; --surface:#ffffff; --surface-2:#f7fbfb; --ink:#10282f; --muted:#587079; --line:#e1eaec;
-  --brand:#0f9d9a; --brand-ink:#0a6f6d; --brand-soft:#dff3f2;
-  --good:#1b8f5a; --good-soft:#e1f5ea; --warn:#b97300; --warn-soft:#fdf0d5; --bad:#d6384b; --bad-soft:#fde6e9; --info:#2f5fd0; --info-soft:#e4ecfc;
-  --s1:#0f9d9a; --s2:#3866d6; --s3:#e8a317; --s4:#e0566a; --s5:#7c5cd6; --s6:#7b8e96;
+  --bg:#F4F4F5; --surface:#ffffff; --surface-2:#f7f7f8; --ink:#14262e; --muted:#5d6e77; --line:#EAE9EB;
+  --brand:#11A69C; --brand-ink:#0b766f; --brand-soft:#dcf3f1;
+  --good:#4f8a17; --good-fill:#8DC53E; --good-soft:#eaf5d9; --warn:#b97300; --warn-soft:#fdf0d5; --bad:#d6384b; --bad-soft:#fde6e9; --info:#406EC1; --info-soft:#e5ecf8;
+  --s1:#11A69C; --s2:#406EC1; --s3:#e8a317; --s4:#e0566a; --s5:#127BBA; --s6:#9aa3ab; --s7:#8DC53E; --s8:#3DA9B4;
   --plan:#10282f; --shadow:0 1px 2px rgba(16,40,47,.05),0 6px 18px rgba(16,40,47,.04);
   --font:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   color-scheme:light;
@@ -23,18 +23,18 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --bg:#0a1a1f; --surface:#112328; --surface-2:#0e1f24; --ink:#e8f3f4; --muted:#8fa9b0; --line:#1f3a41;
-    --brand:#2cc5c0; --brand-ink:#7fe3df; --brand-soft:#123a3d;
-    --good:#47d08a; --good-soft:#103625; --warn:#f0b43c; --warn-soft:#3b2d0c; --bad:#ff6b7d; --bad-soft:#3d1820; --info:#7ea3ff; --info-soft:#18284d;
-    --s1:#2cc5c0; --s2:#6f97ff; --s3:#f0b43c; --s4:#ff7b8c; --s5:#a08cff; --s6:#8fa4ac;
+    --brand:#2BC7BB; --brand-ink:#7fe3da; --brand-soft:#123b3c;
+    --good:#a6dc62; --good-fill:#8DC53E; --good-soft:#243511; --warn:#f0b43c; --warn-soft:#3b2d0c; --bad:#ff6b7d; --bad-soft:#3d1820; --info:#7fa3ec; --info-soft:#1a2a4a;
+    --s1:#2BC7BB; --s2:#6f93e0; --s3:#f0b43c; --s4:#ff7b8c; --s5:#4ba6e0; --s6:#8fa4ac; --s7:#a5d95e; --s8:#5cc2cc;
     --plan:#e8f3f4; --shadow:0 1px 2px rgba(0,0,0,.3);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0a1a1f; --surface:#112328; --surface-2:#0e1f24; --ink:#e8f3f4; --muted:#8fa9b0; --line:#1f3a41;
-  --brand:#2cc5c0; --brand-ink:#7fe3df; --brand-soft:#123a3d;
-  --good:#47d08a; --good-soft:#103625; --warn:#f0b43c; --warn-soft:#3b2d0c; --bad:#ff6b7d; --bad-soft:#3d1820; --info:#7ea3ff; --info-soft:#18284d;
-  --s1:#2cc5c0; --s2:#6f97ff; --s3:#f0b43c; --s4:#ff7b8c; --s5:#a08cff; --s6:#8fa4ac;
+  --brand:#2BC7BB; --brand-ink:#7fe3da; --brand-soft:#123b3c;
+  --good:#a6dc62; --good-fill:#8DC53E; --good-soft:#243511; --warn:#f0b43c; --warn-soft:#3b2d0c; --bad:#ff6b7d; --bad-soft:#3d1820; --info:#7fa3ec; --info-soft:#1a2a4a;
+  --s1:#2BC7BB; --s2:#6f93e0; --s3:#f0b43c; --s4:#ff7b8c; --s5:#4ba6e0; --s6:#8fa4ac; --s7:#a5d95e; --s8:#5cc2cc;
   --plan:#e8f3f4; --shadow:0 1px 2px rgba(0,0,0,.3);
   color-scheme:dark;
 }
@@ -110,7 +110,7 @@ a.card:hover .go{background:var(--brand);color:#fff}
 .h-item small{color:var(--muted);font-size:12px}
 .h-item b{font-size:14px;display:flex;align-items:center;gap:8px}
 .dot{width:9px;height:9px;border-radius:50%;flex:none}
-.dot.good{background:var(--good)}.dot.warn{background:var(--s3)}.dot.bad{background:var(--bad)}
+.dot.good{background:var(--good-fill)}.dot.warn{background:var(--s3)}.dot.bad{background:var(--bad)}
 
 /* alertas */
 #view{display:flex;flex-direction:column;gap:16px}
@@ -186,7 +186,7 @@ a.row:hover{background:var(--surface-2)}
 .cell{height:30px;border-radius:7px;display:grid;place-items:center;font-size:10.5px;font-weight:700;color:var(--ink);cursor:default}
 .cell.off{background:repeating-linear-gradient(135deg,var(--line) 0 3px,transparent 3px 7px)}
 .heat-leg{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--muted)}
-.heat-leg i{display:block;width:90px;height:8px;border-radius:99px;background:linear-gradient(90deg,rgba(15,157,154,.08),rgba(15,157,154,.95))}
+.heat-leg i{display:block;width:90px;height:8px;border-radius:99px;background:linear-gradient(90deg,rgba(17,166,156,.08),rgba(17,166,156,.95))}
 .insight{margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--surface-2);font-size:13px;color:var(--muted)}
 .insight b{color:var(--ink)}
 .today-row{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px}
@@ -304,9 +304,9 @@ var saidas   = [3,4,2,2,2,2,3,2,2,2,2,2];
 var linhas = [
   {k:'mensalidades', n:'Mensalidades do studio', v:41290, c:'var(--s1)'},
   {k:'homecare',     n:'Home care',              v:6400,  c:'var(--s2)'},
-  {k:'eventos',      n:'Eventos',                v:3300,  c:'var(--s3)'},
-  {k:'consultoria',  n:'Consultoria online',     v:2900,  c:'var(--s5)'},
-  {k:'palestras',    n:'Palestras e congressos', v:2500,  c:'var(--s4)'},
+  {k:'eventos',      n:'Eventos',                v:3300,  c:'var(--s7)'},
+  {k:'consultoria',  n:'Consultoria online',     v:2900,  c:'var(--s8)'},
+  {k:'palestras',    n:'Palestras e congressos', v:2500,  c:'var(--s5)'},
   {k:'loja',         n:'Loja do T',              v:1010,  c:'var(--s6)'}
 ];
 var planos = [
@@ -520,12 +520,12 @@ function painelHTML(){
     '<div class="key"><span><i style="background:var(--brand)"></i>Entradas</span><span><i style="background:var(--s4)"></i>Saídas</span></div><div id="ch-cli"></div></div>'+
     '<div class="card c4"><div class="ch"><div><div class="ct">Saúde da carteira</div><div class="cs">'+totC+' cobranças do mês</div></div></div>'+
       '<div class="split" role="img" aria-label="Pagas '+carteira.pagas+', a vencer '+carteira.avencer+', vencidas '+carteira.vencidas+'">'+
-        go('financeiro','status=pago','','',' style="flex:'+carteira.pagas+';background:var(--good)" data-tip="'+carteira.pagas+' cobranças em dia"')+
+        go('financeiro','status=pago','','',' style="flex:'+carteira.pagas+';background:var(--good-fill)" data-tip="'+carteira.pagas+' cobranças em dia"')+
         go('financeiro','status=avencer','','',' style="flex:'+carteira.avencer+';background:var(--s3)" data-tip="'+carteira.avencer+' a vencer"')+
         go('financeiro','status=inadimplente','','',' style="flex:'+carteira.vencidas+';background:var(--bad)" data-tip="'+carteira.vencidas+' vencidas"')+
       '</div>'+
       '<div class="legend" style="margin-top:12px">'+
-        go('financeiro','status=pago','lg','<i style="background:var(--good)"></i><span>Em dia</span><b>'+carteira.pagas+'</b><small>'+pct(carteira.pagas,totC)+'%</small>')+
+        go('financeiro','status=pago','lg','<i style="background:var(--good-fill)"></i><span>Em dia</span><b>'+carteira.pagas+'</b><small>'+pct(carteira.pagas,totC)+'%</small>')+
         go('financeiro','status=avencer','lg','<i style="background:var(--s3)"></i><span>A vencer</span><b>'+carteira.avencer+'</b><small>'+pct(carteira.avencer,totC)+'%</small>')+
         go('financeiro','status=inadimplente','lg','<i style="background:var(--bad)"></i><span>Vencidas</span><b>'+carteira.vencidas+'</b><small>'+pct(carteira.vencidas,totC)+'%</small>')+
       '</div>'+
@@ -549,7 +549,7 @@ function painelHTML(){
       ocup.map(function(r,di){
         return '<span class="d">'+dias[di]+'</span>'+r.map(function(v,hi){
           if(v===null)return '<div class="cell off" data-tip="'+dias[di]+' '+horas[hi]+'h: sem atendimento"></div>';
-          return '<div class="cell" style="background:rgba(15,157,154,'+(0.08+v/100*0.87).toFixed(2)+');color:'+(v>62?'#fff':'var(--ink)')+'" data-tip="'+dias[di]+' '+horas[hi]+'h: '+v+'% ocupado">'+v+'</div>'}).join('')}).join('')+
+          return '<div class="cell" style="background:rgba(17,166,156,'+(0.08+v/100*0.87).toFixed(2)+');color:'+(v>62?'#fff':'var(--ink)')+'" data-tip="'+dias[di]+' '+horas[hi]+'h: '+v+'% ocupado">'+v+'</div>'}).join('')}).join('')+
       '</div><div class="heat-leg"><span>Mais vaga</span><i></i><span>Lotado</span></div>'+
       '<div class="insight">Ocupação média de <b>'+avg+'%</b>. Mais cheio: <b>'+top.d.toLowerCase()+' às '+top.h+'h ('+top.v+'%)</b>. Melhor espaço para novos alunos: <b>'+low.d.toLowerCase()+' às '+low.h+'h ('+low.v+'%)</b>.</div></div>'+
     '<div class="card c5"><div class="ch"><div><div class="ct">Feedback aos pais</div><div class="cs">Famílias que receberam retorno nos últimos 30 dias</div></div></div>'+
