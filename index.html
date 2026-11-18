@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#11A69C">
 <title>Painel Studio Thiago Santos</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E%3Crect width=%22640%22 height=%22640%22 rx=%22140%22 fill=%22%23fff%22/%3E%3Cg transform=%22translate%2870 60%29 scale%280.9%29%22%3E%3Cg transform=%22translate%28-70 -80%29%22%3E%3Cpath fill=%22%2311A69C%22 d=%22M318 104C290 90 260 100 235 125C150 200 95 300 93 400C92 480 140 560 185 615C200 630 220 616 214 595C208 550 198 505 215 462C228 485 255 525 285 556C298 566 306 550 298 535C302 480 305 400 300 330C270 290 240 250 248 215C255 172 290 150 322 130C332 120 329 108 318 104Z%22/%3E%3Ccircle fill=%22%2311A69C%22 cx=%22362%22 cy=%22232%22 r=%2246%22/%3E%3Cpath fill=%22%23406EC1%22 d=%22M462 232C440 220 410 235 385 262C330 320 280 370 273 430C270 500 290 570 312 600C322 614 344 603 340 585C337 550 335 520 350 490C370 522 400 566 425 584C441 592 454 576 441 555C422 515 412 482 407 457C440 464 490 470 515 463C535 456 531 436 511 428C470 415 430 402 407 386C402 345 422 305 452 272C470 255 476 240 462 232Z%22/%3E%3Ccircle fill=%22%23406EC1%22 cx=%22480%22 cy=%22337%22 r=%2235%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -52,7 +53,8 @@ h1,h2,h3,p{margin:0;text-wrap:balance}
 .shell{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100vh}
 .side{position:sticky;top:0;height:100vh;padding:22px 14px;display:flex;flex-direction:column;gap:22px;border-right:1px solid var(--line);background:var(--surface)}
 .brand{display:flex;align-items:center;gap:12px;padding:0 8px}
-.mark{width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,var(--brand),var(--s2));color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;letter-spacing:.02em;flex:none}
+.mark{width:44px;height:44px;border-radius:13px;background:var(--surface);border:1px solid var(--line);padding:5px;display:grid;place-items:center;flex:none}
+.logo{display:block;width:100%;height:100%}
 .brand b{display:block;font-size:15px;line-height:1.2}
 .brand span{font-size:12px;color:var(--muted)}
 .nav{display:flex;flex-direction:column;gap:4px}
@@ -79,7 +81,7 @@ h1{font-size:28px;line-height:1.15;font-weight:800;letter-spacing:-.02em}
 .seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
 .icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;color:var(--muted)}
 .icon-btn:hover{color:var(--ink)}
-.avatar{width:40px;height:40px;border-radius:50%;background:var(--brand-soft);color:var(--brand-ink);display:grid;place-items:center;font-weight:800;font-size:13px}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);padding:6px;display:grid;place-items:center}
 
 /* cards */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);min-width:0}
@@ -238,7 +240,7 @@ code.route{background:var(--surface-2);border:1px solid var(--line);padding:2px 
   .shell{grid-template-columns:1fr}
   .side{display:none}
   .main{padding:18px 16px 110px}
-  .top-l .mark{display:grid;width:38px;height:38px;border-radius:12px;font-size:14px}
+  .top-l .mark{display:grid;width:40px;height:40px;border-radius:12px;padding:5px}
   h1{font-size:23px}
   .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
   .tabbar a,.tabbar button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 2px;border:0;background:none;color:var(--muted);font-size:11px;font-weight:700;border-radius:12px;position:relative;cursor:pointer}
@@ -273,9 +275,10 @@ code.route{background:var(--surface-2);border:1px solid var(--line);padding:2px 
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logo" viewBox="70 80 480 560"><path style="fill:var(--s1)" d="M318 104C290 90 260 100 235 125C150 200 95 300 93 400C92 480 140 560 185 615C200 630 220 616 214 595C208 550 198 505 215 462C228 485 255 525 285 556C298 566 306 550 298 535C302 480 305 400 300 330C270 290 240 250 248 215C255 172 290 150 322 130C332 120 329 108 318 104Z"/><circle style="fill:var(--s1)" cx="362" cy="232" r="46"/><path style="fill:var(--s2)" d="M462 232C440 220 410 235 385 262C330 320 280 370 273 430C270 500 290 570 312 600C322 614 344 603 340 585C337 550 335 520 350 490C370 522 400 566 425 584C441 592 454 576 441 555C422 515 412 482 407 457C440 464 490 470 515 463C535 456 531 436 511 428C470 415 430 402 407 386C402 345 422 305 452 272C470 255 476 240 462 232Z"/><circle style="fill:var(--s2)" cx="480" cy="337" r="35"/></symbol></svg>
 <div class="shell">
   <aside class="side" aria-label="Menu principal">
-    <div class="brand"><div class="mark">TS</div><div><b>Studio Thiago Santos</b><span>Gestão do studio</span></div></div>
+    <div class="brand"><div class="mark"><svg class="logo" aria-hidden="true"><use href="#logo"/></svg></div><div><b>Studio Thiago Santos</b><span>Gestão do studio</span></div></div>
     <nav class="nav" id="nav"></nav>
     <div class="side-foot"><b>Protótipo visual</b><br>Dados fictícios, sem nenhuma informação real de alunos.</div>
   </aside>
@@ -696,8 +699,8 @@ function topHTML(key){
   var ctrl='<div class="top-r"><span class="pill">Dados fictícios</span>'+
     (key==='painel'?'<div class="seg" role="group" aria-label="Período dos gráficos">'+[3,6,12].map(function(n){return '<button type="button" data-range="'+n+'" aria-pressed="'+(state.range===n)+'">'+n+' meses</button>'}).join('')+'</div>':'')+
     '<button type="button" class="icon-btn" data-theme-toggle aria-label="Alternar tema claro e escuro">'+icon(theme==='dark'?'sun':'moon')+'</button>'+
-    '<div class="avatar" aria-label="Thiago Santos">TS</div></div>';
-  return '<div class="top-l"><div class="mark">TS</div><div><div class="eyebrow">'+(key==='painel'?'Boa tarde, Thiago · terça, 17 de novembro':'Studio Thiago Santos')+'</div><h1>'+r.t+'</h1></div></div>'+ctrl;
+    '<div class="avatar" role="img" aria-label="Thiago Santos"><svg class="logo" aria-hidden="true"><use href="#logo"/></svg></div></div>';
+  return '<div class="top-l"><div class="mark"><svg class="logo" aria-hidden="true"><use href="#logo"/></svg></div><div><div class="eyebrow">'+(key==='painel'?'Boa tarde, Thiago · terça, 17 de novembro':'Studio Thiago Santos')+'</div><h1>'+r.t+'</h1></div></div>'+ctrl;
 }
 function navHTML(key){
   return ORDER.map(function(k){

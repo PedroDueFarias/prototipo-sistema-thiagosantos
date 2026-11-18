@@ -28,6 +28,10 @@ As demais telas são esboços que mostram o filtro recebido e o que cada menu va
 | Feedback dos pais | semanas 10 a 12 |
 | Parcerias | semana 13 |
 
+## Identidade
+
+O símbolo do studio foi redesenhado em vetor a partir de um print de baixa resolução (`assets/logo.svg`) e usado como favicon, marca do menu e foto de perfil. Quando houver o arquivo oficial da marca, troque o desenho em `assets/logo.svg` e no `<symbol id="logo">` do `index.html`.
+
 ## Responsividade
 
 Notebook: menu lateral e grade de cards. Celular: barra de navegação inferior com menu "Mais", cards em uma ou duas colunas.
