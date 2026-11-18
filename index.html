@@ -21,16 +21,6 @@
   --font:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   color-scheme:light;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#0a1a1f; --surface:#112328; --surface-2:#0e1f24; --ink:#e8f3f4; --muted:#8fa9b0; --line:#1f3a41;
-    --brand:#2BC7BB; --brand-ink:#7fe3da; --brand-soft:#123b3c;
-    --good:#a6dc62; --good-fill:#8DC53E; --good-soft:#243511; --warn:#f0b43c; --warn-soft:#3b2d0c; --bad:#FF3981; --bad-soft:#3d1426; --info:#7fa3ec; --info-soft:#1a2a4a;
-    --s1:#2BC7BB; --s2:#6f93e0; --s3:#f0b43c; --s4:#FF3981; --s5:#4ba6e0; --s6:#8fa4ac; --s7:#a5d95e; --s8:#5cc2cc;
-    --plan:#e8f3f4; --shadow:0 1px 2px rgba(0,0,0,.3);
-    color-scheme:dark;
-  }
-}
 :root[data-theme="dark"]{
   --bg:#0a1a1f; --surface:#112328; --surface-2:#0e1f24; --ink:#e8f3f4; --muted:#8fa9b0; --line:#1f3a41;
   --brand:#2BC7BB; --brand-ink:#7fe3da; --brand-soft:#123b3c;
@@ -742,7 +732,7 @@ function setRoute(){
 function effectiveTheme(){
   var t=document.documentElement.getAttribute('data-theme');
   if(t) return t;
-  return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  return 'light';
 }
 function toggleTheme(){
   var next=effectiveTheme()==='dark'?'light':'dark';
