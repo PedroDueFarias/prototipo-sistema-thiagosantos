@@ -343,7 +343,13 @@ body.pub .main{padding:24px 16px 40px}
 .auth-brand b{display:block;font-size:17px}
 .auth-brand span{font-size:12.5px;color:var(--muted)}
 .lnk.sm{font-size:13.5px;text-align:center}
-.help{position:absolute;top:0;right:0;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-weight:800;font-size:18px;color:var(--brand-ink);cursor:pointer;box-shadow:var(--shadow);z-index:2}
+.atalho{position:absolute;top:0;right:0;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:99px;border:1px solid var(--line);background:var(--surface);font-weight:700;font-size:13px;color:var(--brand-ink);cursor:pointer;box-shadow:var(--shadow);z-index:2}
+.atalho:hover{border-color:var(--brand)}
+.pw{position:relative}
+.pw .inp{padding-right:52px}
+.pw-eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;background:none;border-radius:10px;color:var(--muted);cursor:pointer;display:grid;place-items:center}
+.pw-eye:hover{color:var(--ink)}
+.atalho .i{width:18px;height:18px}
 .auth>.auth-card:first-of-type{margin-top:48px}
 .demo{display:flex;flex-direction:column;gap:6px;padding:14px 16px;background:var(--warn-soft);border-color:transparent;font-size:13px}
 .demo>span{color:var(--muted)}
@@ -549,11 +555,11 @@ var ocup = [
   [70,90,85,60,20,null,null,null,null,null]
 ];
 var hoje = [
-  {h:'15:00', a:'L.M.', p:'Marina', s:'Psicomotricidade', st:'Em andamento', c:'good'},
-  {h:'15:00', a:'A.S.', p:'Rafael', s:'Treino funcional', st:'Em andamento', c:'good'},
-  {h:'16:00', a:'J.P.', p:'Camila', s:'Psicomotricidade', st:'Confirmada', c:'info'},
-  {h:'16:00', a:'G.R.', p:'Thiago', s:'Home care', st:'Confirmada', c:'info'},
-  {h:'17:00', a:'M.C.', p:'Bruno', s:'Treino funcional', st:'A confirmar', c:'warn'}
+  {h:'15:00', a:'Lucas Moura', p:'Marina', s:'Psicomotricidade', st:'Em andamento', c:'good'},
+  {h:'15:00', a:'Ana Silva', p:'Rafael', s:'Treino funcional', st:'Em andamento', c:'good'},
+  {h:'16:00', a:'João Pereira', p:'Camila', s:'Psicomotricidade', st:'Confirmada', c:'info'},
+  {h:'16:00', a:'Gabriel Rocha', p:'Thiago', s:'Home care', st:'Confirmada', c:'info'},
+  {h:'17:00', a:'Maria Costa', p:'Bruno', s:'Treino funcional', st:'A confirmar', c:'warn'}
 ];
 var parceiros = ['Clínica Girassol','Espaço Crescer','Instituto Bem-Estar','Colégio Aurora','Clínica Horizonte'];
 
@@ -628,6 +634,9 @@ var IC = {
   plusSq:'<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/>',
   dots:'<circle cx="12" cy="5.5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="18.5" r="1.4"/>',
   logout:'<path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M9.5 16.5 5 12l4.5-4.5"/><path d="M5 12h10"/>',
+  eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
+  eyeOff:'<path d="M3 3l18 18"/><path d="M10.6 6A9.5 9.5 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a17 17 0 0 1-3.2 3.9M6.6 7.3C4 9.1 2.5 12 2.5 12S6 18.5 12 18.5c1.6 0 3-.4 4.2-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
+  phone:'<rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/><path d="M12 7.5v6M9 10.5h6"/>',
   heart:'<path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20z"/>'
 };
 function icon(n){return '<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[n]+'</svg>'}
@@ -802,7 +811,7 @@ function painelHTML(){
 
   /* hoje e parcerias */
   h+='<section class="grid g12">'+
-    '<div class="card c8"><div class="ch"><div><div class="ct">Aulas de hoje</div><div class="cs">18 aulas: 11 concluídas, 1 falta e 6 a seguir. Iniciais no lugar dos nomes.'+fonte('agenda gerada pela matrícula + presença marcada pelo profissional','reg')+'</div></div>'+
+    '<div class="card c8"><div class="ch"><div><div class="ct">Aulas de hoje</div><div class="cs">18 aulas: 11 concluídas, 1 falta e 6 a seguir.'+fonte('agenda gerada pela matrícula + presença marcada pelo profissional','reg')+'</div></div>'+
       '<a class="chip info" href="#aulas?periodo=hoje">Abrir agenda</a></div>'+
       hoje.map(function(a){return '<div class="today-row"><span class="hh">'+a.h+'</span><span>'+a.a+' com '+a.p+'<small>'+a.s+'</small></span><span class="chip '+a.c+'">'+a.st+'</span></div>'}).join('')+'</div>'+
     go('parcerias','status=ativa','card c4','<div class="ch"><div><div class="ct">Parcerias ativas</div><div class="cs">'+parceiros.length+' de 7 cadastradas'+fonte('cadastro + origem do lead','manual')+'</div></div>'+goBtn()+'</div>'+
@@ -918,8 +927,12 @@ var MOTN={}; motivos.forEach(function(m){MOTN[m.k]=m.n});
 
 function pessoa(){var mae=R()<.8,s=pick(SOBRE);return {nome:pick(mae?MAES:PAIS)+' '+s,rel:mae?'Mãe':'Pai',sob:s,outro:pick(mae?PAIS:MAES)+' '+s,orel:mae?'Pai':'Mãe'}}
 function fone(){return '(82) 9'+rint(8100,9999)+'-'+rint(1000,9999)}
-var RESERV=['L.M.','A.S.','J.P.','G.R.','M.C.'];
-function iniDe(sob){var x;do{x=pick(INI)+'.'+sob.charAt(0)+'.'}while(RESERV.indexOf(x)>-1);return x}
+var RESERV=['Lucas Moura','Ana Silva','João Pereira','Gabriel Rocha','Maria Costa'];
+var MENINAS=['Maria','Ana','Júlia','Laura','Alice','Helena','Valentina','Sofia','Beatriz','Lívia','Manuela','Cecília','Isadora','Heloísa','Lara','Mariana','Clara','Luísa','Yasmin','Antônia'];
+var MENINOS=['José','João','Pedro','Miguel','Arthur','Davi','Gabriel','Bernardo','Heitor','Lucas','Matheus','Enzo','Gustavo','Samuel','Benjamin','Théo','Nicolas','Vicente','Joaquim','Francisco'];
+var nomesUsados={};
+/* nome completo da criança: nome comum brasileiro + sobrenome do responsável (sem repetir) */
+function iniDe(sob){var x;do{x=pick(R()<.5?MENINAS:MENINOS)+' '+sob}while(RESERV.indexOf(x)>-1||nomesUsados[x]);nomesUsados[x]=1;return x}
 
 /* 62 clientes ativos: planos 21/28/13 e profissionais com a mesma carga do painel */
 var profs=shuffle(expand(equipe,'n')), plns=shuffle(expand(planos,'k')), clientes=[];
@@ -945,8 +958,8 @@ clientes.forEach(function(c){
   c.consent=new Date(c.desde.getTime()+864e5*rint(0,6));
 });
 /* aulas de hoje do painel */
-[['Marina','L.M.'],['Rafael','A.S.'],['Camila','J.P.'],['Thiago','G.R.'],['Bruno','M.C.']].forEach(function(x){
-  var c=achar(null,function(c){return c.prof===x[0]&&c.fin==='pago'});c.ini=x[1];usados[c.id]=1;
+[['Marina','Lucas Moura'],['Rafael','Ana Silva'],['Camila','João Pereira'],['Thiago','Gabriel Rocha'],['Bruno','Maria Costa']].forEach(function(x){
+  var c=achar(null,function(c){return c.prof===x[0]&&c.fin==='pago'});c.ini=x[1];var sb=x[1].split(' ')[1];c.resp=c.resp.split(' ')[0]+' '+sb;if(c.resp2)c.resp2=c.resp2.split(' ')[0]+' '+sb;usados[c.id]=1;
 });
 usados={};
 var ordem=shuffle(clientes);
@@ -983,11 +996,11 @@ etapas.forEach(function(e,i){var p=pessoa();leads.push({id:'l'+i,ini:iniDe(p.sob
 leads.sort(function(a,b){return b.data-a.data});
 
 var parcerias=[
-  {n:'Clínica Girassol',tipo:'Clínica multidisciplinar',desde:'mar/24',contato:'Dra. Renata (coordenação)',enc:7,ativa:true},
+  {n:'Clínica Girassol',tipo:'Clínica multidisciplinar',desde:'mar/24',contato:'Renata, coordenadora',enc:7,ativa:true},
   {n:'Espaço Crescer',tipo:'Terapia ocupacional',desde:'ago/24',contato:'Paulo (sócio)',enc:4,ativa:true},
   {n:'Instituto Bem-Estar',tipo:'Clínica de fonoaudiologia',desde:'jan/25',contato:'Larissa (recepção)',enc:3,ativa:true},
   {n:'Colégio Aurora',tipo:'Escola',desde:'fev/25',contato:'Coordenação pedagógica',enc:3,ativa:true},
-  {n:'Clínica Horizonte',tipo:'Neuropediatria',desde:'jun/25',contato:'Dr. Marcelo',enc:2,ativa:true},
+  {n:'Clínica Horizonte',tipo:'Neuropediatria',desde:'jun/25',contato:'Marcelo, neuropediatra',enc:2,ativa:true},
   {n:'Clínica Raízes',tipo:'Psicologia infantil',desde:'out/23',contato:'Ana (administrativo)',enc:0,ativa:false,obs:'Pausada desde jul/26'},
   {n:'Escola Pequeno Príncipe',tipo:'Escola',desde:'mai/23',contato:'Direção',enc:0,ativa:false,obs:'Encerrada em dez/25'}
 ];
@@ -1001,13 +1014,13 @@ var lancamentos={
 };
 var agendaHoje=(function(){
   var h=['08:00','08:00','09:00','09:00','10:00','10:00','11:00','11:00','13:00','14:00','14:00','14:00'],o=[],us={};
-  function cli(prof){for(var i=0;i<clientes.length;i++){var c=clientes[i];if(!us[c.id]&&(!prof||c.prof===prof)&&['L.M.','A.S.','J.P.','G.R.','M.C.'].indexOf(c.ini)<0){us[c.id]=1;return c}}}
+  function cli(prof){for(var i=0;i<clientes.length;i++){var c=clientes[i];if(!us[c.id]&&(!prof||c.prof===prof)&&['Lucas Moura','Ana Silva','João Pereira','Gabriel Rocha','Maria Costa'].indexOf(c.ini)<0){us[c.id]=1;return c}}}
   var pr=['Marina','Rafael','Camila','Bruno','Letícia','Marina','Rafael','Paula','Camila','Bruno','Letícia','Caio'];
   h.forEach(function(x,i){o.push({h:x,c:cli(pr[i]),st:i===6?'falta':'concluida',reg:i!==6&&i<9})});
   function porIni(ini){return clientes.filter(function(c){return c.ini===ini})[0]}
-  o.push({h:'15:00',c:porIni('L.M.'),st:'andamento'},{h:'15:00',c:porIni('A.S.'),st:'andamento'},
-         {h:'16:00',c:porIni('J.P.'),st:'confirmada'},{h:'16:00',c:porIni('G.R.'),st:'confirmada'},
-         {h:'17:00',c:porIni('M.C.'),st:'aconfirmar'},{h:'17:00',c:cli('Letícia'),st:'confirmada'});
+  o.push({h:'15:00',c:porIni('Lucas Moura'),st:'andamento'},{h:'15:00',c:porIni('Ana Silva'),st:'andamento'},
+         {h:'16:00',c:porIni('João Pereira'),st:'confirmada'},{h:'16:00',c:porIni('Gabriel Rocha'),st:'confirmada'},
+         {h:'17:00',c:porIni('Maria Costa'),st:'aconfirmar'},{h:'17:00',c:cli('Letícia'),st:'confirmada'});
   return o;
 })();
 var STA={concluida:['Concluída','good'],falta:['Falta','bad'],andamento:['Em andamento','good'],confirmada:['Confirmada','info'],aconfirmar:['A confirmar','warn']};
@@ -1024,7 +1037,7 @@ function tabsHTML(route,items){
 function extraFiltro(route,label){return '<div class="filters"><span class="cs">Filtro aplicado:</span><span class="chip info">'+label+'</span><a class="chip mute" href="#'+route+'">Limpar filtro</a></div>'}
 function stat(label,val,sub,cls){return '<div class="card stat'+(cls?' '+cls:'')+'"><small>'+label+'</small><b>'+val+'</b>'+(sub?'<span>'+sub+'</span>':'')+'</div>'}
 function stats(a){return '<section class="grid stats">'+a.join('')+'</section>'}
-function av(t,cls){return '<span class="av'+(cls?' '+cls:'')+'">'+t+'</span>'}
+function av(t,cls){var x=String(t);if(x.charAt(0)!=='<'){var w=x.trim().split(/\s+/);x=w.length>1?w[0].charAt(0)+w[w.length-1].charAt(0):x.slice(0,2)}return '<span class="av'+(cls?' '+cls:'')+'" aria-hidden="true">'+x.toUpperCase()+'</span>'}
 function btn(label,act,id,cls,ic){return '<button type="button" class="btn'+(cls?' '+cls:'')+'" data-act="'+act+'" data-id="'+(id||'')+'">'+(ic?icon(ic):'')+label+'</button>'}
 function chip(t,c){return '<span class="chip '+(c||'mute')+'">'+t+'</span>'}
 function li(left,main,sub,right,link,extra){
@@ -1043,24 +1056,25 @@ function finChip(c){
   return chip('Em dia','good');
 }
 function valorAberto(c){return c.valor*c.parcelas}
+function porNome(a,b){return a.ini.localeCompare(b.ini,'pt-BR')}
 function cliPorId(id){return clientes.filter(function(c){return c.id===id})[0]}
 
 /* ---------- Clientes ---------- */
 function clientesHTML(){
-  var f=fp(), lista=clientes.filter(function(c){return !f.plano||c.plano===f.plano});
+  var f=fp(), lista=clientes.filter(function(c){return !f.plano||c.plano===f.plano}).sort(porNome);
   var prev=sum(lista.map(function(c){return PRECO[c.plano]})), venc=lista.filter(function(c){return c.fin==='vencida'}).length;
   var novos=lista.filter(function(c){return c.desde.getMonth()===10&&c.desde.getFullYear()===2026}).length;
-  var h=backLink()+tabsHTML('clientes',[{f:'status=ativo',alt:[''],n:'Todos os ativos',q:clientes.length}].concat(planos.map(function(p){return {f:'plano='+p.k,n:p.n+' · '+PVEZ[p.k]+'x/sem',q:p.q}}),[{f:'aba=pre',n:'Pré-matrículas',q:preMat.filter(function(p){return p.st==='novo'}).length}]));
+  var h=backLink()+tabsHTML('clientes',[{f:'status=ativo',alt:[''],n:'Todos os ativos',q:clientes.length}].concat(planos.map(function(p){return {f:'plano='+p.k,n:p.n+' · '+PVEZ[p.k]+'x por semana',q:p.q}}),[{f:'aba=pre',n:'Pré-matrículas',q:preMat.filter(function(p){return p.st==='novo'}).length}]));
   if(f.aba==='pre') return h+preMatHTML()+rodape('clientes');
   h+=stats([stat('Alunos'+(f.plano?' no '+PNOME[f.plano]:' ativos'),lista.length,f.plano?brl(PRECO[f.plano])+' por mês':'meta de 100'),
     stat('Receita mensal prevista','R$ '+mil(prev)+' mil','ticket médio '+brl(Math.round(prev/lista.length))),
     stat('Com pagamento vencido',venc,venc?'cobrar no Financeiro':'ninguém atrasado',venc?'bad':''),
     stat('Novos em novembro',novos,'5 entradas e 2 saídas no mês')]);
-  h+=cardList(f.plano?'Plano '+PNOME[f.plano]:'Alunos ativos','Iniciais no lugar do nome do aluno. Toque em um aluno para ver o histórico completo.',
+  h+=cardList(f.plano?'Plano '+PNOME[f.plano]:'Alunos ativos','Toque em um aluno para ver o histórico completo.',
     lista.map(function(c){return li(av(c.ini),c.ini+' · '+c.idade+' anos',c.rel+': '+c.resp+' · '+c.prof+' · '+c.serv,
       chip(PNOME[c.plano])+finChip(c),href('cliente','id='+c.id),' data-s="'+esc(norm(c.ini+' '+c.resp+' '+c.prof+' '+c.serv))+'"')}),
     btn('Novo aluno','novo-aluno','','pri','plus'))
-    .replace('<div class="list">',busca('Buscar por iniciais, responsável ou profissional')+'<div class="list">');
+    .replace('<div class="list">',busca('Buscar por aluno, responsável ou profissional')+'<div class="list">');
   h+='<div class="insight">Inativos ficam em <a class="lnk" href="'+href('recuperacao','status=inativo')+'">Recuperação</a>, com o motivo da saída e o WhatsApp do último responsável.</div>';
   return h+rodape('clientes');
 }
@@ -1103,7 +1117,7 @@ function financeiroHTML(){
       h+=stats([stat('Em aberto',brl(vV),venc.length+' alunos','bad'),stat('1 a 7 dias',brl(aging[0].v),aging[0].q+' alunos'),stat('8 a 15 dias',brl(aging[1].v),aging[1].q+' alunos'),stat('16 dias ou mais',brl(aging[2].v),aging[2].q+' alunos','bad')]);
       h+=regra;
     }
-    h+=cardList(map[1],map[2],map[0].map(cobrancaRow),f.status==='inadimplente'?btn('Cobrar todos','cobrar-todos','','wa','chat'):'').replace('<div class="list">',busca('Buscar por iniciais ou responsável')+'<div class="list">');
+    h+=cardList(map[1],map[2],map[0].map(cobrancaRow),f.status==='inadimplente'?btn('Cobrar todos','cobrar-todos','','wa','chat'):'').replace('<div class="list">',busca('Buscar por aluno ou responsável')+'<div class="list">');
     return h+rodape('financeiro');
   }
   h+=stats([stat('Recebido no mês','R$ '+mil(recebido[11])+' mil',pct(recebido[11],previsto[11])+'% do previsto (R$ '+mil(previsto[11])+' mil)'),
@@ -1123,7 +1137,7 @@ function aulasHTML(){
   if(f.periodo==='hoje'){
     var conc=agendaHoje.filter(function(a){return a.st==='concluida'}).length,falt=agendaHoje.filter(function(a){return a.st==='falta'}).length;
     h+=stats([stat('Aulas hoje',agendaHoje.length,'terça, 17 de novembro'),stat('Concluídas',conc,agendaHoje.filter(function(a){return a.reg}).length+' já com registro'),stat('Faltas',falt,'reposição a agendar','bad'),stat('A seguir',agendaHoje.length-conc-falt,'2 em andamento agora')]);
-    h+=cardList('Agenda de hoje','Iniciais no lugar dos nomes. Todos os profissionais.',agendaHoje.map(function(a){var s=STA[a.st];
+    h+=cardList('Agenda de hoje','Todos os profissionais.',agendaHoje.map(function(a){var s=STA[a.st];
       var acts=a.st==='concluida'?(a.reg?chip('Registro feito','good'):btn('Registrar','registrar',a.c.id,'pri')):a.st==='falta'?btn('Agendar reposição','repor',a.c.id):a.st==='aconfirmar'?btn('Confirmar presença','confirmar',a.c.id,'wa','chat'):'';
       return li('<span class="hh">'+a.h+'</span>',a.c.ini+' com '+a.c.prof,a.c.serv+(a.c.serv==='Home care'?' · na casa da família':' · studio Jatiúca'),chip(s[0],s[1])+acts,null)}));
     return h+rodape('aulas');
@@ -1162,7 +1176,7 @@ function paisHTML(){
   return h+aviso+rodape('pais');
 }
 function portalHTML(){
-  var c=clientes.filter(function(x){return x.ini==='L.M.'})[0],r=registros[0];
+  var c=clientes.filter(function(x){return x.ini==='Lucas Moura'})[0],r=registros[0];
   return '<div class="phone"><div class="ph-top"><svg class="logo" style="width:28px;height:28px" aria-hidden="true"><use href="#logo"/></svg><b>Studio Thiago Santos</b></div>'+
     '<div class="ph-body"><div class="ph-hi">Olá, '+c.resp.split(' ')[0]+'</div><div class="ph-sub">Acompanhamento de '+c.ini+'</div>'+
     '<div class="ph-card"><small>Último registro · '+dm(diasAtras(1))+' com '+c.prof+'</small><b>'+ATIV[0]+'</b><p>'+OBS[1]+'</p></div>'+
@@ -1220,7 +1234,7 @@ function equipeHTML(){
     h+='<div class="card hero"><div class="hero-l">'+av(prof.n.charAt(0),'lg')+'<div><div class="ct" style="font-size:20px">'+prof.n+'</div><div class="cs">'+FUNCAO[prof.n]+'</div>'+
       '<div class="filters" style="margin-top:8px">'+chip(prof.n==='Thiago'?'Administrador':'Profissional','info')+chip(al.length+' alunos')+chip(aulasSem+' aulas por semana')+'</div></div></div></div>';
     h+=stats([stat('Alunos',al.length,'de 62 ativos'),stat('Aulas por semana',aulasSem,'pelo plano de cada aluno'),stat('Registros pendentes',registros.filter(function(r){return r.c.prof===prof.n&&!r.liberado}).length,'para liberar'),stat('Famílias sem retorno',al.filter(function(c){return c.feedback>30}).length,'há 30+ dias','warn')]);
-    h+=cardList('Alunos de '+prof.n,'Toque para ver o histórico',al.map(function(c){return li(av(c.ini),c.ini+' · '+c.idade+' anos',c.serv+' · '+PNOME[c.plano]+' ('+PVEZ[c.plano]+'x/sem) · último retorno há '+c.feedback+' dias',c.feedback>30?chip('Sem retorno','warn'):chip('Em dia','good'),href('cliente','id='+c.id))}));
+    h+=cardList('Alunos de '+prof.n,'Toque para ver o histórico',al.map(function(c){return li(av(c.ini),c.ini+' · '+c.idade+' anos',c.serv+' · '+PNOME[c.plano]+' ('+PVEZ[c.plano]+'x por semana) · último retorno há '+c.feedback+' dias',c.feedback>30?chip('Sem retorno','warn'):chip('Em dia','good'),href('cliente','id='+c.id))}));
     return h+rodape('equipe');
   }
   h+=stats([stat('Profissionais',equipe.length,'mais 1 pessoa na gestão'),stat('Alunos ativos',62,(62/equipe.length).toFixed(1).replace('.',',')+' por profissional'),stat('Ocupação da grade',ocupMedia()+'%','média da semana'),stat('Registros pendentes',registros.filter(function(r){return !r.liberado}).length,'para liberar','warn')]);
@@ -1249,7 +1263,7 @@ var TELAS={clientes:clientesHTML,cliente:clienteHTML,financeiro:financeiroHTML,a
 /* ======================================================================
    Perfis, login, telas do profissional e da família, páginas públicas
    ====================================================================== */
-var famCli=clientes.filter(function(c){return c.ini==='L.M.'})[0];
+var famCli=clientes.filter(function(c){return c.ini==='Lucas Moura'})[0];
 var PERFIS={
   admin:{n:'Thiago Santos',curto:'Thiago',papel:'Administrador',home:'painel',menu:['painel','clientes','financeiro','aulas','pais','recuperacao','equipe','parcerias']},
   gestor:{n:'Helen',curto:'Helen',papel:'Gestor',home:'painel',menu:['painel','clientes','financeiro','recuperacao','parcerias']},
@@ -1277,14 +1291,14 @@ agendaHoje.filter(function(a){return a.c.prof==='Marina'&&a.st==='concluida'})[1
 var ontemSem=[['Bruno','08:00'],['Bruno','10:00'],['Bruno','16:00'],['Caio','09:00'],['Caio','14:00'],['Paula','11:00']].map(function(x,i){
   var c=clientes.filter(function(c){return c.prof===x[0]})[i%3];return {id:'o'+i,prof:x[0],h:x[1],c:c,ok:false}});
 var preMat=[
-  {id:'p1',resp:'Camila Rocha',rel:'Mãe',ini:'D.R.',idade:6,plano:'essencial',hor:'terça e quinta, à tarde',quando:diasAtras(1),origem:'Instagram',st:'novo'},
-  {id:'p2',resp:'Eduardo Lins',rel:'Pai',ini:'M.L.',idade:9,plano:'basico',hor:'sábado de manhã',quando:diasAtras(2),origem:'Indicação da Clínica Girassol',st:'novo'}
+  {id:'p1',resp:'Camila Rocha',rel:'Mãe',ini:'Davi Rocha',idade:6,plano:'essencial',hor:'terça e quinta, à tarde',quando:diasAtras(1),origem:'Instagram',st:'novo'},
+  {id:'p2',resp:'Eduardo Lins',rel:'Pai',ini:'Miguel Lins',idade:9,plano:'basico',hor:'sábado de manhã',quando:diasAtras(2),origem:'Indicação da Clínica Girassol',st:'novo'}
 ];
 leads.filter(function(l){return l.etapa==='contato'}).slice(0,3).forEach(function(l,i){l.form=true;l.semResp=[26,31,49][i];l.origem='Instagram'});
 var famPedidos=[], famAval=null, famReacoes={};
 /* garante que a Marina (perfil Profissional) tenha relatórios pedidos para mostrar; o total continua 5 */
 (function(){var deMarina=clientes.filter(function(c){return c.prof==='Marina'&&c.relatorio}).length;
-  var fontes=clientes.filter(function(c){return c.relatorio&&c.prof!=='Marina'}),alvos=clientes.filter(function(c){return c.prof==='Marina'&&!c.relatorio&&c.ini!=='L.M.'});
+  var fontes=clientes.filter(function(c){return c.relatorio&&c.prof!=='Marina'}),alvos=clientes.filter(function(c){return c.prof==='Marina'&&!c.relatorio&&c.ini!=='Lucas Moura'});
   for(var i=deMarina;i<2&&fontes.length&&alvos.length;i++){var a=alvos.shift(),f=fontes.pop();a.relatorio=f.relatorio;f.relatorio=null}})();
 function metasDe(c){var r=rng(parseInt(c.id.slice(1),10)*31);return [['Equilíbrio dinâmico na trave',Math.round(40+r()*50)],['Seguir sequência de 3 comandos',Math.round(30+r()*60)],['Tolerar espera na fila da atividade',Math.round(35+r()*55)]]}
 function registrosLiberadosDe(c){var r=rng(parseInt(c.id.slice(1),10)*53),o=[];
@@ -1369,7 +1383,7 @@ function clienteHTML(){
   var h=prof?backLink('prof-alunos','Voltar para meus alunos'):backLink('clientes','Voltar para clientes');
   h+='<div class="card hero"><div class="hero-l">'+av(c.ini,'lg')+'<div><div class="ct" style="font-size:20px">'+c.ini+' · '+c.idade+' anos</div>'+
     '<div class="cs">'+c.serv+' com '+c.prof+' · aluno desde '+my(c.desde)+'</div>'+
-    '<div class="filters" style="margin-top:8px">'+chip('Plano '+PNOME[c.plano]+' · '+PVEZ[c.plano]+'x/sem','info')+(prof?'':finChip(c))+chip('Consentimento assinado','good')+'</div></div></div>'+
+    '<div class="filters" style="margin-top:8px">'+chip('Plano '+PNOME[c.plano]+' · '+PVEZ[c.plano]+'x por semana','info')+(prof?'':finChip(c))+chip('Consentimento assinado','good')+'</div></div></div>'+
     '<div class="hero-r">'+(prof?btn('Registrar aula','registrar-cli',c.id,'pri','doc'):(c.fin==='vencida'?btn('Cobrar no WhatsApp','cobrar',c.id,'wa','chat'):'')+btn('Enviar acesso ao portal','portal',c.id,'','send')+btn('Gerar recibo','recibo',c.id,'','doc'))+'</div></div>';
   var meses=[];for(var i=5;i>=0;i--){var d=new Date(2026,10-i,1);if(d<new Date(c.desde.getFullYear(),c.desde.getMonth(),1))continue;
     var st=i===0?c.fin:(i===1&&c.parcelas>1?'vencida':'pago');
@@ -1434,9 +1448,9 @@ function profHojeHTML(){
   return h+'<p class="foot">Protótipo com dados fictícios. Visão do perfil Profissional.</p>';
 }
 function profAlunosHTML(){
-  var meus=clientes.filter(function(c){return c.prof===perfil().n});
+  var meus=clientes.filter(function(c){return c.prof===perfil().n}).sort(porNome);
   return stats([stat('Meus alunos',meus.length,'de 62 do studio'),stat('Sem retorno há 30+ dias',meus.filter(function(c){return c.feedback>30}).length,'famílias','warn'),stat('Relatórios pedidos',meus.filter(function(c){return c.relatorio}).length,'para você')])+
-    cardList('Meus alunos','Você vê só os seus alunos, sem dados financeiros.',meus.map(function(c){return li(av(c.ini),c.ini+' · '+c.idade+' anos',c.serv+' · '+PVEZ[c.plano]+'x por semana · último retorno há '+c.feedback+' dias',c.feedback>30?chip('Sem retorno','warn'):chip('Em dia','good'),href('cliente','id='+c.id),' data-s="'+esc(norm(c.ini))+'"')})).replace('<div class="list">',busca('Buscar por iniciais')+'<div class="list">')+
+    cardList('Meus alunos','Você vê só os seus alunos, sem dados financeiros.',meus.map(function(c){return li(av(c.ini),c.ini+' · '+c.idade+' anos',c.serv+' · '+PVEZ[c.plano]+'x por semana · último retorno há '+c.feedback+' dias',c.feedback>30?chip('Sem retorno','warn'):chip('Em dia','good'),href('cliente','id='+c.id),' data-s="'+esc(norm(c.ini))+'"')})).replace('<div class="list">',busca('Buscar por nome')+'<div class="list">')+
     '<p class="foot">Protótipo com dados fictícios. Visão do perfil Profissional.</p>';
 }
 function profRegistrosHTML(){
@@ -1453,7 +1467,7 @@ function profRegistrosHTML(){
 }
 
 /* ---------- perfil Família (item 3) ---------- */
-function proximasAulas(){var dias=[[19,'qui'],[23,'seg'],[24,'ter']];return dias.slice(0,PVEZ[famCli.plano]).map(function(d){return {d:new Date(2026,10,d[0]),dia:d[1],h:'15:00'}})}
+function proximasAulas(){var dias=[[19,'quinta'],[23,'segunda'],[24,'terça']];return dias.slice(0,PVEZ[famCli.plano]).map(function(d){return {d:new Date(2026,10,d[0]),dia:d[1],h:'15:00'}})}
 function famInicioHTML(){
   var c=famCli,ult=registrosLiberadosDe(c)[0],prox=proximasAulas();
   var h='<div class="card fam-hero"><div class="hero-l">'+av(c.ini,'lg')+'<div><div class="ct" style="font-size:20px">Olá, '+perfil().curto+'</div><div class="cs">Acompanhamento de '+c.ini+' · '+c.serv+' com '+c.prof+'</div></div></div></div>';
@@ -1505,16 +1519,16 @@ function famPagamentosHTML(){
 /* ---------- páginas públicas (login, convite, pré-matrícula, lead) ---------- */
 function marcaPub(sub){return '<div class="auth-brand"><span class="mark"><svg class="logo" aria-hidden="true"><use href="#logo"/></svg></span><div><b>Studio Thiago Santos</b><span>'+sub+'</span></div></div>'}
 function loginHTML(){
-  return '<div class="auth"><button type="button" class="help" data-act="tutorial" aria-label="Como instalar o sistema no celular">?</button>'+
+  return '<div class="auth"><button type="button" class="atalho" data-act="tutorial">'+icon('phone')+'Criar atalho no celular</button>'+
     '<div class="card auth-card">'+marcaPub('Gestão do studio')+
     '<form id="login-form" class="form" novalidate>'+
       '<label class="fld"><span>E-mail</span><input class="inp" name="email" type="text" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="seu e-mail" required></label>'+
-      '<label class="fld"><span>Senha</span><input class="inp" name="senha" type="password" autocomplete="current-password" placeholder="sua senha" required></label>'+
+      '<label class="fld"><span>Senha</span><div class="pw"><input class="inp" name="senha" type="password" autocomplete="current-password" placeholder="sua senha" required><button type="button" class="pw-eye" data-eye aria-label="Mostrar senha" aria-pressed="false">'+icon('eye')+'</button></div></label>'+
       '<div class="auth-err" id="login-err" role="alert"></div>'+
       '<button class="btn pri big" type="submit">Entrar</button></form>'+
     '<a class="lnk sm" href="#convite">Recebi um convite (primeiro acesso)</a></div>'+
     '<div class="card demo"><b>Acesso do protótipo</b><span>Senha <code>123</code> para todos. Toque em um perfil para preencher.</span>'+
-      '<div class="demo-l">'+[['admin','Administrador','Thiago'],['gestor','Gestor','Helen'],['profissional','Profissional','Marina'],['pais','Família','mãe de L.M.']].map(function(x){
+      '<div class="demo-l">'+[['admin','Administrador','Thiago'],['gestor','Gestor','Helen'],['profissional','Profissional','Marina'],['pais','Família','mãe do Lucas']].map(function(x){
         return '<button type="button" data-login="'+x[0]+'"><code>'+x[0]+'</code><small>'+x[1]+' · '+x[2]+'</small></button>'}).join('')+'</div></div>'+
     '<p class="pub-links">Páginas públicas, sem login: <a href="#agendar?origem=instagram">Agende uma avaliação</a> · <a href="#pre-matricula">Pré-matrícula</a></p></div>';
 }
@@ -1528,8 +1542,8 @@ function conviteHTML(){
   if(p==='2') h+='<p>Para acompanhar '+c.ini+' pelo portal, precisamos do seu consentimento:</p><ul class="todo"><li>Usamos os dados de '+c.ini+' só para o atendimento e o acompanhamento.</li><li>Registros de aula e relatórios ficam no portal, nunca na mensagem de WhatsApp.</li><li>Só a equipe que atende '+c.ini+' acessa as informações de saúde.</li><li>Você pode pedir cópia, correção ou exclusão dos dados quando quiser.</li></ul>'+
     '<label class="check"><input type="checkbox" id="aceite"> Li e concordo com o termo de consentimento</label><div class="auth-err" id="conv-err" role="alert"></div>'+
     '<div class="acts"><a class="btn big" href="#convite?passo=1">Voltar</a><button type="button" class="btn pri big" data-act="aceitar-termo">Continuar</button></div>';
-  if(p==='3') h+='<form id="convite-form" class="form"><label class="fld"><span>Crie uma senha</span><input class="inp" type="password" name="s1" autocomplete="new-password" placeholder="mínimo 6 caracteres"></label>'+
-    '<label class="fld"><span>Repita a senha</span><input class="inp" type="password" name="s2" autocomplete="new-password"></label><div class="auth-err" id="conv-err" role="alert"></div>'+
+  if(p==='3') h+='<form id="convite-form" class="form"><label class="fld"><span>Crie uma senha</span><div class="pw"><input class="inp" name="s1" type="password" autocomplete="new-password" placeholder="mínimo 6 caracteres"><button type="button" class="pw-eye" data-eye aria-label="Mostrar senha" aria-pressed="false">'+icon('eye')+'</button></div></label>'+
+    '<label class="fld"><span>Repita a senha</span><div class="pw"><input class="inp" name="s2" type="password" autocomplete="new-password"><button type="button" class="pw-eye" data-eye aria-label="Mostrar senha" aria-pressed="false">'+icon('eye')+'</button></div></label><div class="auth-err" id="conv-err" role="alert"></div>'+
     '<button class="btn pri big" type="submit">Criar meu acesso</button></form>';
   if(p==='4') h+='<div class="ok-big">'+icon('check')+'</div><p style="text-align:center"><b>Pronto, acesso criado!</b><br>Agora é só entrar com seu e-mail e senha. Dica: coloque o ícone do studio na tela do celular.</p>'+
     '<div class="insight">No protótipo, entre com o e-mail <code>pais</code> e a senha <code>123</code>.</div><div class="acts"><a class="btn pri big" href="#login">Ir para o login</a><button type="button" class="btn big" data-act="tutorial">Instalar no celular</button></div>';
@@ -1546,7 +1560,7 @@ function preMatriculaHTML(){
     '<label class="check"><input type="checkbox" name="fin" checked> Sou o responsável financeiro (quem recebe as cobranças)</label>'+
     '<div class="ct">Criança</div>'+
     '<div class="two"><label class="fld"><span>Nome completo</span><input class="inp" name="aluno" required></label><label class="fld"><span>Data de nascimento</span><input class="inp" name="nasc" type="date"></label></div>'+
-    '<div class="fld"><span>Plano de interesse</span>'+pickGroup('plano',['Básico · 1x/sem','Essencial · 2x/sem','Premium · 3x/sem','Quero orientação'],[1],true)+'</div>'+
+    '<div class="fld"><span>Plano de interesse</span>'+pickGroup('plano',['Básico · 1x por semana','Essencial · 2x por semana','Premium · 3x por semana','Quero orientação'],[1],true)+'</div>'+
     '<div class="fld"><span>Melhores períodos</span>'+pickGroup('periodo',['Manhã','Tarde','Sábado'],[1],false)+'</div>'+
     '<label class="check"><input type="checkbox" name="lgpd"> Li e concordo com o termo de consentimento (LGPD) para o tratamento dos dados da criança</label>'+
     '<div class="auth-err" id="pre-err" role="alert"></div><button class="btn pri big" type="submit">Enviar pré-matrícula</button></form>'+
@@ -1559,6 +1573,7 @@ function agendarHTML(){
     '<p class="cs">Este é o link que fica na bio do Instagram. O lead já entra no sistema com a origem marcada, sem ninguém digitar.</p>'+
     '<label class="fld"><span>Seu nome</span><input class="inp" name="nome" autocomplete="name" required></label>'+
     '<label class="fld"><span>WhatsApp</span><input class="inp" name="fone" type="tel" autocomplete="tel" placeholder="(82) 9 0000-0000" required></label>'+
+    '<label class="fld"><span>Nome da criança (opcional)</span><input class="inp" name="crianca" autocomplete="off"></label>'+
     '<label class="fld"><span>Idade da criança</span><input class="inp" name="idade" inputmode="numeric" placeholder="ex.: 6"></label>'+
     '<div class="fld"><span>Interesse</span>'+pickGroup('interesse',['Psicomotricidade','Treino funcional','Home care','Consultoria para pais'],[0],true)+'</div>'+
     '<div class="auth-err" id="lead-err" role="alert"></div><button class="btn pri big" type="submit">Quero agendar</button>'+
@@ -1656,10 +1671,10 @@ function enviarForm(form){
   if(id==='login-form'){if(!entrar(form.email.value,form.senha.value)){document.getElementById('login-err').innerHTML='E-mail ou senha incorretos. No protótipo, use um dos perfis abaixo com a senha <b>123</b>.'}return}
   if(id==='convite-form'){var e=document.getElementById('conv-err');if(form.s1.value.length<6){e.textContent='A senha precisa ter pelo menos 6 caracteres.';return}if(form.s1.value!==form.s2.value){e.textContent='As duas senhas estão diferentes.';return}location.hash='#convite?passo=4';return}
   if(id==='pre-form'){var er=document.getElementById('pre-err');if(!form.resp.value.trim()||!form.fone.value.trim()||!form.aluno.value.trim()){er.textContent='Preencha o nome do responsável, o WhatsApp e o nome da criança.';return}if(!form.lgpd.checked){er.textContent='Para enviar, aceite o termo de consentimento.';return}
-    var nm=form.aluno.value.trim().split(/\s+/),pl=picked(form,'plano')[0]||'';preMat.unshift({id:'p'+(preMat.length+1),resp:form.resp.value.trim(),rel:form.rel.value,ini:(nm[0].charAt(0)+'.'+(nm[nm.length-1]||'').charAt(0)+'.').toUpperCase(),idade:'?',plano:/premium/i.test(pl)?'premium':/b.sico/i.test(pl)?'basico':'essencial',hor:(picked(form,'periodo').join(' ou ')||'a combinar').toLowerCase(),quando:diasAtras(0),origem:'Link da pré-matrícula',st:'novo'});
+    var nm=form.aluno.value.trim().split(/\s+/),pl=picked(form,'plano')[0]||'';preMat.unshift({id:'p'+(preMat.length+1),resp:form.resp.value.trim(),rel:form.rel.value,ini:nm.join(' '),idade:'?',plano:/premium/i.test(pl)?'premium':/b.sico/i.test(pl)?'basico':'essencial',hor:(picked(form,'periodo').join(' ou ')||'a combinar').toLowerCase(),quando:diasAtras(0),origem:'Link da pré-matrícula',st:'novo'});
     location.hash='#pre-matricula?enviado=1';return}
   if(id==='lead-form'){var el=document.getElementById('lead-err');if(!form.nome.value.trim()||!form.fone.value.trim()){el.textContent='Preencha seu nome e o WhatsApp.';return}
-    var o=form.getAttribute('data-origem');leads.unshift({id:'l'+leads.length,ini:'?',idade:form.idade.value||'?',resp:form.nome.value.trim(),rel:'Responsável',etapa:'contato',origem:o.charAt(0).toUpperCase()+o.slice(1),data:diasAtras(0),interesse:picked(form,'interesse')[0]||'Psicomotricidade',form:true,semResp:0});
+    var o=form.getAttribute('data-origem');leads.unshift({id:'l'+leads.length,ini:form.crianca.value.trim()||'Criança (nome não informado)',idade:form.idade.value||'?',resp:form.nome.value.trim(),rel:'Responsável',etapa:'contato',origem:o.charAt(0).toUpperCase()+o.slice(1),data:diasAtras(0),interesse:picked(form,'interesse')[0]||'Psicomotricidade',form:true,semResp:0});
     location.hash='#agendar?enviado=1&origem='+o;return}
   if(id==='pag-form'){var pc=cliPorId(form.getAttribute('data-cli')),v=parseFloat(String(form.valor.value).replace(/\./g,'').replace(',','.'));
     if(!(v>0)){document.getElementById('pag-err').textContent='Informe o valor recebido.';return}
@@ -1809,6 +1824,9 @@ document.addEventListener('click',function(ev){
   if(os){document.getElementById('modal-c').innerHTML=tutorialHTML(os.getAttribute('data-os'));return}
   var lg=t.closest&&t.closest('[data-login]');
   if(lg){var fm=document.getElementById('login-form');fm.email.value=lg.getAttribute('data-login');fm.senha.value='123';fm.senha.focus();return}
+  var eye=t.closest&&t.closest('[data-eye]');
+  if(eye){var inp=eye.parentNode.querySelector('input'),show=inp.type==='password';inp.type=show?'text':'password';
+    eye.setAttribute('aria-pressed',show);eye.setAttribute('aria-label',show?'Esconder senha':'Mostrar senha');eye.innerHTML=icon(show?'eyeOff':'eye');inp.focus();return}
   if(t.closest&&t.closest('[data-src-toggle]')){state.src=!state.src;render();return}
   if(t.closest&&t.closest('[data-close]')||t.id==='modal'){closeModal();return}
   var rb=t.closest&&t.closest('[data-range]');
