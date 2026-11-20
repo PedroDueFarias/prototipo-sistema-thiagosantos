@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#11A69C">
-<title>Painel Studio Thiago Santos</title>
+<title>Studio Thiago Santos</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Studio TS">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 640%22%3E%3Crect width=%22640%22 height=%22640%22 rx=%22140%22 fill=%22%23fff%22/%3E%3Cg transform=%22translate%2870 60%29 scale%280.9%29%22%3E%3Cg transform=%22translate%28-70 -80%29%22%3E%3Cpath fill=%22%2311A69C%22 d=%22M318 104C290 90 260 100 235 125C150 200 95 300 93 400C92 480 140 560 185 615C200 630 220 616 214 595C208 550 198 505 215 462C228 485 255 525 285 556C298 566 306 550 298 535C302 480 305 400 300 330C270 290 240 250 248 215C255 172 290 150 322 130C332 120 329 108 318 104Z%22/%3E%3Ccircle fill=%22%2311A69C%22 cx=%22362%22 cy=%22232%22 r=%2246%22/%3E%3Cpath fill=%22%23406EC1%22 d=%22M462 232C440 220 410 235 385 262C330 320 280 370 273 430C270 500 290 570 312 600C322 614 344 603 340 585C337 550 335 520 350 490C370 522 400 566 425 584C441 592 454 576 441 555C422 515 412 482 407 457C440 464 490 470 515 463C535 456 531 436 511 428C470 415 430 402 407 386C402 345 422 305 452 272C470 255 476 240 462 232Z%22/%3E%3Ccircle fill=%22%23406EC1%22 cx=%22480%22 cy=%22337%22 r=%2235%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -284,6 +290,112 @@ a.li:hover{background:var(--surface-2)}
 .toast{position:fixed;left:50%;bottom:24px;z-index:70;width:min(520px,calc(100% - 32px));transform:translate(-50%,16px);opacity:0;pointer-events:none;background:var(--ink);color:var(--bg);padding:12px 14px;border-radius:14px;font-size:13.5px;line-height:1.45;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:opacity .18s,transform .18s}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .toast small{display:block;opacity:.7;margin-top:4px;font-size:12px}
+
+/* origem dos dados */
+.src{display:none;margin-top:8px;font-size:11.5px;line-height:1.4;color:var(--muted);font-weight:500;text-transform:none;letter-spacing:0}
+.src-on .src{display:block}
+.src i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:1px;background:var(--good-fill)}
+.src b{display:inline!important;font-size:inherit!important;margin:0!important;font-weight:700;color:var(--ink)}
+.src-reg i{background:var(--s3)}.src-manual i{background:var(--s6)}
+.alert .t .src{margin-top:6px}
+.tgl{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-weight:700;font-size:12.5px;color:var(--muted);cursor:pointer}
+.tgl .i{width:16px;height:16px}
+.tgl[aria-pressed="true"]{background:var(--brand-soft);color:var(--brand-ink);border-color:transparent}
+.pend .li{padding:12px 8px}
+.pn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:16px;background:var(--warn-soft);color:var(--warn)}
+.pn.ok{background:var(--good-soft);color:var(--good)}
+.li.conc .r{max-width:60%}
+.side-foot .lnk{border:0;background:none;padding:0;margin-top:6px;font:inherit;font-weight:700;cursor:pointer}
+/* formulários */
+.inp{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font:inherit;font-size:16px;color:var(--ink);outline:0}
+.inp:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+textarea.inp{resize:vertical;min-height:84px}
+select.inp{appearance:auto}
+.pick .chip{border:0;cursor:pointer;padding:8px 12px;font-size:13px}
+.pick .chip.on{background:var(--brand);color:#fff}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer}
+.check input{width:20px;height:20px;margin:0;flex:none;accent-color:var(--brand)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sw{border:0;padding:0;cursor:pointer;transition:background .15s}
+.sw::after{transition:left .15s}
+.sw[aria-checked="true"]{background:var(--brand)}
+.sw[aria-checked="true"]::after{left:21px}
+.btn.big{padding:12px 16px;font-size:14px;border-radius:12px;justify-content:center}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.auth-err{color:var(--bad);font-size:13px;font-weight:600;min-height:1px}
+.auth-err:empty{display:none}
+/* páginas públicas e login */
+body.pub .side,body.pub .tabbar,body.pub .top{display:none}
+body.pub .shell{grid-template-columns:1fr}
+body.pub .main{padding:24px 16px 40px}
+.auth{max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:14px;position:relative;padding-top:8px}
+.auth:has(.wide){max-width:600px}
+.auth-card{display:flex;flex-direction:column;gap:16px;padding:24px}
+.auth-card p{font-size:14.5px}
+.auth-brand{display:flex;align-items:center;gap:12px}
+.auth-brand .mark{width:52px;height:52px;border-radius:15px;padding:6px}
+.auth-brand b{display:block;font-size:17px}
+.auth-brand span{font-size:12.5px;color:var(--muted)}
+.lnk.sm{font-size:13.5px;text-align:center}
+.help{position:absolute;top:0;right:0;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);font-weight:800;font-size:18px;color:var(--brand-ink);cursor:pointer;box-shadow:var(--shadow);z-index:2}
+.auth>.auth-card:first-of-type{margin-top:48px}
+.demo{display:flex;flex-direction:column;gap:6px;padding:14px 16px;background:var(--warn-soft);border-color:transparent;font-size:13px}
+.demo>span{color:var(--muted)}
+.demo code,.insight code{background:var(--surface);padding:1px 6px;border-radius:6px;font-weight:700}
+.demo-l{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
+.demo-l button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;text-align:left}
+.demo-l button:hover{border-color:var(--brand)}
+.demo-l small{color:var(--muted);font-size:11.5px}
+.pub-links{text-align:center;font-size:12.5px;color:var(--muted)}
+.pub-links a{color:var(--brand-ink);font-weight:700;text-decoration:underline}
+.passos{display:flex;gap:6px;list-style:none;margin:0;padding:0;counter-reset:p}
+.passos li{flex:1;counter-increment:p;font-size:12px;font-weight:700;color:var(--muted);padding-top:8px;border-top:4px solid var(--line)}
+.passos li::before{content:counter(p)". "}
+.passos li.on{color:var(--brand-ink);border-color:var(--brand)}.passos li.ok{color:var(--good);border-color:var(--good-fill)}
+.ok-big{width:64px;height:64px;border-radius:50%;background:var(--good-soft);color:var(--good);display:grid;place-items:center;margin:4px auto 0}
+.ok-big .i{width:32px;height:32px}
+/* modal */
+.modal{position:fixed;inset:0;z-index:80;background:rgba(7,20,24,.55);display:none;align-items:center;justify-content:center;padding:16px}
+.modal.on{display:flex}
+.modal-in{position:relative;width:min(480px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:var(--surface);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.modal-in h2{font-size:20px;font-weight:800;padding-right:36px}
+.modal-x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:var(--surface-2);font-size:22px;line-height:1;cursor:pointer;color:var(--muted)}
+.seg.os{align-self:flex-start}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.steps li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px}
+.steps .i{width:18px;height:18px;vertical-align:-4px;color:var(--brand-ink)}
+.sn{width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.qr{width:180px;height:180px;margin:4px auto;display:block;border-radius:10px;border:1px solid var(--line)}
+.copia{display:flex;gap:8px;align-items:center}
+.copia code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;background:var(--surface-2);padding:9px 10px;border-radius:10px;border:1px solid var(--line)}
+.stars{display:flex;gap:6px;justify-content:center}
+.stars button{width:48px;height:48px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--line);display:grid;place-items:center}
+.stars button .i{width:28px;height:28px}
+.stars button.on{color:#e8a317;border-color:#e8a317;background:var(--warn-soft)}
+.stars button.on .i{fill:currentColor}
+/* família e profissional */
+body.perfil-familia .wrap,body.perfil-profissional .wrap{max-width:880px}
+.fam{grid-template-columns:repeat(2,minmax(0,1fr))}
+.fam-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.fam-grid>*{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:12px;border-radius:14px;border:1px solid var(--line);background:var(--surface-2);cursor:pointer;text-align:left;font:inherit;color:inherit}
+.fam-grid>*:hover{border-color:var(--brand)}
+.fam-grid .i{color:var(--brand)}
+.fam-grid b{font-size:13.5px}.fam-grid small{color:var(--muted);font-size:12px}
+.reg-t{display:block;font-size:15px}
+.reg-p{color:var(--muted);font-size:13.5px;margin:4px 0 0}
+.reacts{display:flex;gap:6px;margin-top:10px}
+.reg{padding:12px 0;border-top:1px solid var(--line)}
+.list>.reg:first-child{border-top:0}
+.reg-h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.big-v{font-size:30px;font-weight:800;letter-spacing:-.02em}
+@media (max-width:640px){
+  .fam,.two{grid-template-columns:1fr}
+  .tgl{order:4}
+  .li.conc .r{max-width:none}
+  .btn.big{flex:1}
+  .auth-card{padding:18px}
+  .li .r .btn.big{min-height:44px}
+}
 @media (max-width:1100px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:899px){.toast{bottom:90px}}
 @media (max-width:640px){
@@ -354,9 +466,9 @@ a.li:hover{background:var(--surface-2)}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="logo" viewBox="70 80 480 560"><path style="fill:var(--s1)" d="M318 104C290 90 260 100 235 125C150 200 95 300 93 400C92 480 140 560 185 615C200 630 220 616 214 595C208 550 198 505 215 462C228 485 255 525 285 556C298 566 306 550 298 535C302 480 305 400 300 330C270 290 240 250 248 215C255 172 290 150 322 130C332 120 329 108 318 104Z"/><circle style="fill:var(--s1)" cx="362" cy="232" r="46"/><path style="fill:var(--s2)" d="M462 232C440 220 410 235 385 262C330 320 280 370 273 430C270 500 290 570 312 600C322 614 344 603 340 585C337 550 335 520 350 490C370 522 400 566 425 584C441 592 454 576 441 555C422 515 412 482 407 457C440 464 490 470 515 463C535 456 531 436 511 428C470 415 430 402 407 386C402 345 422 305 452 272C470 255 476 240 462 232Z"/><circle style="fill:var(--s2)" cx="480" cy="337" r="35"/></symbol></svg>
 <div class="shell">
   <aside class="side" aria-label="Menu principal">
-    <div class="brand"><div class="mark"><svg class="logo" aria-hidden="true"><use href="#logo"/></svg></div><div><b>Studio Thiago Santos</b><span>Gestão do studio</span></div></div>
+    <div class="brand"><div class="mark"><svg class="logo" aria-hidden="true"><use href="#logo"/></svg></div><div><b>Studio Thiago Santos</b><span id="brand-sub">Gestão do studio</span></div></div>
     <nav class="nav" id="nav"></nav>
-    <div class="side-foot"><b>Protótipo visual</b><br>Dados fictícios, sem nenhuma informação real de alunos.</div>
+    <div class="side-foot" id="side-foot"></div>
   </aside>
   <div class="main">
     <div class="wrap">
@@ -369,6 +481,7 @@ a.li:hover{background:var(--surface-2)}
 </div>
 <div class="tip" id="tip" role="status"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal" id="modal"><div class="modal-in" role="dialog" aria-modal="true" aria-labelledby="modal-t"><button type="button" class="modal-x" data-close aria-label="Fechar">×</button><div id="modal-c"></div></div></div>
 
 <script>
 (function(){
@@ -448,7 +561,14 @@ var ROUTES = {
   recuperacao:{t:'Recuperação', ic:'refresh', badge:{n:11, c:'info'}},
   equipe:{t:'Equipe', ic:'team'},
   parcerias:{t:'Parcerias', ic:'link'},
-  cliente:{t:'Ficha do aluno', ic:'users', parent:'clientes'}
+  cliente:{t:'Ficha do aluno', ic:'users', parent:'clientes'},
+  'prof-hoje':{t:'Minhas aulas', ic:'cal'},
+  'prof-alunos':{t:'Meus alunos', ic:'users'},
+  'prof-registros':{t:'Registros', ic:'doc'},
+  'fam-inicio':{t:'Início', ic:'home'},
+  'fam-evolucao':{t:'Evolução', ic:'heart'},
+  'fam-pagamentos':{t:'Pagamentos', ic:'wallet'},
+  login:{t:'Entrar'}, convite:{t:'Primeiro acesso'}, 'pre-matricula':{t:'Pré-matrícula'}, agendar:{t:'Agende uma avaliação'}
 };
 var ORDER = ['painel','clientes','financeiro','aulas','pais','recuperacao','equipe','parcerias'];
 var INFO = {
@@ -472,7 +592,7 @@ var FL = {
 motivos.forEach(function(m){FL['motivo='+m.k]='Motivo: '+m.n});
 equipe.forEach(function(e){FL['profissional='+e.n.toLowerCase()]='Profissional: '+e.n});
 
-var state = {range:6, filter:'', route:'painel'};
+var state = {range:6, filter:'', route:'painel', src:true};
 
 /* ---------- utilitários ---------- */
 var IC = {
@@ -497,6 +617,11 @@ var IC = {
   plus:'<path d="M12 5v14M5 12h14"/>',
   check:'<path d="m5 12.5 4.5 4.5L19 7"/>',
   send:'<path d="M21 3 10 14"/><path d="M21 3l-7 18-4-7-7-4z"/>',
+  star:'<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/>',
+  share:'<path d="M12 3.5v11"/><path d="m7.5 7.5 4.5-4.5 4.5 4.5"/><path d="M6 11H5v9h14v-9h-1"/>',
+  plusSq:'<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8.5v7M8.5 12h7"/>',
+  dots:'<circle cx="12" cy="5.5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="18.5" r="1.4"/>',
+  logout:'<path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M9.5 16.5 5 12l4.5-4.5"/><path d="M5 12h10"/>',
   heart:'<path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20z"/>'
 };
 function icon(n){return '<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[n]+'</svg>'}
@@ -552,11 +677,13 @@ function painelHTML(){
 
   /* alertas */
   h+='<div class="sec-t">Precisa de você hoje</div><section class="grid alerts">'+
-    go('financeiro','status=inadimplente','card alert bad','<span class="n">'+venc+'</span><span class="t"><b>Cobranças vencidas</b>'+brl(inadV)+' em aberto</span>'+goBtn())+
-    go('pais','pendencia=relatorios','card alert warn','<span class="n">5</span><span class="t"><b>Relatórios pedidos</b>pelos pais, aguardando</span>'+goBtn())+
-    go('pais','pendencia=sem-feedback','card alert warn','<span class="n">'+semFeed+'</span><span class="t"><b>Famílias sem retorno</b>há mais de 30 dias</span>'+goBtn())+
-    go('recuperacao','status=inativo','card alert info','<span class="n">11</span><span class="t"><b>Inativos para recuperar</b>com WhatsApp do responsável</span>'+goBtn())+
+    go('financeiro','status=inadimplente','card alert bad','<span class="n">'+venc+'</span><span class="t"><b>Cobranças vencidas</b>'+brl(inadV)+' em aberto'+fonte('vencimento passou sem o banco confirmar','auto')+'</span>'+goBtn())+
+    go('pais','pendencia=relatorios','card alert warn','<span class="n">5</span><span class="t"><b>Relatórios pedidos</b>pelos pais, aguardando'+fonte('botão Pedir relatório no portal','auto')+'</span>'+goBtn())+
+    go('pais','pendencia=sem-feedback','card alert warn','<span class="n">'+semFeed+'</span><span class="t"><b>Famílias sem retorno</b>há mais de 30 dias'+fonte('data do último registro liberado','reg')+'</span>'+goBtn())+
+    go('recuperacao','status=inativo','card alert info','<span class="n">11</span><span class="t"><b>Inativos para recuperar</b>com WhatsApp do responsável'+fonte('saída com motivo + tentativas da Gestora','reg')+'</span>'+goBtn())+
   '</section>';
+
+  h+='<div class="sec-t">Pendências de registro</div>'+pendenciasHTML();
 
   /* kpis */
   h+='<div class="sec-t">Visão geral</div><section class="grid kpis">'+
@@ -564,47 +691,47 @@ function painelHTML(){
       '<div class="kpi-h">'+icon('users')+'Clientes ativos'+goBtn()+'</div>'+
       '<div class="kpi-v">'+ativos[11]+' <small>de 100</small></div>'+
       '<div class="kpi-s"><span class="chip good">+3 no mês</span><span>meta de 100</span></div>'+
-      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill" style="width:'+ativos[11]+'%"></div></div>')+
+      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill" style="width:'+ativos[11]+'%"></div></div>'+fonte('matrículas e cancelamentos','reg'))+
     go('financeiro','periodo=mes','card kpi',
       '<div class="kpi-h">'+icon('coin')+'Receita do mês'+goBtn()+'</div>'+
       '<div class="kpi-v">R$ '+mil(totRec)+' <small>mil</small></div>'+
       '<div class="kpi-s"><span class="chip good">'+pct(totRec,totPrev)+'% do previsto</span><span>R$ '+mil(totPrev)+' mil</span></div>'+
-      sparkline(recebido.slice(-6),'var(--brand)'))+
+      sparkline(recebido.slice(-6),'var(--brand)')+fonte('pagamentos confirmados pelo banco + lançamentos','auto'))+
     go('financeiro','status=inadimplente','card kpi',
       '<div class="kpi-h">'+icon('alert')+'Inadimplentes'+goBtn()+'</div>'+
       '<div class="kpi-v">'+venc+' <small>clientes</small></div>'+
       '<div class="kpi-s"><span class="chip warn">'+pct(venc,totC)+'% da carteira</span><span>'+brl(inadV)+'</span></div>'+
-      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill warn" style="width:'+pct(venc,totC)+'%"></div></div>')+
+      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill warn" style="width:'+pct(venc,totC)+'%"></div></div>'+fonte('cobranças vencidas no gateway','auto'))+
     go('recuperacao','status=inativo&periodo=3m','card kpi',
       '<div class="kpi-h">'+icon('down').replace('class="i"','class="i neg"')+'Perdas em 3 meses'+goBtn()+'</div>'+
       '<div class="kpi-v">'+perdas3+' <small>clientes</small></div>'+
       '<div class="kpi-s"><span class="chip mute">'+churn+'% ao mês</span><span>2 voltaram</span></div>'+
-      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill" style="width:'+pct(2,perdas3)+'%"></div></div>')+
+      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill" style="width:'+pct(2,perdas3)+'%"></div></div>'+fonte('cancelamento com motivo obrigatório','reg'))+
     go('equipe','','card kpi',
       '<div class="kpi-h">'+icon('team')+'Profissionais'+goBtn()+'</div>'+
       '<div class="kpi-v">'+equipe.length+' <small>na equipe</small></div>'+
       '<div class="kpi-s"><span class="chip mute">'+(ativos[11]/equipe.length).toFixed(1).replace('.',',')+' alunos cada</span><span>'+ocupMedia()+'% ocupação</span></div>'+
-      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill" style="width:'+ocupMedia()+'%"></div></div>')+
+      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill" style="width:'+ocupMedia()+'%"></div></div>'+fonte('cadastro da equipe + grade de vagas','manual'))+
     go('parcerias','status=ativa','card kpi',
       '<div class="kpi-h">'+icon('link')+'Parcerias ativas'+goBtn()+'</div>'+
       '<div class="kpi-v">'+parceiros.length+' <small>de 7</small></div>'+
       '<div class="kpi-s"><span class="chip good">todas em dia</span></div>'+
-      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill" style="width:'+pct(parceiros.length,7)+'%"></div></div>')+
+      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill" style="width:'+pct(parceiros.length,7)+'%"></div></div>'+fonte('cadastro de parcerias','manual'))+
   '</section>';
 
   /* gráficos 1 */
   h+='<div class="sec-t">Receita e carteira</div><section class="grid g12">'+
-    '<div class="card c8"><div class="ch"><div><div class="ct">Receita prevista e recebida</div><div class="cs">Valores em R$ mil. O mês atual está em andamento.</div></div>'+
+    '<div class="card c8"><div class="ch"><div><div class="ct">Receita prevista e recebida</div><div class="cs">Valores em R$ mil. O mês atual está em andamento.'+fonte('cobranças do gateway; previsto = valor acordado de cada aluno + lançamentos','auto')+'</div></div>'+
     '</div><div class="key"><span><i style="background:var(--brand)"></i>Recebido</span><span><i class="dash"></i>Previsto</span></div><div id="ch-rev"></div></div>'+
-    '<div class="card c4"><div class="ch"><div><div class="ct">Receita por linha</div><div class="cs">Recebido em novembro</div></div></div><div id="ch-don" style="display:flex;justify-content:center"></div>'+
+    '<div class="card c4"><div class="ch"><div><div class="ct">Receita por linha</div><div class="cs">Recebido em novembro'+fonte('mensalidades automáticas; eventos, loja e palestras lançados à mão','manual')+'</div></div></div><div id="ch-don" style="display:flex;justify-content:center"></div>'+
       '<div class="legend">'+linhas.map(function(l){
         return go('financeiro','categoria='+l.k,'lg','<i style="background:'+l.c+'"></i><span>'+l.n+'</span><b>R$ '+mil(l.v)+'</b><small>'+pct(l.v,totRec)+'%</small>')}).join('')+'</div></div>'+
   '</section>';
 
   h+='<section class="grid g12">'+
-    '<div class="card c8"><div class="ch"><div><div class="ct">Clientes ativos, entradas e saídas</div><div class="cs">A linha mostra a base. As barras mostram quem entrou e quem saiu no mês.</div></div></div>'+
+    '<div class="card c8"><div class="ch"><div><div class="ct">Clientes ativos, entradas e saídas</div><div class="cs">A linha mostra a base. As barras mostram quem entrou e quem saiu no mês.'+fonte('matrículas e cancelamentos com motivo','reg')+'</div></div></div>'+
     '<div class="key"><span><i style="background:var(--brand)"></i>Entradas</span><span><i style="background:var(--s4)"></i>Saídas</span></div><div id="ch-cli"></div></div>'+
-    '<div class="card c4"><div class="ch"><div><div class="ct">Saúde da carteira</div><div class="cs">'+totC+' cobranças do mês</div></div></div>'+
+    '<div class="card c4"><div class="ch"><div><div class="ct">Saúde da carteira</div><div class="cs">'+totC+' cobranças do mês'+fonte('status das cobranças do mês','auto')+'</div></div></div>'+
       '<div class="split" role="img" aria-label="Pagas '+carteira.pagas+', a vencer '+carteira.avencer+', vencidas '+carteira.vencidas+'">'+
         go('financeiro','status=pago','','',' style="flex:'+carteira.pagas+';background:var(--good-fill)" data-tip="'+carteira.pagas+' cobranças em dia"')+
         go('financeiro','status=avencer','','',' style="flex:'+carteira.avencer+';background:var(--s3)" data-tip="'+carteira.avencer+' a vencer"')+
@@ -629,7 +756,7 @@ function painelHTML(){
     if(horas[hi]!==12&&horas[hi]!==13&&v<low.v)low={v:v,d:dias[di],h:horas[hi]};
   })});
   h+='<div class="sec-t">Operação e famílias</div><section class="grid g12">'+
-    '<div class="card c7"><div class="ch"><div><div class="ct">Ocupação semanal das aulas</div><div class="cs">Percentual das vagas preenchidas por horário</div></div>'+
+    '<div class="card c7"><div class="ch"><div><div class="ct">Ocupação semanal das aulas</div><div class="cs">Percentual das vagas preenchidas por horário'+fonte('vagas da grade (configuradas uma vez) × alunos agendados','auto')+'</div></div>'+
       '<a class="chip info" href="#aulas?periodo=mes">Ver aulas</a></div><div class="heat" id="heat">'+
       '<span></span>'+horas.map(function(x){return '<span class="h">'+x+'h</span>'}).join('')+
       ocup.map(function(r,di){
@@ -638,7 +765,7 @@ function painelHTML(){
           return '<div class="cell" style="background:rgba(17,166,156,'+(0.08+v/100*0.87).toFixed(2)+');color:'+(v>62?'#fff':'var(--ink)')+'" data-tip="'+dias[di]+' '+horas[hi]+'h: '+v+'% ocupado">'+v+'</div>'}).join('')}).join('')+
       '</div><div class="heat-leg"><span>Mais vaga</span><i></i><span>Lotado</span></div>'+
       '<div class="insight">Ocupação média de <b>'+avg+'%</b>. Mais cheio: <b>'+top.d.toLowerCase()+' às '+top.h+'h ('+top.v+'%)</b>. Melhor espaço para novos alunos: <b>'+low.d.toLowerCase()+' às '+low.h+'h ('+low.v+'%)</b>.</div></div>'+
-    '<div class="card c5"><div class="ch"><div><div class="ct">Feedback aos pais</div><div class="cs">Famílias que receberam retorno nos últimos 30 dias</div></div></div>'+
+    '<div class="card c5"><div class="ch"><div><div class="ct">Feedback aos pais</div><div class="cs">Famílias que receberam retorno nos últimos 30 dias'+fonte('registros liberados pelos profissionais','reg')+'</div></div></div>'+
       '<div class="ring-wrap"><div id="ch-ring"></div><div class="mini-stats">'+
         '<a href="#pais?pendencia=sem-feedback"><div><span>Sem retorno há 30+ dias</span><b>'+semFeed+'</b></div></a>'+
         '<a href="#pais?pendencia=relatorios"><div><span>Relatórios pedidos</span><b>5</b></div></a>'+
@@ -653,26 +780,26 @@ function painelHTML(){
   /* linha de cards menores */
   var maxFun=funil[0].q, maxMot=motivos[0].q, maxEq=equipe[0].q, maxPl=Math.max.apply(null,planos.map(function(p){return p.q}));
   h+='<div class="sec-t">Detalhes</div><section class="grid g12">'+
-    '<div class="card c3"><div class="ch"><div><div class="ct">Funil de novos alunos</div><div class="cs">Últimos 30 dias, '+pct(funil[3].q,funil[0].q)+'% de conversão</div></div></div><div class="rows">'+
+    '<div class="card c3"><div class="ch"><div><div class="ct">Funil de novos alunos</div><div class="cs">Últimos 30 dias, '+pct(funil[3].q,funil[0].q)+'% de conversão'+fonte('formulário da bio + leads cadastrados pela Gestora','reg')+'</div></div></div><div class="rows">'+
       funil.map(function(f,i){
         var conv=i?' <span class="chip mute">'+pct(f.q,funil[i-1].q)+'%</span>':'';
         return row(f.n,'<b>'+f.q+'</b>'+conv,pct(f.q,maxFun),'','recuperacao','aba=leads')}).join('')+
       '</div><div class="insight">Origem principal: <b>Instagram, 62%</b></div></div>'+
-    '<div class="card c3"><div class="ch"><div><div class="ct">Motivos de saída</div><div class="cs">Últimos 12 meses, '+sum(motivos.map(function(m){return m.q}))+' saídas</div></div></div><div class="rows">'+
+    '<div class="card c3"><div class="ch"><div><div class="ct">Motivos de saída</div><div class="cs">Últimos 12 meses, '+sum(motivos.map(function(m){return m.q}))+' saídas'+fonte('motivo obrigatório no cancelamento','reg')+'</div></div></div><div class="rows">'+
       motivos.map(function(m,i){return row(m.n,'<b>'+m.q+'</b>',pct(m.q,maxMot),'bad','recuperacao','motivo='+m.k)}).join('')+'</div></div>'+
-    '<div class="card c3"><div class="ch"><div><div class="ct">Alunos por profissional</div><div class="cs">'+ativos[11]+' alunos ativos</div></div></div><div class="rows">'+
+    '<div class="card c3"><div class="ch"><div><div class="ct">Alunos por profissional</div><div class="cs">'+ativos[11]+' alunos ativos'+fonte('profissional definido na matrícula','auto')+'</div></div></div><div class="rows">'+
       equipe.map(function(e){return row(e.n,'<b>'+e.q+'</b>',pct(e.q,maxEq),'','equipe','profissional='+e.n.toLowerCase())}).join('')+'</div></div>'+
-    '<div class="card c3"><div class="ch"><div><div class="ct">Alunos por plano</div><div class="cs">Receita mensal prevista por plano</div></div></div><div class="rows">'+
+    '<div class="card c3"><div class="ch"><div><div class="ct">Alunos por plano</div><div class="cs">Receita mensal prevista por plano'+fonte('plano e valor acordado na matrícula','auto')+'</div></div></div><div class="rows">'+
       planos.map(function(p){return row(p.n,'<b>'+p.q+'</b> · R$ '+mil(p.q*p.preco)+' mil',pct(p.q,maxPl),'','clientes','plano='+p.k)}).join('')+'</div>'+
       '<div class="insight">Ticket médio: <b>'+brl(Math.round(sum(planos.map(function(p){return p.q*p.preco}))/ativos[11]))+'</b></div></div>'+
   '</section>';
 
   /* hoje e parcerias */
   h+='<section class="grid g12">'+
-    '<div class="card c8"><div class="ch"><div><div class="ct">Aulas de hoje</div><div class="cs">18 aulas: 11 concluídas, 1 falta e 6 a seguir. Iniciais no lugar dos nomes.</div></div>'+
+    '<div class="card c8"><div class="ch"><div><div class="ct">Aulas de hoje</div><div class="cs">18 aulas: 11 concluídas, 1 falta e 6 a seguir. Iniciais no lugar dos nomes.'+fonte('agenda gerada pela matrícula + presença marcada pelo profissional','reg')+'</div></div>'+
       '<a class="chip info" href="#aulas?periodo=hoje">Abrir agenda</a></div>'+
       hoje.map(function(a){return '<div class="today-row"><span class="hh">'+a.h+'</span><span>'+a.a+' com '+a.p+'<small>'+a.s+'</small></span><span class="chip '+a.c+'">'+a.st+'</span></div>'}).join('')+'</div>'+
-    go('parcerias','status=ativa','card c4','<div class="ch"><div><div class="ct">Parcerias ativas</div><div class="cs">'+parceiros.length+' de 7 cadastradas</div></div>'+goBtn()+'</div>'+
+    go('parcerias','status=ativa','card c4','<div class="ch"><div><div class="ct">Parcerias ativas</div><div class="cs">'+parceiros.length+' de 7 cadastradas'+fonte('cadastro + origem do lead','manual')+'</div></div>'+goBtn()+'</div>'+
       '<div class="partners">'+parceiros.map(function(p){return '<div><span class="dot good"></span>'+p+'</div>'}).join('')+'</div>')+
   '</section>';
 
@@ -917,7 +1044,8 @@ function clientesHTML(){
   var f=fp(), lista=clientes.filter(function(c){return !f.plano||c.plano===f.plano});
   var prev=sum(lista.map(function(c){return PRECO[c.plano]})), venc=lista.filter(function(c){return c.fin==='vencida'}).length;
   var novos=lista.filter(function(c){return c.desde.getMonth()===10&&c.desde.getFullYear()===2026}).length;
-  var h=backLink()+tabsHTML('clientes',[{f:'status=ativo',alt:[''],n:'Todos os ativos',q:clientes.length}].concat(planos.map(function(p){return {f:'plano='+p.k,n:p.n+' · '+PVEZ[p.k]+'x/sem',q:p.q}})));
+  var h=backLink()+tabsHTML('clientes',[{f:'status=ativo',alt:[''],n:'Todos os ativos',q:clientes.length}].concat(planos.map(function(p){return {f:'plano='+p.k,n:p.n+' · '+PVEZ[p.k]+'x/sem',q:p.q}}),[{f:'aba=pre',n:'Pré-matrículas',q:preMat.filter(function(p){return p.st==='novo'}).length}]));
+  if(f.aba==='pre') return h+preMatHTML()+rodape('clientes');
   h+=stats([stat('Alunos'+(f.plano?' no '+PNOME[f.plano]:' ativos'),lista.length,f.plano?brl(PRECO[f.plano])+' por mês':'meta de 100'),
     stat('Receita mensal prevista','R$ '+mil(prev)+' mil','ticket médio '+brl(Math.round(prev/lista.length))),
     stat('Com pagamento vencido',venc,venc?'cobrar no Financeiro':'ninguém atrasado',venc?'bad':''),
@@ -928,44 +1056,6 @@ function clientesHTML(){
     btn('Novo aluno','novo-aluno','','pri','plus'))
     .replace('<div class="list">',busca('Buscar por iniciais, responsável ou profissional')+'<div class="list">');
   h+='<div class="insight">Inativos ficam em <a class="lnk" href="'+href('recuperacao','status=inativo')+'">Recuperação</a>, com o motivo da saída e o WhatsApp do último responsável.</div>';
-  return h+rodape('clientes');
-}
-
-function clienteHTML(){
-  var c=cliPorId(fp().id); if(!c) return clientesHTML();
-  var r2=new (function(){var s=parseInt(c.id.slice(1),10)*97;this.n=function(){s=(s*9301+49297)%233280;return s/233280}})();
-  var h=backLink('clientes','Voltar para clientes');
-  h+='<div class="card hero"><div class="hero-l">'+av(c.ini,'lg')+'<div><div class="ct" style="font-size:20px">'+c.ini+' · '+c.idade+' anos</div>'+
-    '<div class="cs">'+c.serv+' com '+c.prof+' · aluno desde '+my(c.desde)+'</div>'+
-    '<div class="filters" style="margin-top:8px">'+chip('Plano '+PNOME[c.plano]+' · '+PVEZ[c.plano]+'x/sem','info')+finChip(c)+chip('Consentimento assinado','good')+'</div></div></div>'+
-    '<div class="hero-r">'+(c.fin==='vencida'?btn('Cobrar no WhatsApp','cobrar',c.id,'wa','chat'):'')+btn('Enviar acesso ao portal','portal',c.id,'','send')+btn('Gerar recibo','recibo',c.id,'','doc')+'</div></div>';
-  var meses=[];for(var i=5;i>=0;i--){var d=new Date(2026,10-i,1);if(d<new Date(c.desde.getFullYear(),c.desde.getMonth(),1))continue;
-    var st=i===0?c.fin:(i===1&&c.parcelas>1?'vencida':'pago');
-    meses.push('<div class="kv"><span>'+MES[d.getMonth()]+'/'+String(d.getFullYear()).slice(2)+'</span><b>'+brl(c.valor)+'</b>'+
-      (st==='pago'?chip(i===0?'Pago em '+dm(c.pagoEm):'Pago','good'):st==='avencer'?chip('Vence '+dm(c.due),'warn'):chip('Em aberto','bad'))+'</div>')}
-  var aulas=[];for(var k=0;k<5;k++){var dd=diasAtras(Math.round(k*7/PVEZ[c.plano])+1+(k?0:0));var falta=r2.n()<.1;
-    aulas.push('<div class="kv"><span>'+dm(dd)+'</span><b class="tx">'+(falta?'Falta justificada':ATIV[Math.floor(r2.n()*ATIV.length)])+'</b>'+(falta?chip('Reposição agendada','warn'):k<1&&c.fin!=='pago'?chip('Por liberar','warn'):chip('Liberado à família','good'))+'</div>')}
-  var metas=[['Equilíbrio dinâmico na trave',Math.round(40+r2.n()*50)],['Seguir sequência de 3 comandos',Math.round(30+r2.n()*60)],['Tolerar espera na fila da atividade',Math.round(35+r2.n()*55)]];
-  h+='<section class="grid g12">'+
-    '<div class="card c4"><div class="ct">Responsáveis</div><div class="kvs">'+
-      '<div class="kv"><span>'+c.rel+'</span><b>'+c.resp+'</b>'+chip('Principal','info')+'</div>'+
-      '<div class="kv"><span>WhatsApp</span><b>'+c.fone+'</b></div>'+
-      (c.resp2?'<div class="kv"><span>'+c.rel2+'</span><b>'+c.resp2+'</b></div>':'')+
-      '<div class="kv"><span>LGPD</span><b>Consentimento em '+dm(c.consent)+'/'+String(c.consent.getFullYear()).slice(2)+'</b></div></div></div>'+
-    '<div class="card c4"><div class="ct">Plano e cobrança</div><div class="kvs">'+
-      '<div class="kv"><span>Plano</span><b>'+PNOME[c.plano]+', '+PVEZ[c.plano]+'x por semana</b></div>'+
-      '<div class="kv"><span>Valor acordado</span><b>'+brl(c.valor)+(c.valor!==PRECO[c.plano]?' <small class="mut">(tabela '+brl(PRECO[c.plano])+')</small>':'')+'</b></div>'+
-      '<div class="kv"><span>Vencimento</span><b>todo dia '+c.venc+'</b></div>'+
-      '<div class="kv"><span>Forma</span><b>Link de pagamento com Pix</b></div></div></div>'+
-    '<div class="card c4"><div class="ct">Família e portal</div><div class="kvs">'+
-      '<div class="kv"><span>Último feedback</span><b>'+(c.feedback>30?'<span class="neg">há '+c.feedback+' dias</span>':'há '+c.feedback+' dias')+'</b></div>'+
-      '<div class="kv"><span>Acessos ao portal</span><b>'+c.acessos+' na semana</b></div>'+
-      '<div class="kv"><span>Relatório pedido</span><b>'+(c.relatorio?c.relatorio.tipo:'Nenhum')+'</b></div></div></div>'+
-    '<div class="card c6"><div class="ct">Mensalidades</div><div class="cs">Últimos meses</div><div class="kvs">'+meses.join('')+'</div></div>'+
-    '<div class="card c6"><div class="ct">Últimas aulas</div><div class="cs">O registro só aparece para a família depois de liberado</div><div class="kvs">'+aulas.join('')+'</div></div>'+
-    '<div class="card c12"><div class="ch"><div><div class="ct">Plano terapêutico</div><div class="cs">Metas do semestre, revisadas com a família. Visível no portal dos pais.</div></div>'+chip('Liberado à família','good')+'</div><div class="rows">'+
-      metas.map(function(m){return row(m[0],'<b>'+m[1]+'%</b> da meta',m[1],m[1]<50?'warn':'')}).join('')+'</div></div>'+
-  '</section>';
   return h+rodape('clientes');
 }
 
@@ -985,7 +1075,8 @@ function financeiroHTML(){
       aven=clientes.filter(function(c){return c.fin==='avencer'}),pagos=clientes.filter(function(c){return c.fin==='pago'});
   var vV=sum(venc.map(valorAberto)),vA=sum(aven.map(function(c){return c.valor})),vP=sum(pagos.map(function(c){return c.valor}));
   h+=tabsHTML('financeiro',[{f:'periodo=mes',alt:['']
-    ,n:'Visão do mês'},{f:'status=inadimplente',n:'Vencidas',q:venc.length},{f:'status=avencer',n:'A vencer',q:aven.length},{f:'status=pago',n:'Em dia',q:pagos.length}]);
+    ,n:'Visão do mês'},{f:'status=inadimplente',n:'Vencidas',q:venc.length},{f:'status=avencer',n:'A vencer',q:aven.length},{f:'status=pago',n:'Em dia',q:pagos.length},{f:'aba=conciliar',n:'Pix a conciliar',q:pixSemId.filter(function(p){return p.st==='aberto'}).length}]);
+  if(f.aba==='conciliar') return h+conciliarHTML()+rodape('financeiro');
   var regra='<div class="insight">'+icon('alert')+' O sistema <b>nunca marca como pago sozinho</b>. O status muda quando o banco confirma o Pix feito pelo link, ou quando você confirma manualmente (fica registrado quem confirmou). A cobrança sai pelo seu WhatsApp, com a mensagem pronta.</div>';
   if(f.categoria){
     var ln=linhas.filter(function(l){return l.k===f.categoria})[0];
@@ -1021,7 +1112,8 @@ function financeiroHTML(){
 /* ---------- Aulas ---------- */
 function aulasHTML(){
   var f=fp(),h=backLink();
-  h+=tabsHTML('aulas',[{f:'periodo=hoje',n:'Hoje',q:agendaHoje.length},{f:'periodo=mes',alt:[''],n:'Últimas 4 semanas'},{f:'aba=registro',n:'Registro rápido'}]);
+  h+=tabsHTML('aulas',[{f:'periodo=hoje',n:'Hoje',q:agendaHoje.length},{f:'periodo=mes',alt:[''],n:'Últimas 4 semanas'},{f:'aba=pendentes',n:'Sem presença',q:ontemSem.filter(function(o){return !o.ok}).length},{f:'aba=registro',n:'Registro rápido'}]);
+  if(f.aba==='pendentes') return h+aulasPendentesHTML()+rodape('aulas');
   if(f.periodo==='hoje'){
     var conc=agendaHoje.filter(function(a){return a.st==='concluida'}).length,falt=agendaHoje.filter(function(a){return a.st==='falta'}).length;
     h+=stats([stat('Aulas hoje',agendaHoje.length,'terça, 17 de novembro'),stat('Concluídas',conc,agendaHoje.filter(function(a){return a.reg}).length+' já com registro'),stat('Faltas',falt,'reposição a agendar','bad'),stat('A seguir',agendaHoje.length-conc-falt,'2 em andamento agora')]);
@@ -1040,23 +1132,6 @@ function aulasHTML(){
     '<div class="c6">'+cardList('Faltas recentes','Reposição dentro de 30 dias',ordem.slice(30,37).map(function(c,i){return li(av(c.ini),c.ini+' com '+c.prof,'Faltou em '+dm(diasAtras([1,2,3,5,6,8,9][i]))+' · '+(i%3?'avisou antes':'sem aviso'),i<2?chip('Reposição '+dm(new Date(2026,10,19+i)),'info'):btn('Agendar reposição','repor',c.id))}))+'</div></section>';
   return h+rodape('aulas');
 }
-function registroRapidoHTML(){
-  var a=agendaHoje[13];
-  return '<section class="grid g12"><div class="card c7"><div class="ch"><div><div class="ct">Registro rápido de aula</div><div class="cs">Como o profissional registra pelo celular, logo depois da aula. Leva menos de 1 minuto.</div></div></div>'+
-    '<div class="form">'+
-      '<div class="fld"><span>Aluno</span><b>'+a.c.ini+' · '+a.c.serv+' com '+a.c.prof+' · hoje 15:00</b></div>'+
-      '<div class="fld"><span>Presença</span><div class="filters"><span class="chip info on">Presente</span><span class="chip mute">Falta avisada</span><span class="chip mute">Falta sem aviso</span></div></div>'+
-      '<div class="fld"><span>Atividades</span><div class="filters">'+ATIV.slice(0,5).map(function(x,i){return '<span class="chip '+(i<2?'info on':'mute')+'">'+x+'</span>'}).join('')+'</div></div>'+
-      '<div class="fld"><span>Como foi</span><div class="filters"><span class="chip mute">Difícil</span><span class="chip mute">Regular</span><span class="chip info on">Boa</span><span class="chip mute">Excelente</span></div></div>'+
-      '<div class="fld"><span>Observação para a família</span><div class="ta">'+OBS[0]+'</div></div>'+
-      '<div class="fld row-sw"><span>Liberar para a família agora?</span><span class="sw" aria-hidden="true"></span><small>Desligado por padrão. Você revisa antes de liberar.</small></div>'+
-      '<div class="filters" style="justify-content:flex-end">'+btn('Salvar registro','salvar-registro','','pri','check')+'</div>'+
-    '</div></div>'+
-    '<div class="card c5"><div class="ct">Por que assim</div><ul class="todo" style="margin-top:12px">'+
-      '<li>Tudo em toques, sem digitar, para caber entre uma aula e outra.</li><li>A observação é opcional e vai para revisão.</li>'+
-      '<li>Nada aparece para a família sem liberação (padrão: não liberar).</li><li>Os registros alimentam o portal dos pais e os relatórios.</li></ul></div></section>';
-}
-
 /* ---------- Feedback dos pais ---------- */
 function paisHTML(){
   var f=fp(),h=backLink();
@@ -1124,7 +1199,7 @@ function leadsHTML(){
   h+='<div class="insight">Origem dos leads: <b>Instagram 62%</b>, indicação 21%, parcerias 12% e site 6%. Quem não vira aluno em 30 dias entra na lista de follow-up da Helen.</div>';
   h+=cardList('Leads dos últimos 30 dias','Do mais recente para o mais antigo',leads.map(function(l){var e=ETAPA[l.etapa];
     return li(av(l.ini,e[1]==='good'?'good':''),l.ini+' · '+l.idade+' anos · '+l.interesse,l.rel+': '+l.resp+' · chegou '+quando(l.data)+' pelo '+l.origem.toLowerCase()+' · próximo passo: '+e[2].toLowerCase(),
-      chip(e[0],e[1])+chip(l.origem)+(l.etapa!=='matriculado'?btn('Chamar','lead',l.id,'wa','chat'):''),null,' data-s="'+esc(norm(l.ini+' '+l.resp+' '+l.origem+' '+e[0]))+'"')}),btn('Novo lead','novo-lead','','pri','plus'))
+      chip(e[0],e[1])+chip(l.form?'Formulário · '+l.origem:l.origem,l.form?'info':'mute')+(l.semResp?chip('Sem resposta há '+l.semResp+'h','bad'):'')+(l.etapa!=='matriculado'?btn('Chamar','lead',l.id,'wa','chat'):''),null,' data-s="'+esc(norm(l.ini+' '+l.resp+' '+l.origem+' '+e[0]))+'"')}),btn('Novo lead','novo-lead','','pri','plus'))
     .replace('<div class="list">',busca('Buscar por responsável, origem ou etapa')+'<div class="list">');
   return h;
 }
@@ -1142,12 +1217,12 @@ function equipeHTML(){
     h+=cardList('Alunos de '+prof.n,'Toque para ver o histórico',al.map(function(c){return li(av(c.ini),c.ini+' · '+c.idade+' anos',c.serv+' · '+PNOME[c.plano]+' ('+PVEZ[c.plano]+'x/sem) · último retorno há '+c.feedback+' dias',c.feedback>30?chip('Sem retorno','warn'):chip('Em dia','good'),href('cliente','id='+c.id))}));
     return h+rodape('equipe');
   }
-  h+=stats([stat('Profissionais',equipe.length,'mais 1 pessoa no atendimento'),stat('Alunos ativos',62,(62/equipe.length).toFixed(1).replace('.',',')+' por profissional'),stat('Ocupação da grade',ocupMedia()+'%','média da semana'),stat('Registros pendentes',registros.filter(function(r){return !r.liberado}).length,'para liberar','warn')]);
+  h+=stats([stat('Profissionais',equipe.length,'mais 1 pessoa na gestão'),stat('Alunos ativos',62,(62/equipe.length).toFixed(1).replace('.',',')+' por profissional'),stat('Ocupação da grade',ocupMedia()+'%','média da semana'),stat('Registros pendentes',registros.filter(function(r){return !r.liberado}).length,'para liberar','warn')]);
   h+=cardList('Equipe','Toque em um profissional para ver os alunos dele',equipe.map(function(e){var al=clientes.filter(function(c){return c.prof===e.n});
       return li(av(e.n.charAt(0)),e.n,FUNCAO[e.n]+' · '+sum(al.map(function(c){return PVEZ[c.plano]}))+' aulas por semana',chip(e.q+' alunos','info')+chip(e.n==='Thiago'?'Administrador':'Profissional'),href('equipe','profissional='+norm(e.n)))})
-    .concat([li(av('H'),'Helen','Atendimento e follow-up · 20h por semana',chip('Atendimento'),null)]),btn('Convidar pessoa','convidar','','pri','plus'));
+    .concat([li(av('H'),'Helen','Gestão: cobranças, matrículas, leads e follow-up · 20h por semana',chip('Gestor'),null)]),btn('Convidar pessoa','convidar','','pri','plus'));
   var papeis=[['Administrador','Thiago','Tudo, inclusive financeiro, equipe e auditoria'],['Profissional','Marina, Rafael e mais 5','Os próprios alunos, aulas, registros e relatórios. Não vê o financeiro.'],
-    ['Atendimento','Helen','Contato dos responsáveis, cobranças e Recuperação. Não vê registros de aula nem plano terapêutico.'],['Família','62 famílias','Só o que foi liberado do próprio filho: registros, plano, relatórios e recibos.']];
+    ['Gestor','Helen','Matrículas, cadastro de responsáveis, cobranças, conciliação, leads e Recuperação. Não vê registros de aula nem plano terapêutico.'],['Família','62 famílias','Só o que foi liberado do próprio filho: registros, plano, relatórios e recibos.']];
   h+='<div class="card"><div class="ct">Papéis e acessos</div><div class="cs">Cada pessoa vê só o necessário (LGPD: dado de saúde de criança). Toda visualização e alteração fica registrada.</div><div class="kvs" style="margin-top:10px">'+
     papeis.map(function(p){return '<div class="kv"><span>'+p[0]+'</span><b class="tx">'+p[2]+'</b>'+chip(p[1])+'</div>'}).join('')+'</div></div>';
   return h+rodape('equipe');
@@ -1165,10 +1240,428 @@ function parceriasHTML(){
 
 var TELAS={clientes:clientesHTML,cliente:clienteHTML,financeiro:financeiroHTML,aulas:aulasHTML,pais:paisHTML,recuperacao:recuperacaoHTML,equipe:equipeHTML,parcerias:parceriasHTML};
 
+/* ======================================================================
+   Perfis, login, telas do profissional e da família, páginas públicas
+   ====================================================================== */
+var famCli=clientes.filter(function(c){return c.ini==='L.M.'})[0];
+var PERFIS={
+  admin:{n:'Thiago Santos',curto:'Thiago',papel:'Administrador',home:'painel',menu:['painel','clientes','financeiro','aulas','pais','recuperacao','equipe','parcerias']},
+  gestor:{n:'Helen',curto:'Helen',papel:'Gestor',home:'painel',menu:['painel','clientes','financeiro','recuperacao','parcerias']},
+  profissional:{n:'Marina',curto:'Marina',papel:'Profissional',home:'prof-hoje',menu:['prof-hoje','prof-alunos','prof-registros']},
+  familia:{n:famCli.resp,curto:famCli.resp.split(' ')[0],papel:'Família',home:'fam-inicio',menu:['fam-inicio','fam-evolucao','fam-pagamentos']}
+};
+var LOGINS={admin:'admin',admim:'admin',gestor:'gestor',profissional:'profissional',professor:'profissional',pais:'familia',familia:'familia'};
+var PUBLICAS={login:1,convite:1,'pre-matricula':1,agendar:1};
+var SHORT={painel:'Painel',clientes:'Clientes',financeiro:'Financeiro',pais:'Pais',recuperacao:'Recuperar',parcerias:'Parcerias','prof-hoje':'Hoje','prof-alunos':'Alunos','prof-registros':'Registros','fam-inicio':'Início','fam-evolucao':'Evolução','fam-pagamentos':'Pagamentos'};
+var sessao=null; try{sessao=localStorage.getItem('sessao')}catch(e){} if(!PERFIS[sessao]) sessao=null;
+function perfil(){return PERFIS[sessao]}
+function permitido(k){return PUBLICAS[k]||(sessao&&(perfil().menu.indexOf(k)>-1||(k==='cliente'&&sessao!=='familia')))}
+function parentDe(k){return k==='cliente'?(sessao==='profissional'?'prof-alunos':'clientes'):k}
+function entrar(email,senha){
+  var e=String(email||'').trim().toLowerCase().split('@')[0].normalize('NFD').replace(/[̀-ͯ]/g,''), p=LOGINS[e];
+  if(!p||senha!=='123') return false;
+  sessao=p; try{localStorage.setItem('sessao',p)}catch(x){}
+  location.hash='#'+PERFIS[p].home; return true;
+}
+function sair(){sessao=null;try{localStorage.removeItem('sessao')}catch(x){}location.hash='#login'}
+
+/* ---------- dados extras: pendências reais de registro ---------- */
+agendaHoje.forEach(function(a,i){a.id='a'+i;if(a.st==='concluida')a.pres=true});
+agendaHoje.filter(function(a){return a.c.prof==='Marina'&&a.st==='concluida'})[1].reg=false;
+var ontemSem=[['Bruno','08:00'],['Bruno','10:00'],['Bruno','16:00'],['Caio','09:00'],['Caio','14:00'],['Paula','11:00']].map(function(x,i){
+  var c=clientes.filter(function(c){return c.prof===x[0]})[i%3];return {id:'o'+i,prof:x[0],h:x[1],c:c,ok:false}});
+var preMat=[
+  {id:'p1',resp:'Camila Rocha',rel:'Mãe',ini:'D.R.',idade:6,plano:'essencial',hor:'terça e quinta, à tarde',quando:diasAtras(1),origem:'Instagram',st:'novo'},
+  {id:'p2',resp:'Eduardo Lins',rel:'Pai',ini:'M.L.',idade:9,plano:'basico',hor:'sábado de manhã',quando:diasAtras(2),origem:'Indicação da Clínica Girassol',st:'novo'}
+];
+var pixSemId=[{id:'x1',v:880,d:diasAtras(2),pagador:'J. MELO',banco:'Nubank',st:'aberto'}];
+leads.filter(function(l){return l.etapa==='contato'}).slice(0,3).forEach(function(l,i){l.form=true;l.semResp=[26,31,49][i];l.origem='Instagram'});
+var famPedidos=[], famAval=null, famReacoes={};
+/* garante que a Marina (perfil Profissional) tenha relatórios pedidos para mostrar; o total continua 5 */
+(function(){var deMarina=clientes.filter(function(c){return c.prof==='Marina'&&c.relatorio}).length;
+  var fontes=clientes.filter(function(c){return c.relatorio&&c.prof!=='Marina'}),alvos=clientes.filter(function(c){return c.prof==='Marina'&&!c.relatorio&&c.ini!=='L.M.'});
+  for(var i=deMarina;i<2&&fontes.length&&alvos.length;i++){var a=alvos.shift(),f=fontes.pop();a.relatorio=f.relatorio;f.relatorio=null}})();
+function metasDe(c){var r=rng(parseInt(c.id.slice(1),10)*31);return [['Equilíbrio dinâmico na trave',Math.round(40+r()*50)],['Seguir sequência de 3 comandos',Math.round(30+r()*60)],['Tolerar espera na fila da atividade',Math.round(35+r()*55)]]}
+function registrosLiberadosDe(c){var r=rng(parseInt(c.id.slice(1),10)*53),o=[];
+  for(var i=0;i<6;i++){o.push({id:c.id+'-l'+i,data:diasAtras(1+Math.round(i*7/PVEZ[c.plano])),ativ:ATIV[Math.floor(r()*ATIV.length)],obs:OBS[Math.floor(r()*OBS.length)],prof:c.prof})}
+  return o}
+
+/* ---------- origem dos dados (item 1) ---------- */
+var FONTE={auto:'Automático',reg:'Depende de registro',manual:'Manual'};
+function fonte(t,tipo){return '<span class="src src-'+tipo+'"><i></i><b>'+FONTE[tipo]+'</b> · '+t+'</span>'}
+function pendenciasHTML(){
+  var aul=ontemSem.filter(function(o){return !o.ok}),pre=preMat.filter(function(p){return p.st==='novo'}),pix=pixSemId.filter(function(p){return p.st==='aberto'}),ld=leads.filter(function(l){return l.semResp});
+  var porProf={};aul.forEach(function(o){porProf[o.prof]=(porProf[o.prof]||0)+1});
+  var itens=[
+    sessao==='admin'?['aulas','aba=pendentes',aul.length,'Aulas de ontem sem presença',Object.keys(porProf).map(function(k){return k+' '+porProf[k]}).join(', ')||'tudo registrado','sem isso, aulas dadas e presença ficam erradas']:null,
+    ['clientes','aba=pre',pre.length,'Pré-matrículas para aprovar','preenchidas pelas famílias pelo link','viram aluno ativo depois da sua conferência'],
+    ['financeiro','aba=conciliar',pix.length,'Pix sem identificação','caiu na chave sem passar pelo link','diga de qual aluno é para baixar a cobrança'],
+    ['recuperacao','aba=leads',ld.length,'Leads do formulário sem resposta','há mais de 24 horas','responder rápido aumenta a conversão']
+  ].filter(Boolean);
+  return '<div class="card pend"><div class="ch"><div><div class="ct">Pendências de registro</div><div class="cs">O que falta a equipe registrar para os números do painel ficarem certos. Nada aqui é preenchido sozinho.</div></div></div><div class="list">'+
+    itens.map(function(x){return li('<span class="pn'+(x[2]?'':' ok')+'">'+x[2]+'</span>',x[3],x[4]+' · '+x[5],x[2]?goBtn():chip('Em dia','good'),href(x[0],x[1]))}).join('')+'</div></div>';
+}
+
+/* ---------- painel do Gestor ---------- */
+function painelGestorHTML(){
+  var venc=clientes.filter(function(c){return c.fin==='vencida'}),aven=clientes.filter(function(c){return c.fin==='avencer'}),
+      para=saidasL.filter(function(s){return s.st==='recuperar'}).length;
+  var h='<section class="summary"><div class="card sum-text"><span class="eyebrow">Seu dia, Helen</span><p>Há <em>'+venc.length+' cobranças vencidas</em> para cobrar, <em>'+preMat.filter(function(p){return p.st==='novo'}).length+' pré-matrículas</em> para conferir e <em>'+leads.filter(function(l){return l.semResp}).length+' leads</em> esperando resposta.</p></div>'+
+    '<div class="card"><div class="ct">O que é seu</div><ul class="todo" style="margin-top:10px"><li>Cobranças e conciliação de pagamentos</li><li>Matrículas, cadastro de responsáveis e termo LGPD</li><li>Leads, follow-up e recuperação de inativos</li></ul><div class="insight">Registros de aula e plano terapêutico ficam só com a equipe clínica.</div></div></section>';
+  h+='<div class="sec-t">Fazer hoje</div><section class="grid alerts">'+
+    go('financeiro','status=inadimplente','card alert bad','<span class="n">'+venc.length+'</span><span class="t"><b>Cobranças vencidas</b>'+brl(sum(venc.map(valorAberto)))+' em aberto'+fonte('vencimento passou sem o banco confirmar','auto')+'</span>'+goBtn())+
+    go('financeiro','status=avencer','card alert warn','<span class="n">'+aven.length+'</span><span class="t"><b>Lembretes a enviar</b>vencem até 25/11'+fonte('vencimento das cobranças','auto')+'</span>'+goBtn())+
+    go('recuperacao','aba=leads','card alert warn','<span class="n">'+leads.filter(function(l){return l.semResp}).length+'</span><span class="t"><b>Leads sem resposta</b>chegaram pelo formulário'+fonte('formulário do link da bio','auto')+'</span>'+goBtn())+
+    go('recuperacao','status=inativo','card alert info','<span class="n">'+para+'</span><span class="t"><b>Inativos para recuperar</b>com WhatsApp do responsável'+fonte('saída com motivo + suas tentativas','reg')+'</span>'+goBtn())+
+  '</section>';
+  h+='<div class="sec-t">Pendências</div>'+pendenciasHTML();
+  h+='<div class="sec-t">Números do mês</div>'+stats([
+    stat('Clientes ativos',62,'+3 no mês, meta de 100'),
+    stat('Recebido no mês','R$ '+mil(recebido[11])+' mil',pct(recebido[11],previsto[11])+'% do previsto'),
+    stat('Inadimplência',pct(venc.length,62)+'%','meta: até 8%','warn'),
+    stat('Leads no mês',leads.length,'5 viraram matrícula')]);
+  return h+'<p class="foot">Protótipo com dados fictícios. Visão do perfil Gestor.</p>';
+}
+
+/* ---------- conciliação, pré-matrículas, pendências de aula ---------- */
+function conciliarHTML(){
+  return '<div class="insight">'+icon('alert')+' Pix feito direto na chave do studio, sem usar o link da cobrança, chega <b>sem dizer de qual aluno é</b>. Diga de quem é, e a cobrança é baixada com registro de quem conciliou. Quanto mais famílias pagarem pelo link, menos isso acontece.</div>'+
+    cardList('Pix recebidos sem identificação','Extrato do gateway, últimos 7 dias',pixSemId.map(function(p){
+      var cand=clientes.filter(function(c){return c.fin==='vencida'&&c.valor===p.v});
+      return '<div class="li conc">'+av(icon('coin'),'ic')+'<span class="m"><b>'+brl(p.v)+' · '+p.pagador+' ('+p.banco+')</b><small>Recebido em '+dm(p.d)+' · sem código de cobrança</small></span><span class="r">'+
+        (p.st==='aberto'?'<span class="cs">É de:</span>'+cand.map(function(c){return '<button type="button" class="btn sm" data-act="conciliar" data-id="'+p.id+'" data-c="'+c.id+'">'+c.ini+' · '+c.resp.split(' ')[0]+'</button>'}).join('')+btn('Outro','outro',p.id,'sm ghost'):chip('Conciliado: '+p.de,'good'))+'</span></div>'}),'',' Nenhum Pix sem identificação.');
+}
+function preMatHTML(){
+  return '<div class="insight">A família preenche a <a class="lnk" href="#pre-matricula">pré-matrícula pelo link</a> (dados, responsável financeiro e termo LGPD). Você só confere, define profissional e horário, e aprova. '+btn('Copiar link da pré-matrícula','copiar-link','pre-matricula','sm')+'</div>'+
+    cardList('Pré-matrículas','Enviadas pelas famílias',preMat.map(function(p){
+      return li(av(p.ini,p.st==='novo'?'warn':'good'),p.ini+' · '+p.idade+' anos · interesse no '+PNOME[p.plano],p.rel+': '+p.resp+' · prefere '+p.hor+' · '+p.origem+' · enviada '+quando(p.quando)+' · termo LGPD aceito',
+        p.st==='novo'?btn('Aprovar matrícula','aprovar-pre',p.id,'pri','check')+btn('Chamar no WhatsApp','lead',p.id,'wa','chat'):chip('Matriculado','good'),null)}));
+}
+function aulasPendentesHTML(){
+  return '<div class="insight">'+icon('alert')+' Cada aula da agenda nasce da matrícula. O profissional só confirma presença ou falta no celular. Se ninguém marcar, a aula fica aqui, e não é contada como dada.</div>'+
+    cardList('Aulas de ontem sem presença','Segunda, 16 de novembro',ontemSem.map(function(o){
+      return li('<span class="hh">'+o.h+'</span>',o.c.ini+' com '+o.prof,o.c.serv,o.ok?chip('Registrado','good'):btn('Lembrar '+o.prof,'lembrar-prof',o.id,'','send')+btn('Marcar presença','marcar-ontem',o.id,'pri','check'),null)}));
+}
+
+/* ---------- ficha do aluno com acesso por perfil ---------- */
+function clienteHTML(){
+  var c=cliPorId(fp().id); if(!c) return sessao==='profissional'?profAlunosHTML():clientesHTML();
+  var prof=sessao==='profissional',gest=sessao==='gestor';
+  if(prof&&c.prof!==perfil().n) return '<div class="empty">Este aluno não está na sua lista.</div>';
+  var h=prof?backLink('prof-alunos','Voltar para meus alunos'):backLink('clientes','Voltar para clientes');
+  h+='<div class="card hero"><div class="hero-l">'+av(c.ini,'lg')+'<div><div class="ct" style="font-size:20px">'+c.ini+' · '+c.idade+' anos</div>'+
+    '<div class="cs">'+c.serv+' com '+c.prof+' · aluno desde '+my(c.desde)+'</div>'+
+    '<div class="filters" style="margin-top:8px">'+chip('Plano '+PNOME[c.plano]+' · '+PVEZ[c.plano]+'x/sem','info')+(prof?'':finChip(c))+chip('Consentimento assinado','good')+'</div></div></div>'+
+    '<div class="hero-r">'+(prof?btn('Registrar aula','registrar-cli',c.id,'pri','doc'):(c.fin==='vencida'?btn('Cobrar no WhatsApp','cobrar',c.id,'wa','chat'):'')+btn('Enviar acesso ao portal','portal',c.id,'','send')+btn('Gerar recibo','recibo',c.id,'','doc'))+'</div></div>';
+  var meses=[];for(var i=5;i>=0;i--){var d=new Date(2026,10-i,1);if(d<new Date(c.desde.getFullYear(),c.desde.getMonth(),1))continue;
+    var st=i===0?c.fin:(i===1&&c.parcelas>1?'vencida':'pago');
+    meses.push('<div class="kv"><span>'+MES[d.getMonth()]+'/'+String(d.getFullYear()).slice(2)+'</span><b>'+brl(c.valor)+'</b>'+
+      (st==='pago'?chip(i===0?'Pago em '+dm(c.pagoEm):'Pago','good'):st==='avencer'?chip('Vence '+dm(c.due),'warn'):chip('Em aberto','bad'))+'</div>')}
+  var aulas=registrosLiberadosDe(c).slice(0,5).map(function(r,k){return '<div class="kv"><span>'+dm(r.data)+'</span><b class="tx">'+r.ativ+'</b>'+(k===0&&!prof?chip('Por liberar','warn'):chip('Liberado à família','good'))+'</div>'});
+  var resp='<div class="card '+(prof?'c6':'c4')+'"><div class="ct">Responsáveis</div><div class="kvs">'+
+      '<div class="kv"><span>'+c.rel+'</span><b>'+c.resp+'</b>'+chip(prof?'Principal':'Financeiro','info')+'</div>'+
+      (prof?'':'<div class="kv"><span>WhatsApp</span><b>'+c.fone+'</b></div>')+
+      (c.resp2?'<div class="kv"><span>'+c.rel2+'</span><b>'+c.resp2+'</b>'+chip('Acompanha')+'</div>':'')+
+      '<div class="kv"><span>LGPD</span><b>Termo aceito em '+dm(c.consent)+'/'+String(c.consent.getFullYear()).slice(2)+'</b></div></div></div>';
+  var cob='<div class="card c4"><div class="ct">Plano e cobrança</div><div class="kvs">'+
+      '<div class="kv"><span>Plano</span><b>'+PNOME[c.plano]+', '+PVEZ[c.plano]+'x por semana</b></div>'+
+      '<div class="kv"><span>Valor acordado</span><b>'+brl(c.valor)+(c.valor!==PRECO[c.plano]?' <small class="mut">(tabela '+brl(PRECO[c.plano])+')</small>':'')+'</b></div>'+
+      '<div class="kv"><span>Vencimento</span><b>todo dia '+c.venc+'</b></div>'+
+      '<div class="kv"><span>Cobrança</span><b>Gerada todo mês no gateway, com Pix e código próprio</b></div></div></div>';
+  var fam='<div class="card '+(prof?'c6':'c4')+'"><div class="ct">Família e portal</div><div class="kvs">'+
+      '<div class="kv"><span>Último retorno</span><b>'+(c.feedback>30?'<span class="neg">há '+c.feedback+' dias</span>':'há '+c.feedback+' dias')+'</b></div>'+
+      '<div class="kv"><span>Acessos ao portal</span><b>'+c.acessos+' na semana</b></div>'+
+      '<div class="kv"><span>Relatório pedido</span><b>'+(c.relatorio?c.relatorio.tipo:'Nenhum')+'</b></div></div></div>';
+  h+='<section class="grid g12">'+resp+(prof?'':cob)+fam+
+    (prof?'':'<div class="card '+(gest?'c12':'c6')+'"><div class="ct">Mensalidades</div><div class="cs">Status vindo do banco, pelo código de cada cobrança</div><div class="kvs">'+meses.join('')+'</div></div>')+
+    (gest?'':'<div class="card '+(prof?'c12':'c6')+'"><div class="ct">Últimas aulas</div><div class="cs">Registradas pelo profissional. A família só vê depois de liberado.</div><div class="kvs">'+aulas.join('')+'</div></div>'+
+      '<div class="card c12"><div class="ch"><div><div class="ct">Plano terapêutico</div><div class="cs">Metas do semestre, revisadas com a família. Visível no portal dos pais.</div></div>'+chip('Liberado à família','good')+'</div><div class="rows">'+
+      metasDe(c).map(function(m){return row(m[0],'<b>'+m[1]+'%</b> da meta',m[1],m[1]<50?'warn':'')}).join('')+'</div></div>')+
+  '</section>';
+  if(gest) h+='<div class="insight">'+icon('alert')+' Registros de aula e plano terapêutico não aparecem para o perfil Gestor (LGPD: dado de saúde de criança).</div>';
+  return h+'<p class="foot">Protótipo com dados fictícios. Ficha vista pelo perfil '+perfil().papel+'.</p>';
+}
+
+/* ---------- registro de aula (formulário de verdade) ---------- */
+function pickGroup(name,opts,sel,single){return '<div class="filters pick" data-pick="'+name+'"'+(single?' data-single':'')+'>'+opts.map(function(o,i){var on=sel.indexOf(i)>-1;return '<button type="button" class="chip '+(on?'info on':'mute')+'" aria-pressed="'+on+'">'+o+'</button>'}).join('')+'</div>'}
+function registroForm(a){
+  return '<form class="card form" id="registro-form" data-aula="'+(a.id||'')+'" data-cli="'+a.c.id+'">'+
+    '<div><div class="ct">Registro de aula</div><div class="cs">'+a.c.ini+' · '+a.c.serv+' com '+a.c.prof+' · hoje '+a.h+'</div></div>'+
+    '<div class="fld"><span>Presença</span>'+pickGroup('pres',['Presente','Falta avisada','Falta sem aviso'],[0],true)+'</div>'+
+    '<div class="fld"><span>Atividades</span>'+pickGroup('ativ',ATIV.slice(0,6),[0],false)+'</div>'+
+    '<div class="fld"><span>Como foi</span>'+pickGroup('como',['Difícil','Regular','Boa','Excelente'],[2],true)+'</div>'+
+    '<label class="fld"><span>Observação para a família (opcional)</span><textarea class="inp" name="obs" rows="3" placeholder="Ex.: completou 4 de 5 estações sem ajuda física."></textarea></label>'+
+    '<div class="fld row-sw"><span>Liberar para a família agora?</span><button type="button" class="sw" role="switch" aria-checked="false" aria-label="Liberar para a família agora" data-sw></button><small>Desligado por padrão: o registro fica em revisão até alguém liberar.</small></div>'+
+    '<button type="submit" class="btn pri big">'+icon('check')+'Salvar registro</button></form>';
+}
+function registroRapidoHTML(){
+  var rc=fp().id&&cliPorId(fp().id);
+  return '<section class="grid g12"><div class="c7">'+registroForm(rc?{id:'',h:'agora',c:rc}:agendaHoje[13])+'</div>'+
+    '<div class="card c5"><div class="ct">Por que assim</div><ul class="todo" style="margin-top:12px">'+
+      '<li>Tudo em toques, sem digitar, para caber entre uma aula e outra.</li><li>A observação é opcional e vai para revisão.</li>'+
+      '<li>Nada aparece para a família sem liberação (padrão: não liberar).</li><li>Esses registros alimentam o portal dos pais, os relatórios e os números de aulas dadas.</li></ul></div></section>';
+}
+
+/* ---------- perfil Profissional (item 2) ---------- */
+function minhasAulas(){return agendaHoje.filter(function(a){return a.c.prof===perfil().n})}
+function profHojeHTML(){
+  var au=minhasAulas(),feitas=au.filter(function(a){return a.pres!==undefined}).length,semReg=au.filter(function(a){return a.st==='concluida'&&!a.reg}).length;
+  var meus=clientes.filter(function(c){return c.prof===perfil().n}),sem=sum(meus.map(function(c){return PVEZ[c.plano]}));
+  var h=stats([stat('Aulas hoje',au.length,'terça, 17 de novembro'),stat('Presença marcada',feitas+' de '+au.length,feitas<au.length?'falta marcar':'tudo marcado',feitas<au.length?'warn':'good'),
+    stat('Sem registro',semReg,'aulas já dadas',semReg?'warn':''),stat('Na semana',sem+' aulas',meus.length+' alunos')]);
+  h+=cardList('Minhas aulas de hoje','Toque em Presente ou Falta logo depois da aula. É isso que conta como aula dada.',au.map(function(a){var s=STA[a.st];
+    var acts=a.pres===undefined?btn('Presente','presente',a.id,'pri big','check')+btn('Falta','falta',a.id,'big'):a.pres===false?chip('Falta','bad')+btn('Sugerir reposição','repor',a.c.id):(a.reg?chip('Presente','good')+chip('Registro feito','good'):chip('Presente','good')+btn('Registrar evolução','registrar-aula',a.id,'pri','doc'));
+    return li('<span class="hh">'+a.h+'</span>',a.c.ini+' · '+a.c.idade+' anos',a.c.serv+' · '+(a.c.serv==='Home care'?'na casa da família':'studio Jatiúca')+(a.pres===undefined?' · '+s[0].toLowerCase():''),acts,null)}));
+  h+='<div class="insight">A agenda vem da matrícula de cada aluno. Você não cadastra aula: só confirma presença e, se quiser, registra a evolução. Se esquecer, a aula aparece como pendência para o Thiago.</div>';
+  return h+'<p class="foot">Protótipo com dados fictícios. Visão do perfil Profissional.</p>';
+}
+function profAlunosHTML(){
+  var meus=clientes.filter(function(c){return c.prof===perfil().n});
+  return stats([stat('Meus alunos',meus.length,'de 62 do studio'),stat('Sem retorno há 30+ dias',meus.filter(function(c){return c.feedback>30}).length,'famílias','warn'),stat('Relatórios pedidos',meus.filter(function(c){return c.relatorio}).length,'para você')])+
+    cardList('Meus alunos','Você vê só os seus alunos, sem dados financeiros.',meus.map(function(c){return li(av(c.ini),c.ini+' · '+c.idade+' anos',c.serv+' · '+PVEZ[c.plano]+'x por semana · último retorno há '+c.feedback+' dias',c.feedback>30?chip('Sem retorno','warn'):chip('Em dia','good'),href('cliente','id='+c.id),' data-s="'+esc(norm(c.ini))+'"')})).replace('<div class="list">',busca('Buscar por iniciais')+'<div class="list">')+
+    '<p class="foot">Protótipo com dados fictícios. Visão do perfil Profissional.</p>';
+}
+function profRegistrosHTML(){
+  var f=fp(),eu=perfil().n,meus=registros.filter(function(r){return r.c.prof===eu}),rels=clientes.filter(function(c){return c.prof===eu&&c.relatorio});
+  var h=tabsHTML('prof-registros',[{f:'',n:'Meus registros',q:meus.length},{f:'aba=relatorios',n:'Relatórios pedidos',q:rels.length},{f:'aba=novo',n:'Novo registro'}]);
+  if(f.aba==='novo'){var a=f.aula?agendaHoje.filter(function(x){return x.id===f.aula})[0]:null,c=f.id?cliPorId(f.id):null;
+    if(!a) a={id:'',h:a?a.h:'agora',c:c||minhasAulas()[minhasAulas().length-1].c};
+    return h+registroForm(a)+'<p class="foot">Protótipo com dados fictícios.</p>';}
+  if(f.aba==='relatorios') return h+cardList('Relatórios pedidos pelas famílias','Feitos pelo botão “Pedir relatório” no portal dos pais',rels.map(function(c){var r=c.relatorio;
+      return li(av(c.ini),r.tipo,'Pedido por '+c.resp+' '+quando(r.pedido)+' · prazo em '+r.prazo+' dias',chip(r.st,r.st==='Aguardando'?'mute':'info')+btn(r.st==='Aguardando'?'Começar':'Continuar','relatorio',c.id,'pri'),null)}),'','Nenhum relatório pedido para você.')+'<p class="foot">Protótipo com dados fictícios.</p>';
+  return h+cardList('Meus registros','Os mais recentes. Você mesma pode liberar para a família depois de revisar.',meus.map(function(r){
+      return li(av(r.c.ini),r.ativ,r.c.ini+' · '+dm(r.data)+(r.obs?' · “'+r.obs+'”':''),r.liberado?chip('Liberado à família','good'):chip('Em revisão','warn')+btn('Liberar','liberar',r.id,'pri','check'),null)}),
+    '<a class="btn pri" href="'+href('prof-registros','aba=novo')+'">'+icon('plus')+'Novo registro</a>','Nenhum registro ainda.')+'<p class="foot">Protótipo com dados fictícios.</p>';
+}
+
+/* ---------- perfil Família (item 3) ---------- */
+function proximasAulas(){var dias=[[19,'qui'],[23,'seg'],[24,'ter']];return dias.slice(0,PVEZ[famCli.plano]).map(function(d){return {d:new Date(2026,10,d[0]),dia:d[1],h:'15:00'}})}
+function famInicioHTML(){
+  var c=famCli,ult=registrosLiberadosDe(c)[0],prox=proximasAulas();
+  var h='<div class="card fam-hero"><div class="hero-l">'+av(c.ini,'lg')+'<div><div class="ct" style="font-size:20px">Olá, '+perfil().curto+'</div><div class="cs">Acompanhamento de '+c.ini+' · '+c.serv+' com '+c.prof+'</div></div></div></div>';
+  h+='<section class="grid fam">'+
+    '<div class="card"><div class="ch"><div><div class="ct">Mensalidade</div><div class="cs">Plano '+PNOME[c.plano]+' · '+brl(c.valor)+' por mês</div></div>'+chip(c.fin==='pago'?'Novembro pago':'Novembro em aberto',c.fin==='pago'?'good':'bad')+'</div>'+
+      '<div class="kvs"><div class="kv"><span>Novembro</span><b>'+(c.fin==='pago'?'Pago em '+dm(c.pagoEm):'Vence '+dm(c.due))+'</b></div><div class="kv"><span>Dezembro</span><b>Vence 05/12</b></div></div>'+
+      '<div class="acts">'+btn('Pagar dezembro com Pix','pix-fam','dez','pri big','coin')+'<a class="btn big" href="#fam-pagamentos">Ver pagamentos</a></div></div>'+
+    '<div class="card"><div class="ch"><div><div class="ct">Último registro</div><div class="cs">'+dm(ult.data)+' com '+ult.prof+'</div></div></div><b class="reg-t">'+ult.ativ+'</b><p class="reg-p">'+ult.obs+'</p>'+reacoes(ult.id)+'</div>'+
+    '<div class="card"><div class="ct">Próximas aulas</div><div class="kvs">'+prox.map(function(p){return '<div class="kv"><span>'+p.dia+', '+dm(p.d)+'</span><b>'+p.h+' com '+c.prof+'</b>'+btn('Avisar falta','avisar-falta',dm(p.d),'sm')+'</div>'}).join('')+'</div></div>'+
+    '<div class="card"><div class="ct">Precisa de algo?</div><div class="fam-grid">'+
+      '<button type="button" data-act="pedir-relatorio">'+icon('doc')+'<b>Pedir relatório</b><small>Para escola, médico ou plano</small></button>'+
+      '<button type="button" data-act="avaliar">'+icon('heart')+'<b>Avaliar o mês</b><small>'+(famAval?'Você deu '+famAval+' de 5':'Leva 20 segundos')+'</small></button>'+
+      '<a href="#fam-evolucao?aba=plano">'+icon('arrow')+'<b>Plano terapêutico</b><small>Metas do semestre</small></a>'+
+      '<button type="button" data-act="falar-studio">'+icon('chat')+'<b>Falar com o studio</b><small>Abre o WhatsApp</small></button>'+
+    '</div></div>'+
+  '</section>';
+  h+='<div class="insight">Só aparece aqui o que a equipe liberou. Seus dados e os de '+c.ini+' são protegidos pela LGPD, e você pode pedir uma cópia ou a exclusão a qualquer momento.</div>';
+  return h+'<p class="foot">Protótipo com dados fictícios. Visão do perfil Família.</p>';
+}
+function reacoes(id){var r=famReacoes[id]||{};
+  return '<div class="reacts"><button type="button" class="btn sm'+(r.gostei?' pri':'')+'" data-act="reagir" data-id="'+id+'">'+icon('heart')+(r.gostei?'Você gostou':'Gostei')+'</button>'+
+    '<button type="button" class="btn sm" data-act="comentar" data-id="'+id+'">'+icon('chat')+(r.coment?'Comentário enviado':'Comentar')+'</button></div>';
+}
+function famEvolucaoHTML(){
+  var f=fp(),c=famCli;
+  var h=tabsHTML('fam-evolucao',[{f:'',n:'Registros das aulas'},{f:'aba=plano',n:'Plano terapêutico'},{f:'aba=relatorios',n:'Relatórios'}]);
+  if(f.aba==='plano') return h+'<div class="card"><div class="ct">Metas do semestre</div><div class="cs">Combinadas com '+c.prof+'. A barra mostra quanto já foi alcançado.</div><div class="rows" style="margin-top:12px">'+
+    metasDe(c).map(function(m){return row(m[0],'<b>'+m[1]+'%</b>',m[1],m[1]<50?'warn':'')}).join('')+'</div><div class="insight">Próxima revisão do plano com a família: dezembro.</div></div>';
+  if(f.aba==='relatorios'){
+    var lst=famPedidos.map(function(p){return li(av(icon('doc'),'ic'),p.tipo,'Pedido hoje · prazo combinado de até 10 dias',chip('Pedido enviado','info'),null)}).concat([
+      li(av(icon('doc'),'ic'),'Relatório trimestral de evolução','Entregue em 02/10 por '+c.prof,btn('Baixar PDF','baixar','r1','','doc'),null),
+      li(av(icon('doc'),'ic'),'Relatório para a escola','Entregue em 14/07 por '+c.prof,btn('Baixar PDF','baixar','r2','','doc'),null)]);
+    return h+cardList('Relatórios',''+'Pedidos e entregues',lst,btn('Pedir relatório','pedir-relatorio','','pri','plus'));
+  }
+  return h+cardList('Registros das aulas','Escritos por '+c.prof+' depois de cada aula e liberados para você',registrosLiberadosDe(c).map(function(r){
+    return '<div class="reg">'+'<div class="reg-h"><b>'+r.ativ+'</b><span class="cs">'+dm(r.data)+' · '+r.prof+'</span></div><p class="reg-p">'+r.obs+'</p>'+reacoes(r.id)+'</div>'}));
+}
+function famPagamentosHTML(){
+  var c=famCli,meses=[];for(var i=5;i>=0;i--){var d=new Date(2026,10-i,1);var pago=i>0||c.fin==='pago';
+    meses.push(li(av(icon(pago?'check':'coin'),pago?'good':'bad'),MES[d.getMonth()]+'/'+String(d.getFullYear()).slice(2)+' · '+brl(c.valor),pago?'Pago'+(i===0?' em '+dm(c.pagoEm):'')+' · Pix pelo link':'Vence '+dm(c.due),pago?btn('Recibo','recibo-fam',d.getMonth(),'sm','doc'):btn('Pagar com Pix','pix-fam','nov','pri','coin'),null))}
+  var h='<div class="card"><div class="ch"><div><div class="ct">Próxima mensalidade</div><div class="cs">Dezembro · Plano '+PNOME[c.plano]+'</div></div>'+chip('Vence 05/12','warn')+'</div>'+
+    '<div class="big-v">'+brl(c.valor)+'</div><div class="acts">'+btn('Pagar com Pix','pix-fam','dez','pri big','coin')+btn('Pagar com cartão','cartao','dez','big')+'</div>'+
+    '<div class="insight">Qualquer pessoa pode pagar por este link: o pagamento é reconhecido pelo <b>código da cobrança</b>, não por quem paga. Assim que o banco confirma, aparece como pago aqui e no studio. Não precisa mandar comprovante.</div></div>';
+  h+=cardList('Histórico','Recibos ficam disponíveis assim que o pagamento é confirmado',meses.reverse());
+  h+='<div class="card"><div class="ct">Responsável financeiro</div><div class="kvs"><div class="kv"><span>Nome</span><b>'+c.resp+'</b></div><div class="kv"><span>Vencimento</span><b>todo dia '+c.venc+'</b></div><div class="kv"><span>Aviso</span><b>Lembrete pelo WhatsApp 3 dias antes</b></div></div></div>';
+  return h+'<p class="foot">Protótipo com dados fictícios. Visão do perfil Família.</p>';
+}
+
+/* ---------- páginas públicas (login, convite, pré-matrícula, lead) ---------- */
+function marcaPub(sub){return '<div class="auth-brand"><span class="mark"><svg class="logo" aria-hidden="true"><use href="#logo"/></svg></span><div><b>Studio Thiago Santos</b><span>'+sub+'</span></div></div>'}
+function loginHTML(){
+  return '<div class="auth"><button type="button" class="help" data-act="tutorial" aria-label="Como instalar o sistema no celular">?</button>'+
+    '<div class="card auth-card">'+marcaPub('Gestão do studio')+
+    '<form id="login-form" class="form" novalidate>'+
+      '<label class="fld"><span>E-mail</span><input class="inp" name="email" type="text" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="seu e-mail" required></label>'+
+      '<label class="fld"><span>Senha</span><input class="inp" name="senha" type="password" autocomplete="current-password" placeholder="sua senha" required></label>'+
+      '<div class="auth-err" id="login-err" role="alert"></div>'+
+      '<button class="btn pri big" type="submit">Entrar</button></form>'+
+    '<a class="lnk sm" href="#convite">Recebi um convite (primeiro acesso)</a></div>'+
+    '<div class="card demo"><b>Acesso do protótipo</b><span>Senha <code>123</code> para todos. Toque em um perfil para preencher.</span>'+
+      '<div class="demo-l">'+[['admin','Administrador','Thiago'],['gestor','Gestor','Helen'],['profissional','Profissional','Marina'],['pais','Família','mãe de L.M.']].map(function(x){
+        return '<button type="button" data-login="'+x[0]+'"><code>'+x[0]+'</code><small>'+x[1]+' · '+x[2]+'</small></button>'}).join('')+'</div></div>'+
+    '<p class="pub-links">Páginas públicas, sem login: <a href="#agendar?origem=instagram">Agende uma avaliação</a> · <a href="#pre-matricula">Pré-matrícula</a></p></div>';
+}
+function conviteHTML(){
+  var c=famCli,p=fp().passo||'1',h='<div class="auth"><div class="card auth-card wide">'+marcaPub('Primeiro acesso da família');
+  h+='<ol class="passos">'+['Seus dados','Termo LGPD','Senha'].map(function(t,i){return '<li class="'+(+p>i+1?'ok':+p===i+1?'on':'')+'">'+t+'</li>'}).join('')+'</ol>';
+  if(p==='1') h+='<p>Oi, <b>'+c.resp.split(' ')[0]+'</b>! O Studio Thiago Santos cadastrou você como <b>'+c.rel.toLowerCase()+' e responsável financeira</b> de <b>'+c.ini+'</b>. Confira seus dados:</p>'+
+    '<div class="kvs"><div class="kv"><span>Nome</span><b>'+c.resp+'</b></div><div class="kv"><span>CPF</span><b>***.482.193-**</b></div><div class="kv"><span>WhatsApp</span><b>'+c.fone+'</b></div></div>'+
+    '<label class="fld"><span>E-mail para entrar</span><input class="inp" type="email" value="'+norm(c.resp.split(' ')[0])+'@email.com" autocomplete="email"></label>'+
+    '<div class="acts"><a class="btn pri big" href="#convite?passo=2">Os dados estão certos</a><button type="button" class="btn big" data-act="falar-studio">Algo errado? Falar com o studio</button></div>';
+  if(p==='2') h+='<p>Para acompanhar '+c.ini+' pelo portal, precisamos do seu consentimento:</p><ul class="todo"><li>Usamos os dados de '+c.ini+' só para o atendimento e o acompanhamento.</li><li>Registros de aula e relatórios ficam no portal, nunca na mensagem de WhatsApp.</li><li>Só a equipe que atende '+c.ini+' acessa as informações de saúde.</li><li>Você pode pedir cópia, correção ou exclusão dos dados quando quiser.</li></ul>'+
+    '<label class="check"><input type="checkbox" id="aceite"> Li e concordo com o termo de consentimento</label><div class="auth-err" id="conv-err" role="alert"></div>'+
+    '<div class="acts"><a class="btn big" href="#convite?passo=1">Voltar</a><button type="button" class="btn pri big" data-act="aceitar-termo">Continuar</button></div>';
+  if(p==='3') h+='<form id="convite-form" class="form"><label class="fld"><span>Crie uma senha</span><input class="inp" type="password" name="s1" autocomplete="new-password" placeholder="mínimo 6 caracteres"></label>'+
+    '<label class="fld"><span>Repita a senha</span><input class="inp" type="password" name="s2" autocomplete="new-password"></label><div class="auth-err" id="conv-err" role="alert"></div>'+
+    '<button class="btn pri big" type="submit">Criar meu acesso</button></form>';
+  if(p==='4') h+='<div class="ok-big">'+icon('check')+'</div><p style="text-align:center"><b>Pronto, acesso criado!</b><br>Agora é só entrar com seu e-mail e senha. Dica: coloque o ícone do studio na tela do celular.</p>'+
+    '<div class="insight">No protótipo, entre com o e-mail <code>pais</code> e a senha <code>123</code>.</div><div class="acts"><a class="btn pri big" href="#login">Ir para o login</a><button type="button" class="btn big" data-act="tutorial">Instalar no celular</button></div>';
+  return h+'</div><p class="pub-links"><a href="#login">Voltar ao login</a></p></div>';
+}
+function preMatriculaHTML(){
+  if(fp().enviado) return '<div class="auth"><div class="card auth-card wide">'+marcaPub('Pré-matrícula')+'<div class="ok-big">'+icon('check')+'</div><p style="text-align:center"><b>Pré-matrícula enviada!</b><br>A Helen confere os dados e chama você no WhatsApp para combinar o horário.</p><div class="insight">No protótipo, entre como <code>gestor</code> e veja a pré-matrícula em Clientes.</div><div class="acts"><a class="btn pri big" href="#login">Voltar ao login</a></div></div></div>';
+  return '<div class="auth"><form class="card auth-card wide form" id="pre-form" novalidate>'+marcaPub('Pré-matrícula')+
+    '<p class="cs">Preencha uma vez e a equipe só confere. Leva uns 3 minutos.</p>'+
+    '<div class="ct">Responsável</div>'+
+    '<label class="fld"><span>Nome completo</span><input class="inp" name="resp" autocomplete="name" required></label>'+
+    '<div class="two"><label class="fld"><span>CPF</span><input class="inp" name="cpf" inputmode="numeric" placeholder="000.000.000-00"></label><label class="fld"><span>WhatsApp</span><input class="inp" name="fone" type="tel" autocomplete="tel" placeholder="(82) 9 0000-0000" required></label></div>'+
+    '<div class="two"><label class="fld"><span>E-mail</span><input class="inp" name="email" type="email" autocomplete="email"></label><label class="fld"><span>Parentesco</span><select class="inp" name="rel"><option>Mãe</option><option>Pai</option><option>Avó ou avô</option><option>Outro</option></select></label></div>'+
+    '<label class="check"><input type="checkbox" name="fin" checked> Sou o responsável financeiro (quem recebe as cobranças)</label>'+
+    '<div class="ct">Criança</div>'+
+    '<div class="two"><label class="fld"><span>Nome completo</span><input class="inp" name="aluno" required></label><label class="fld"><span>Data de nascimento</span><input class="inp" name="nasc" type="date"></label></div>'+
+    '<div class="fld"><span>Plano de interesse</span>'+pickGroup('plano',['Básico · 1x/sem','Essencial · 2x/sem','Premium · 3x/sem','Quero orientação'],[1],true)+'</div>'+
+    '<div class="fld"><span>Melhores períodos</span>'+pickGroup('periodo',['Manhã','Tarde','Sábado'],[1],false)+'</div>'+
+    '<label class="check"><input type="checkbox" name="lgpd"> Li e concordo com o termo de consentimento (LGPD) para o tratamento dos dados da criança</label>'+
+    '<div class="auth-err" id="pre-err" role="alert"></div><button class="btn pri big" type="submit">Enviar pré-matrícula</button></form>'+
+    '<p class="pub-links"><a href="#login">Voltar ao login</a></p></div>';
+}
+function agendarHTML(){
+  var org=fp().origem||'site';
+  if(fp().enviado) return '<div class="auth"><div class="card auth-card wide">'+marcaPub('Agende uma avaliação')+'<div class="ok-big">'+icon('check')+'</div><p style="text-align:center"><b>Recebemos seu contato!</b><br>A Helen chama você no WhatsApp em até 1 dia útil.</p><div class="insight">No protótipo, entre como <code>gestor</code> e veja o lead em Recuperação, na aba Leads novos, com a origem já marcada.</div><div class="acts"><a class="btn pri big" href="#login">Voltar ao login</a></div></div></div>';
+  return '<div class="auth"><form class="card auth-card wide form" id="lead-form" data-origem="'+esc(org)+'" novalidate>'+marcaPub('Agende uma avaliação')+
+    '<p class="cs">Este é o link que fica na bio do Instagram. O lead já entra no sistema com a origem marcada, sem ninguém digitar.</p>'+
+    '<label class="fld"><span>Seu nome</span><input class="inp" name="nome" autocomplete="name" required></label>'+
+    '<label class="fld"><span>WhatsApp</span><input class="inp" name="fone" type="tel" autocomplete="tel" placeholder="(82) 9 0000-0000" required></label>'+
+    '<label class="fld"><span>Idade da criança</span><input class="inp" name="idade" inputmode="numeric" placeholder="ex.: 6"></label>'+
+    '<div class="fld"><span>Interesse</span>'+pickGroup('interesse',['Psicomotricidade','Treino funcional','Home care','Consultoria para pais'],[0],true)+'</div>'+
+    '<div class="auth-err" id="lead-err" role="alert"></div><button class="btn pri big" type="submit">Quero agendar</button>'+
+    '<small class="cs">Origem registrada: '+chip(org.charAt(0).toUpperCase()+org.slice(1),'info')+'</small></form>'+
+    '<p class="pub-links"><a href="#login">Voltar ao login</a></p></div>';
+}
+var PUB={login:loginHTML,convite:conviteHTML,'pre-matricula':preMatriculaHTML,agendar:agendarHTML};
+
+/* ---------- modal ---------- */
+function openModal(html){document.getElementById('modal-c').innerHTML=html;var m=document.getElementById('modal');m.classList.add('on');var f=m.querySelector('button,input,textarea');if(f)f.focus()}
+function closeModal(){document.getElementById('modal').classList.remove('on')}
+function tutorialHTML(os){
+  var ios=os==='ios';
+  var passos=ios?[
+    'Abra o link do sistema no <b>Safari</b>. No iPhone, só funciona pelo Safari.',
+    'Toque no botão <b>Compartilhar</b> '+icon('share')+' na barra de baixo.',
+    'Role a lista e toque em <b>Adicionar à Tela de Início</b> '+icon('plusSq')+'.',
+    'Confira o nome e toque em <b>Adicionar</b>, no canto de cima.']:[
+    'Abra o link do sistema no <b>Chrome</b>.',
+    'Toque nos <b>três pontinhos</b> '+icon('dots')+' no canto de cima, à direita.',
+    'Toque em <b>Adicionar à tela inicial</b> ou <b>Instalar app</b>.',
+    'Confirme em <b>Adicionar</b> (ou <b>Instalar</b>).'];
+  return '<h2 id="modal-t">Instalar no celular</h2><p class="cs">Transforme o link do sistema em um ícone na tela do celular. Ele abre como um aplicativo, em tela cheia, sem baixar nada da loja.</p>'+
+    '<div class="seg os" role="group" aria-label="Tipo de celular"><button type="button" data-os="android" aria-pressed="'+!ios+'">Android</button><button type="button" data-os="ios" aria-pressed="'+ios+'">iPhone</button></div>'+
+    '<ol class="steps">'+passos.map(function(s,i){return '<li><span class="sn">'+(i+1)+'</span><div>'+s+'</div></li>'}).join('')+'</ol>'+
+    '<div class="insight">Pronto: o ícone do studio aparece junto dos outros aplicativos. Você continua conectado até tocar em Sair.</div>';
+}
+function fakeQR(){var r=rng(42),n=25,s='';
+  function finder(x,y){var c=[[0,0],[18,0],[0,18]];for(var i=0;i<3;i++){var lx=x-c[i][0],ly=y-c[i][1];if(lx>=0&&lx<7&&ly>=0&&ly<7)return (lx===0||lx===6||ly===0||ly===6||(lx>1&&lx<5&&ly>1&&ly<5))?1:0}return -1}
+  for(var y=0;y<n;y++)for(var x=0;x<n;x++){var f=finder(x,y),on=f===-1?r()<.45:f===1;if(on)s+='<rect x="'+x+'" y="'+y+'" width="1" height="1"/>'}
+  return '<svg class="qr" viewBox="-2 -2 29 29" role="img" aria-label="QR code do Pix (ilustrativo)"><rect x="-2" y="-2" width="29" height="29" fill="#fff"/><g fill="#14262e">'+s+'</g></svg>'}
+function pixHTML(mes){
+  var c=famCli;
+  return '<h2 id="modal-t">Pagar com Pix</h2><p class="cs">Mensalidade de '+(mes==='dez'?'dezembro':'novembro')+' de '+c.ini+' · '+brl(c.valor)+'</p>'+fakeQR()+
+    '<div class="copia"><code>00020126580014br.gov.bcb.pix0136studio-ts-'+c.id+'-'+mes+'5204000053039865406'+c.valor+'.00</code>'+btn('Copiar código','copiar-pix','','pri')+'</div>'+
+    '<div class="insight">Este código é <b>único desta cobrança</b>. Quando o banco confirmar, a mensalidade muda para paga sozinha, aqui e no sistema do studio.</div>'+
+    '<div class="acts">'+btn('Simular confirmação do banco','simular-pago',mes,'','check')+'</div>';
+}
+function pedirRelatorioHTML(){
+  return '<h2 id="modal-t">Pedir relatório</h2><p class="cs">'+famCli.prof+' recebe o pedido no app. Prazo combinado: até 10 dias.</p>'+
+    '<div class="fld"><span>Para que é?</span>'+pickGroup('tipo',['Escola','Consulta médica','Plano de saúde','Declaração de frequência','Outro'],[0],true)+'</div>'+
+    '<label class="fld"><span>Algum detalhe? (opcional)</span><textarea class="inp" id="rel-obs" rows="3" placeholder="Ex.: a escola pediu até o dia 30."></textarea></label>'+
+    '<div class="acts">'+btn('Enviar pedido','enviar-relatorio','','pri big','send')+'</div>';
+}
+function avaliarHTML(){
+  return '<h2 id="modal-t">Como foi o mês?</h2><p class="cs">Sua opinião vai direto para o Thiago. Leva 20 segundos.</p>'+
+    '<div class="stars" data-stars>'+[1,2,3,4,5].map(function(n){return '<button type="button" data-star="'+n+'" aria-label="'+n+' de 5">'+icon('star')+'</button>'}).join('')+'</div>'+
+    '<div class="fld"><span>O que mais gostou?</span>'+pickGroup('gostou',['Evolução de '+famCli.ini,'Atenção da '+famCli.prof,'Registros das aulas','Horários','Atendimento da recepção'],[],false)+'</div>'+
+    '<label class="fld"><span>Quer deixar um comentário? (opcional)</span><textarea class="inp" id="aval-obs" rows="3"></textarea></label>'+
+    '<div class="auth-err" id="aval-err" role="alert"></div><div class="acts">'+btn('Enviar avaliação','enviar-avaliacao','','pri big','send')+'</div>';
+}
+function comentarHTML(id){
+  return '<h2 id="modal-t">Comentar registro</h2><p class="cs">'+famCli.prof+' recebe seu comentário no app.</p><label class="fld"><span>Comentário</span><textarea class="inp" id="com-obs" rows="4" placeholder="Ex.: em casa ele também está pedindo para brincar de circuito!"></textarea></label>'+
+    '<div class="acts">'+btn('Enviar','enviar-comentario',id,'pri big','send')+'</div>';
+}
+function picked(root,name){var g=root.querySelector('[data-pick="'+name+'"]');return g?[].map.call(g.querySelectorAll('.on'),function(b){return b.textContent}):[]}
+
+/* ---------- ações dos perfis ---------- */
+function acaoPerfil(el){
+  var a=el.getAttribute('data-act'),id=el.getAttribute('data-id'),ag=agendaHoje.filter(function(x){return x.id===id})[0];
+  switch(a){
+    case 'sair': sair(); return true;
+    case 'tutorial': openModal(tutorialHTML(/iphone|ipad|ipod/i.test(navigator.userAgent)?'ios':'android')); return true;
+    case 'presente': ag.pres=true;ag.st='concluida';toast('Presença de '+ag.c.ini+' marcada. Isso já conta como aula dada.');break;
+    case 'falta': ag.pres=false;ag.st='falta';toast('Falta de '+ag.c.ini+' registrada. A Helen vê a reposição para agendar.');break;
+    case 'registrar-aula': location.hash='#prof-registros?aba=novo&aula='+id; return true;
+    case 'registrar-cli': location.hash=(sessao==='profissional'?'#prof-registros?aba=novo&id=':'#aulas?aba=registro&id=')+id; return true;
+    case 'lembrar-prof': var o=ontemSem.filter(function(x){return x.id===id})[0];toast('Lembrete enviado para o app de '+o.prof+': “Falta marcar a presença de '+o.c.ini+' de ontem, '+o.h+'”.');return true;
+    case 'marcar-ontem': ontemSem.forEach(function(x){if(x.id===id)x.ok=true});toast('Presença registrada. Fica na auditoria que foi marcada pelo administrador.');break;
+    case 'conciliar': var px=pixSemId.filter(function(x){return x.id===id})[0],c=cliPorId(el.getAttribute('data-c'));px.st='ok';px.de=c.ini;c.fin='pago';c.pagoEm=diasAtras(0);c.via='Pix conciliado manualmente';c.parcelas=1;
+      toast('Pix de '+brl(px.v)+' conciliado com a cobrança de '+c.ini+'. Fica registrado quem conciliou.');break;
+    case 'outro': toast('Abriria a busca de alunos para escolher de quem é o Pix.');return true;
+    case 'aprovar-pre': preMat.forEach(function(p){if(p.id===id)p.st='ok'});toast('Matrícula aprovada. O aluno entra como ativo, a agenda é gerada e a primeira cobrança é criada no gateway.');break;
+    case 'copiar-link': toast('Link copiado: <b>pedroduefarias.github.io/prototipo-sistema-thiagosantos/#'+id+'</b>');return true;
+    case 'pix-fam': openModal(pixHTML(id)); return true;
+    case 'copiar-pix': toast('Código Pix copiado. Cole no app do seu banco, na opção Pix copia e cola.');return true;
+    case 'simular-pago': closeModal(); toast('Banco confirmou o pagamento. A mensalidade aparece como paga aqui e no sistema do studio, sem ninguém digitar nada.');return true;
+    case 'cartao': toast('Abriria o pagamento com cartão do gateway, com opção de cobrança automática todo mês.');return true;
+    case 'recibo-fam': toast('Recibo em PDF baixado. '+'<small>Protótipo: nenhum arquivo é gerado.</small>');return true;
+    case 'baixar': toast('Relatório em PDF baixado. <small>Protótipo: nenhum arquivo é gerado.</small>');return true;
+    case 'pedir-relatorio': openModal(pedirRelatorioHTML()); return true;
+    case 'enviar-relatorio': var t=picked(document.getElementById('modal'),'tipo')[0]||'Outro';famPedidos.unshift({tipo:'Relatório para '+t.toLowerCase()});closeModal();toast('Pedido enviado para '+famCli.prof+'. Você recebe um aviso no WhatsApp quando o relatório estiver no portal.');break;
+    case 'avaliar': openModal(avaliarHTML()); return true;
+    case 'enviar-avaliacao': var n=document.querySelectorAll('#modal .stars .on').length;if(!n){document.getElementById('aval-err').textContent='Escolha de 1 a 5 estrelas.';return true}famAval=n;closeModal();toast('Obrigado! Sua avaliação ('+n+' de 5) foi enviada ao Thiago.');break;
+    case 'reagir': famReacoes[id]=famReacoes[id]||{};famReacoes[id].gostei=!famReacoes[id].gostei;break;
+    case 'comentar': openModal(comentarHTML(id)); return true;
+    case 'enviar-comentario': famReacoes[id]=famReacoes[id]||{};famReacoes[id].coment=true;closeModal();toast('Comentário enviado para '+famCli.prof+'.');break;
+    case 'avisar-falta': toast('Falta do dia '+id+' avisada. '+famCli.prof+' e a recepção recebem o aviso e a reposição é sugerida.');return true;
+    case 'falar-studio': toast('Abriria o WhatsApp do studio. <small>Protótipo: nada é enviado.</small>');return true;
+    case 'aceitar-termo': if(!document.getElementById('aceite').checked){document.getElementById('conv-err').textContent='Para continuar, marque que leu e concorda com o termo.';return true}location.hash='#convite?passo=3';return true;
+    default: return false;
+  }
+  render(); return true;
+}
+function enviarForm(form){
+  var id=form.id;
+  if(id==='login-form'){if(!entrar(form.email.value,form.senha.value)){document.getElementById('login-err').innerHTML='E-mail ou senha incorretos. No protótipo, use um dos perfis abaixo com a senha <b>123</b>.'}return}
+  if(id==='convite-form'){var e=document.getElementById('conv-err');if(form.s1.value.length<6){e.textContent='A senha precisa ter pelo menos 6 caracteres.';return}if(form.s1.value!==form.s2.value){e.textContent='As duas senhas estão diferentes.';return}location.hash='#convite?passo=4';return}
+  if(id==='pre-form'){var er=document.getElementById('pre-err');if(!form.resp.value.trim()||!form.fone.value.trim()||!form.aluno.value.trim()){er.textContent='Preencha o nome do responsável, o WhatsApp e o nome da criança.';return}if(!form.lgpd.checked){er.textContent='Para enviar, aceite o termo de consentimento.';return}
+    var nm=form.aluno.value.trim().split(/\s+/),pl=picked(form,'plano')[0]||'';preMat.unshift({id:'p'+(preMat.length+1),resp:form.resp.value.trim(),rel:form.rel.value,ini:(nm[0].charAt(0)+'.'+(nm[nm.length-1]||'').charAt(0)+'.').toUpperCase(),idade:'?',plano:/premium/i.test(pl)?'premium':/b.sico/i.test(pl)?'basico':'essencial',hor:(picked(form,'periodo').join(' ou ')||'a combinar').toLowerCase(),quando:diasAtras(0),origem:'Link da pré-matrícula',st:'novo'});
+    location.hash='#pre-matricula?enviado=1';return}
+  if(id==='lead-form'){var el=document.getElementById('lead-err');if(!form.nome.value.trim()||!form.fone.value.trim()){el.textContent='Preencha seu nome e o WhatsApp.';return}
+    var o=form.getAttribute('data-origem');leads.unshift({id:'l'+leads.length,ini:'?',idade:form.idade.value||'?',resp:form.nome.value.trim(),rel:'Responsável',etapa:'contato',origem:o.charAt(0).toUpperCase()+o.slice(1),data:diasAtras(0),interesse:picked(form,'interesse')[0]||'Psicomotricidade',form:true,semResp:0});
+    location.hash='#agendar?enviado=1&origem='+o;return}
+  if(id==='registro-form'){
+    var cli=cliPorId(form.getAttribute('data-cli')),aula=agendaHoje.filter(function(x){return x.id===form.getAttribute('data-aula')})[0],
+        lib=form.querySelector('[data-sw]').getAttribute('aria-checked')==='true',at=picked(form,'ativ'),pres=picked(form,'pres')[0];
+    registros.unshift({id:'r'+(registros.length+10),c:cli,data:diasAtras(0),ativ:at.join(' + ')||'Aula do dia',obs:form.obs.value.trim(),liberado:lib});
+    if(aula){aula.reg=true;aula.pres=pres==='Presente';aula.st=pres==='Presente'?'concluida':'falta'}
+    toast('Registro de '+cli.ini+' salvo'+(lib?' e liberado para a família, que recebe só um aviso com o link.':'. Ele fica em revisão até ser liberado.'));
+    location.hash=sessao==='profissional'?'#prof-registros':'#pais?pendencia=liberar';
+  }
+}
+TELAS['prof-hoje']=profHojeHTML;TELAS['prof-alunos']=profAlunosHTML;TELAS['prof-registros']=profRegistrosHTML;
+TELAS['fam-inicio']=famInicioHTML;TELAS['fam-evolucao']=famEvolucaoHTML;TELAS['fam-pagamentos']=famPagamentosHTML;TELAS.cliente=clienteHTML;
+
 /* ---------- ações simuladas ---------- */
 var toastT=null;
 function toast(msg){var t=document.getElementById('toast');t.innerHTML=msg;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('on')},5200)}
 function acao(el){
+  if(acaoPerfil(el)) return;
   var a=el.getAttribute('data-act'),id=el.getAttribute('data-id'),c=cliPorId(id),s=saidasL.filter(function(x){return x.id===id})[0];
   var nota='<small>Protótipo: nada é enviado de verdade.</small>';
   switch(a){
@@ -1198,51 +1691,62 @@ function acao(el){
 
 /* ---------- render ---------- */
 function topHTML(key){
-  var r=ROUTES[key];
-  var theme=effectiveTheme();
-  var ctrl='<div class="top-r"><span class="pill">Dados fictícios</span>'+
-    (key==='painel'?'<div class="seg" role="group" aria-label="Período dos gráficos">'+[3,6,12].map(function(n){return '<button type="button" data-range="'+n+'" aria-pressed="'+(state.range===n)+'">'+n+' meses</button>'}).join('')+'</div>':'')+
+  var r=ROUTES[key], p=perfil(), theme=effectiveTheme(), painel=key==='painel';
+  var ctrl='<div class="top-r"><span class="pill">Protótipo</span>'+
+    (painel&&sessao==='admin'?'<div class="seg" role="group" aria-label="Período dos gráficos">'+[3,6,12].map(function(n){return '<button type="button" data-range="'+n+'" aria-pressed="'+(state.range===n)+'">'+n+' meses</button>'}).join('')+'</div>':'')+
+    (painel?'<button type="button" class="tgl" data-src-toggle aria-pressed="'+state.src+'">'+icon('alert')+'Origem dos dados</button>':'')+
     '<button type="button" class="icon-btn" data-theme-toggle aria-label="Alternar tema claro e escuro">'+icon(theme==='dark'?'sun':'moon')+'</button>'+
-    '<div class="avatar" role="img" aria-label="Thiago Santos"><svg class="logo" aria-hidden="true"><use href="#logo"/></svg></div></div>';
-  return '<div class="top-l"><div class="mark"><svg class="logo" aria-hidden="true"><use href="#logo"/></svg></div><div><div class="eyebrow">'+(key==='painel'?'Boa tarde, Thiago · terça, 17 de novembro':'Studio Thiago Santos')+'</div><h1>'+r.t+'</h1></div></div>'+ctrl;
+    '<button type="button" class="icon-btn" data-act="sair" aria-label="Sair da conta">'+icon('logout')+'</button></div>';
+  var ola=(sessao==='familia'?'Portal da família':'Boa tarde, '+p.curto)+' · terça, 17 de novembro';
+  return '<div class="top-l"><div class="mark"><svg class="logo" aria-hidden="true"><use href="#logo"/></svg></div><div><div class="eyebrow">'+ola+'</div><h1>'+r.t+'</h1></div></div>'+ctrl;
 }
 function navHTML(key){
-  return ORDER.map(function(k){
-    var r=ROUTES[k];
-    var on=k===key||ROUTES[key].parent===k;
-    return '<a href="#'+k+'"'+(on?' class="on" aria-current="page"':'')+'>'+icon(r.ic)+'<span>'+r.t+'</span>'+(r.badge?'<span class="badge '+r.badge.c+'">'+r.badge.n+'</span>':'')+'</a>';
+  var cur=parentDe(key);
+  return perfil().menu.map(function(k){
+    var r=ROUTES[k], on=k===cur, bd=sessao==='admin'||sessao==='gestor'?r.badge:null;
+    return '<a href="#'+k+'"'+(on?' class="on" aria-current="page"':'')+'>'+icon(r.ic)+'<span>'+r.t+'</span>'+(bd?'<span class="badge '+bd.c+'">'+bd.n+'</span>':'')+'</a>';
   }).join('');
 }
 function tabHTML(key){
-  var main=['painel','clientes','financeiro','pais'], short={painel:'Painel',clientes:'Clientes',financeiro:'Financeiro',pais:'Pais'};
-  var more=['aulas','recuperacao','equipe','parcerias'], inMore=more.indexOf(key)>-1;
-  if(ROUTES[key].parent) key=ROUTES[key].parent;
+  var m=perfil().menu, cur=parentDe(key), main=m.length<=5?m:['painel','clientes','financeiro','pais'], more=m.filter(function(k){return main.indexOf(k)<0});
+  document.getElementById('tabbar').style.gridTemplateColumns='repeat('+(main.length+(more.length?1:0))+',1fr)';
   return main.map(function(k){
-    var r=ROUTES[k];
-    return '<a href="#'+k+'"'+(k===key?' class="on" aria-current="page"':'')+'>'+icon(r.ic)+'<span>'+short[k]+'</span>'+(r.badge?'<span class="badge '+r.badge.c+'">'+r.badge.n+'</span>':'')+'</a>';
-  }).join('')+'<button type="button" data-sheet'+(inMore?' class="on"':'')+'>'+icon('more')+'<span>Mais</span></button>';
+    var r=ROUTES[k], bd=sessao==='admin'||sessao==='gestor'?r.badge:null;
+    return '<a href="#'+k+'"'+(k===cur?' class="on" aria-current="page"':'')+'>'+icon(r.ic)+'<span>'+SHORT[k]+'</span>'+(bd?'<span class="badge '+bd.c+'">'+bd.n+'</span>':'')+'</a>';
+  }).join('')+(more.length?'<button type="button" data-sheet'+(more.indexOf(cur)>-1?' class="on"':'')+'>'+icon('more')+'<span>Mais</span></button>':'');
 }
 function sheetHTML(){
-  var theme=effectiveTheme();
-  return '<div class="grip"></div>'+['aulas','recuperacao','equipe','parcerias'].map(function(k){
+  var m=perfil().menu, main=m.length<=5?m:['painel','clientes','financeiro','pais'], more=m.filter(function(k){return main.indexOf(k)<0}), theme=effectiveTheme();
+  return '<div class="grip"></div>'+more.map(function(k){
     var r=ROUTES[k]; return '<a href="#'+k+'">'+icon(r.ic)+r.t+(r.badge?'<span class="badge '+r.badge.c+'" style="margin-left:auto">'+r.badge.n+'</span>':'')+'</a>';
-  }).join('')+'<button type="button" data-theme-toggle>'+icon(theme==='dark'?'sun':'moon')+'Alternar tema</button>';
+  }).join('')+'<button type="button" data-theme-toggle>'+icon(theme==='dark'?'sun':'moon')+'Alternar tema</button><button type="button" data-act="sair">'+icon('logout')+'Sair</button>';
 }
 function render(){
-  var key=state.route;
+  var key=state.route, pub=!!PUBLICAS[key], view=document.getElementById('view');
+  document.body.classList.toggle('pub',pub);
+  ['admin','gestor','profissional','familia'].forEach(function(k){document.body.classList.toggle('perfil-'+k,!pub&&sessao===k)});
+  if(pub){view.className='';view.innerHTML=PUB[key]();document.title=ROUTES[key].t+' · Studio Thiago Santos';return}
+  var p=perfil();
   document.getElementById('top').innerHTML=topHTML(key);
   document.getElementById('nav').innerHTML=navHTML(key);
   document.getElementById('tabbar').innerHTML=tabHTML(key);
   document.getElementById('sheet-in').innerHTML=sheetHTML();
-  document.getElementById('view').innerHTML = key==='painel' ? painelHTML() : TELAS[key]();
-  document.title = (key==='painel'?'Painel':ROUTES[key].t)+' · Studio Thiago Santos';
-  if(key==='painel') drawAll();
+  document.getElementById('brand-sub').textContent=sessao==='familia'?'Portal da família':sessao==='profissional'?'Área do profissional':'Gestão do studio';
+  document.getElementById('side-foot').innerHTML='<b>'+p.n+'</b><br>Perfil '+p.papel+' · protótipo com dados fictícios<br><button type="button" class="lnk" data-act="sair">Sair</button>';
+  view.className=state.src?'src-on':'';
+  view.innerHTML = key==='painel' ? (sessao==='gestor'?painelGestorHTML():painelHTML()) : TELAS[key]();
+  document.title = ROUTES[key].t+' · Studio Thiago Santos';
+  if(key==='painel'&&sessao==='admin') drawAll();
 }
 function setRoute(){
-  var hs=(location.hash||'#painel').slice(1).split('?'), k=hs[0];
-  state.route=ROUTES[k]?k:'painel';
-  state.filter=hs[1]||'';
-  closeSheet(); render(); window.scrollTo(0,0);
+  var hs=(location.hash||'').slice(1).split('?'), k=hs[0], alvo=k;
+  if(!ROUTES[alvo]) alvo=sessao?perfil().home:'login';
+  if(!PUBLICAS[alvo]&&!sessao) alvo='login';
+  if(sessao&&alvo==='login') alvo=perfil().home;
+  if(sessao&&!permitido(alvo)) alvo=perfil().home;
+  state.route=alvo; state.filter=alvo===k?(hs[1]||''):'';
+  if(alvo!==k&&history.replaceState) history.replaceState(null,'','#'+alvo);
+  closeSheet(); closeModal(); render(); window.scrollTo(0,0);
 }
 
 /* ---------- tema ---------- */
@@ -1273,6 +1777,19 @@ document.addEventListener('click',function(ev){
   }
   var ab=t.closest&&t.closest('[data-act]');
   if(ab){acao(ab);return}
+  var pk=t.closest&&t.closest('[data-pick] .chip');
+  if(pk){var g=pk.parentNode;if(g.hasAttribute('data-single'))[].forEach.call(g.children,function(x){x.className='chip mute';x.setAttribute('aria-pressed','false')});
+    var on=!pk.classList.contains('on');pk.className='chip '+(on?'info on':'mute');pk.setAttribute('aria-pressed',on);return}
+  var sw=t.closest&&t.closest('[data-sw]');
+  if(sw){sw.setAttribute('aria-checked',sw.getAttribute('aria-checked')!=='true');return}
+  var st=t.closest&&t.closest('[data-star]');
+  if(st){var n=+st.getAttribute('data-star');[].forEach.call(st.parentNode.children,function(x,i){x.classList.toggle('on',i<n)});return}
+  var os=t.closest&&t.closest('[data-os]');
+  if(os){document.getElementById('modal-c').innerHTML=tutorialHTML(os.getAttribute('data-os'));return}
+  var lg=t.closest&&t.closest('[data-login]');
+  if(lg){var fm=document.getElementById('login-form');fm.email.value=lg.getAttribute('data-login');fm.senha.value='123';fm.senha.focus();return}
+  if(t.closest&&t.closest('[data-src-toggle]')){state.src=!state.src;render();return}
+  if(t.closest&&t.closest('[data-close]')||t.id==='modal'){closeModal();return}
   var rb=t.closest&&t.closest('[data-range]');
   if(rb){state.range=parseInt(rb.getAttribute('data-range'),10);render();return}
   if(t.closest&&t.closest('[data-theme-toggle]')){toggleTheme();return}
@@ -1280,6 +1797,8 @@ document.addEventListener('click',function(ev){
   if(t.id==='sheet') closeSheet();
 });
 window.addEventListener('hashchange',setRoute);
+document.addEventListener('submit',function(ev){ev.preventDefault();enviarForm(ev.target)});
+document.addEventListener('keydown',function(ev){if(ev.key==='Escape')closeModal()});
 document.addEventListener('input',function(ev){
   if(!ev.target.hasAttribute||!ev.target.hasAttribute('data-search'))return;
   var q=norm(ev.target.value.trim()), card=ev.target.closest('.card'), n=0;
