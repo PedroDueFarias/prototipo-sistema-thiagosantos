@@ -1,41 +1,64 @@
-# Protótipo do painel, Studio Thiago Santos
+# Protótipo do sistema, Studio Thiago Santos
 
-Protótipo **apenas visual** da tela inicial (Painel) do sistema de gestão do Studio Thiago Santos.
-Tudo é fictício: números, nomes de parceiros e iniciais de alunos. Não há back-end, banco ou integração.
+Protótipo navegável do sistema de gestão do Studio Thiago Santos, publicado em https://pedroduefarias.github.io/prototipo-sistema-thiagosantos/.
+Serve para o Thiago e a Helen verem as telas, opinarem e aprovarem antes de cada tela virar código no sistema real.
+Tudo é fictício: números, nomes e iniciais de alunos. Não há back-end, banco ou integração. O que é feito nas telas vale só até recarregar a página.
 
-## Como abrir
+## Como entrar
 
-Abra o `index.html` no navegador. Não precisa instalar nada. As fontes vêm do Google Fonts, e sem internet o navegador usa a fonte do sistema.
+Senha `123` para todos os perfis. A tela de login mostra os acessos.
 
-## O que o painel mostra
+| E-mail | Perfil | Quem | O que vê |
+|---|---|---|---|
+| `admin` | Administrador | Thiago | Tudo |
+| `gestor` | Gestor | Helen | Painel, Clientes, Financeiro, Recuperação, Parcerias. Não vê registros de aula nem plano terapêutico. |
+| `profissional` | Profissional | Marina | As próprias aulas, presença, registros e relatórios. Não vê o financeiro. |
+| `pais` | Família | Mãe de L.M. | Só o que foi liberado do próprio filho, mensalidades e recibos |
 
-- Resumo do mês em uma frase e termômetro de saúde do negócio.
-- "Precisa de você hoje": cobranças vencidas, relatórios pedidos, famílias sem retorno e inativos para recuperar.
-- Indicadores: clientes ativos (meta de 100), receita do mês, inadimplentes, perdas em 3 meses, equipe e parcerias.
-- Gráficos: receita prevista e recebida, receita por linha, clientes ativos com entradas e saídas, saúde da carteira, ocupação semanal das aulas, feedback aos pais, funil de novos alunos, motivos de saída, alunos por profissional e por plano.
-- Seletor de período (3, 6 ou 12 meses), tema claro e escuro, tooltips nos gráficos.
+Páginas públicas, sem login: `#agendar?origem=instagram` (formulário de lead para a bio do Instagram), `#pre-matricula` e `#convite` (primeiro acesso da família).
+O botão **?** na tela de login ensina a colocar o sistema na tela do celular (Android e iPhone).
 
-## Navegação
+## Versões
 
-Cada card leva ao menu que trata do assunto, já com o filtro aplicado (ex.: Inadimplentes abre Financeiro filtrado).
-As demais telas são esboços que mostram o filtro recebido e o que cada menu vai conter.
+### 1.0 (atual): pagamentos controlados pela Gestora
 
-| Menu | Previsto para |
-|---|---|
-| Clientes, Financeiro | semanas 3 a 5 |
-| Recuperação | semanas 6 e 7 |
-| Aulas, Equipe | semanas 8 e 9 |
-| Feedback dos pais | semanas 10 a 12 |
-| Parcerias | semana 13 |
+No começo **não há gateway de pagamento**. O controle de "já pagou" e "em atraso" depende da Helen:
+
+- O sistema gera a mensalidade de cada aluno todo mês, com o valor e o vencimento da matrícula.
+- **Vencida** é automático: passou o vencimento sem pagamento registrado.
+- A Helen cobra pelo WhatsApp (botão `wa.me`, mensagem pronta) com a **chave Pix do studio** e o valor, e pede o comprovante.
+- **Paga** só acontece quando a Helen registra o pagamento (valor, data, forma e como confirmou: comprovante, extrato ou em mãos). Fica registrado quem registrou e quando.
+- Uma vez por semana a Helen confere os pagamentos registrados com o extrato do banco (aba "Conferir extrato").
+
+### Próximas versões: gateway de pagamento
+
+Com um gateway (a escolher, por exemplo Asaas, Efí ou Mercado Pago; taxas a comparar):
+
+- Pix com código único por mensalidade, para saber de quem é cada pagamento sem comprovante.
+- Baixa automática quando o banco confirma (webhook), sem a Helen digitar.
+- Lembretes automáticos antes do vencimento.
+- Cartão com cobrança recorrente.
+
+O registro manual continua existindo para dinheiro, transferência e casos fora do gateway.
+
+## De onde vem cada número
+
+Cada card do Painel mostra a origem do dado (botão "Origem dos dados"):
+
+- **Automático**: sai sozinho de algo que já existe (matrícula, datas, agenda).
+- **Depende de registro**: só fica certo se alguém da equipe registrar (presença, pagamento, saída com motivo).
+- **Manual**: cadastro feito à mão (parcerias, lançamentos de eventos e loja).
+
+O card **Pendências de registro** mostra o que falta registrar para os números ficarem certos.
+
+## Como abrir localmente
+
+Abra o `index.html` no navegador. Não precisa instalar nada.
 
 ## Identidade
 
-O símbolo do studio foi redesenhado em vetor a partir de um print de baixa resolução (`assets/logo.svg`) e usado como favicon, marca do menu e foto de perfil. Quando houver o arquivo oficial da marca, troque o desenho em `assets/logo.svg` e no `<symbol id="logo">` do `index.html`.
-
-## Responsividade
-
-Notebook: menu lateral e grade de cards. Celular: barra de navegação inferior com menu "Mais", cards em uma ou duas colunas.
+O símbolo do studio foi redesenhado em vetor a partir de um print de baixa resolução (`assets/logo.svg`, `icons/`). Quando houver o arquivo oficial da marca, troque o desenho em `assets/logo.svg`, no `<symbol id="logo">` do `index.html` e nos ícones de `icons/`.
 
 ## Para virar o sistema real
 
-Os dados ficam no topo do script (`dados fictícios`). No sistema real, o número de cada card e a lista da tela de destino devem usar a mesma consulta, para a contagem nunca divergir.
+Os dados fictícios são gerados no próprio script, com semente fixa, para serem sempre os mesmos. No sistema real, o número de cada card e a lista da tela de destino devem usar a mesma consulta, para a contagem nunca divergir.
