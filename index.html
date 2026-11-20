@@ -302,6 +302,12 @@ a.li:hover{background:var(--surface-2)}
 .tgl .i{width:16px;height:16px}
 .tgl[aria-pressed="true"]{background:var(--brand-soft);color:var(--brand-ink);border-color:transparent}
 .pend .li{padding:12px 8px}
+.versao .ct .chip{margin-right:6px;vertical-align:1px}
+.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vgrid b{display:block;font-size:13px;margin-bottom:8px}
+.vgrid .todo li{font-size:13.5px}
+.todo.prox li::before{background:var(--s6)}
+@media (max-width:640px){.vgrid{grid-template-columns:1fr}}
 .pn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:16px;background:var(--warn-soft);color:var(--warn)}
 .pn.ok{background:var(--good-soft);color:var(--good)}
 .li.conc .r{max-width:60%}
@@ -573,7 +579,7 @@ var ROUTES = {
 var ORDER = ['painel','clientes','financeiro','aulas','pais','recuperacao','equipe','parcerias'];
 var INFO = {
   clientes:{fase:'semanas 3 a 5', itens:['Alunos, responsáveis e matrículas','Plano, valor acordado e dia de vencimento','Status ativo e inativo, com motivo de saída','Histórico completo de cada aluno']},
-  financeiro:{fase:'semanas 3 a 5', itens:['Cobrança mensal com link de pagamento por aluno','Inadimplentes e a vencer, com botão para cobrar pelo WhatsApp','Receita por linha: mensalidade, home care, eventos, consultoria, palestras e loja','Recibos em PDF']},
+  financeiro:{fase:'semanas 3 a 5', itens:['Mensalidade gerada todo mês por aluno; pagamento registrado pela Gestora (versão 1.0)','Inadimplentes e a vencer, com botão para cobrar pelo WhatsApp','Receita por linha: mensalidade, home care, eventos, consultoria, palestras e loja','Recibos em PDF']},
   aulas:{fase:'semanas 8 e 9', itens:['Agenda por profissional','Presença e faltas','Registro rápido de aula pelo celular']},
   pais:{fase:'semanas 10 a 12', itens:['Registros de aula liberados para as famílias','Plano terapêutico e metas','Relatórios solicitados pelos pais','Acesso das famílias ao portal']},
   recuperacao:{fase:'semanas 6 e 7', itens:['Clientes inativos com motivo de saída','Botão Recuperar abre o WhatsApp do último responsável','Resultado de cada tentativa','Leads novos e funil de matrícula']},
@@ -677,7 +683,7 @@ function painelHTML(){
 
   /* alertas */
   h+='<div class="sec-t">Precisa de você hoje</div><section class="grid alerts">'+
-    go('financeiro','status=inadimplente','card alert bad','<span class="n">'+venc+'</span><span class="t"><b>Cobranças vencidas</b>'+brl(inadV)+' em aberto'+fonte('vencimento passou sem o banco confirmar','auto')+'</span>'+goBtn())+
+    go('financeiro','status=inadimplente','card alert bad','<span class="n">'+venc+'</span><span class="t"><b>Cobranças vencidas</b>'+brl(inadV)+' em aberto'+fonte('vencimento passou sem pagamento registrado pela Gestora','reg')+'</span>'+goBtn())+
     go('pais','pendencia=relatorios','card alert warn','<span class="n">5</span><span class="t"><b>Relatórios pedidos</b>pelos pais, aguardando'+fonte('botão Pedir relatório no portal','auto')+'</span>'+goBtn())+
     go('pais','pendencia=sem-feedback','card alert warn','<span class="n">'+semFeed+'</span><span class="t"><b>Famílias sem retorno</b>há mais de 30 dias'+fonte('data do último registro liberado','reg')+'</span>'+goBtn())+
     go('recuperacao','status=inativo','card alert info','<span class="n">11</span><span class="t"><b>Inativos para recuperar</b>com WhatsApp do responsável'+fonte('saída com motivo + tentativas da Gestora','reg')+'</span>'+goBtn())+
@@ -696,12 +702,12 @@ function painelHTML(){
       '<div class="kpi-h">'+icon('coin')+'Receita do mês'+goBtn()+'</div>'+
       '<div class="kpi-v">R$ '+mil(totRec)+' <small>mil</small></div>'+
       '<div class="kpi-s"><span class="chip good">'+pct(totRec,totPrev)+'% do previsto</span><span>R$ '+mil(totPrev)+' mil</span></div>'+
-      sparkline(recebido.slice(-6),'var(--brand)')+fonte('pagamentos confirmados pelo banco + lançamentos','auto'))+
+      sparkline(recebido.slice(-6),'var(--brand)')+fonte('pagamentos registrados pela Gestora + lançamentos','reg'))+
     go('financeiro','status=inadimplente','card kpi',
       '<div class="kpi-h">'+icon('alert')+'Inadimplentes'+goBtn()+'</div>'+
       '<div class="kpi-v">'+venc+' <small>clientes</small></div>'+
       '<div class="kpi-s"><span class="chip warn">'+pct(venc,totC)+'% da carteira</span><span>'+brl(inadV)+'</span></div>'+
-      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill warn" style="width:'+pct(venc,totC)+'%"></div></div>'+fonte('cobranças vencidas no gateway','auto'))+
+      '<div class="bar-track" style="margin-top:4px"><div class="bar-fill warn" style="width:'+pct(venc,totC)+'%"></div></div>'+fonte('mensalidades vencidas sem pagamento registrado','reg'))+
     go('recuperacao','status=inativo&periodo=3m','card kpi',
       '<div class="kpi-h">'+icon('down').replace('class="i"','class="i neg"')+'Perdas em 3 meses'+goBtn()+'</div>'+
       '<div class="kpi-v">'+perdas3+' <small>clientes</small></div>'+
@@ -721,7 +727,7 @@ function painelHTML(){
 
   /* gráficos 1 */
   h+='<div class="sec-t">Receita e carteira</div><section class="grid g12">'+
-    '<div class="card c8"><div class="ch"><div><div class="ct">Receita prevista e recebida</div><div class="cs">Valores em R$ mil. O mês atual está em andamento.'+fonte('cobranças do gateway; previsto = valor acordado de cada aluno + lançamentos','auto')+'</div></div>'+
+    '<div class="card c8"><div class="ch"><div><div class="ct">Receita prevista e recebida</div><div class="cs">Valores em R$ mil. O mês atual está em andamento.'+fonte('recebido = pagamentos registrados pela Gestora; previsto = valor acordado de cada aluno + lançamentos','reg')+'</div></div>'+
     '</div><div class="key"><span><i style="background:var(--brand)"></i>Recebido</span><span><i class="dash"></i>Previsto</span></div><div id="ch-rev"></div></div>'+
     '<div class="card c4"><div class="ch"><div><div class="ct">Receita por linha</div><div class="cs">Recebido em novembro'+fonte('mensalidades automáticas; eventos, loja e palestras lançados à mão','manual')+'</div></div></div><div id="ch-don" style="display:flex;justify-content:center"></div>'+
       '<div class="legend">'+linhas.map(function(l){
@@ -731,7 +737,7 @@ function painelHTML(){
   h+='<section class="grid g12">'+
     '<div class="card c8"><div class="ch"><div><div class="ct">Clientes ativos, entradas e saídas</div><div class="cs">A linha mostra a base. As barras mostram quem entrou e quem saiu no mês.'+fonte('matrículas e cancelamentos com motivo','reg')+'</div></div></div>'+
     '<div class="key"><span><i style="background:var(--brand)"></i>Entradas</span><span><i style="background:var(--s4)"></i>Saídas</span></div><div id="ch-cli"></div></div>'+
-    '<div class="card c4"><div class="ch"><div><div class="ct">Saúde da carteira</div><div class="cs">'+totC+' cobranças do mês'+fonte('status das cobranças do mês','auto')+'</div></div></div>'+
+    '<div class="card c4"><div class="ch"><div><div class="ct">Saúde da carteira</div><div class="cs">'+totC+' cobranças do mês'+fonte('vencimento automático; pago só quando a Gestora registra','reg')+'</div></div></div>'+
       '<div class="split" role="img" aria-label="Pagas '+carteira.pagas+', a vencer '+carteira.avencer+', vencidas '+carteira.vencidas+'">'+
         go('financeiro','status=pago','','',' style="flex:'+carteira.pagas+';background:var(--good-fill)" data-tip="'+carteira.pagas+' cobranças em dia"')+
         go('financeiro','status=avencer','','',' style="flex:'+carteira.avencer+';background:var(--s3)" data-tip="'+carteira.avencer+' a vencer"')+
@@ -935,7 +941,7 @@ function achar(p,ok){for(var i=0;i<clientes.length;i++){var c=clientes[i];if(!us
 /* 4 a vencer = R$ 2.660; as 51 em dia somam R$ 41.290, o mesmo valor do painel */
 [['basico',20],['basico',25],['essencial',20],['essencial',25]].forEach(function(x){var c=achar(x[0]);c.fin='avencer';c.venc=x[1];c.due=new Date(2026,10,x[1])});
 clientes.forEach(function(c){
-  if(c.fin==='pago'){c.due=new Date(2026,10,c.venc);c.pagoEm=new Date(2026,10,Math.max(1,c.venc-rint(0,4)));c.via=pick(['Pix pelo link','Pix pelo link','Pix pelo link','Cartão pelo link','Transferência'])}
+  if(c.fin==='pago'){c.due=new Date(2026,10,c.venc);c.pagoEm=new Date(2026,10,Math.max(1,c.venc-rint(0,4)));c.via=pick(['Pix, comprovante no WhatsApp','Pix, comprovante no WhatsApp','Pix, conferido no extrato','Transferência','Dinheiro'])}
   c.consent=new Date(c.desde.getTime()+864e5*rint(0,6));
 });
 /* aulas de hoje do painel */
@@ -1064,9 +1070,9 @@ function cobrancaRow(c){
   var sub=c.rel+': '+c.resp+' · '+PNOME[c.plano]+' · ';
   var acts='';
   if(c.fin==='vencida'){sub+='venceu em '+dm(c.due)+(c.parcelas>1?' (outubro e novembro em aberto)':'');
-    acts=(c.cobrado?chip('Cobrado hoje','info'):btn('Cobrar','cobrar',c.id,'wa','chat'))+btn('Link Pix','pix',c.id)+btn('Confirmar pagamento','pagar',c.id,'ghost');}
-  else if(c.fin==='avencer'){sub+='vence em '+dm(c.due);acts=c.cobrado?chip('Lembrete enviado','info'):btn('Lembrete','lembrete',c.id,'','send');}
-  else {sub+='pago em '+dm(c.pagoEm)+' · '+c.via;acts=btn('Recibo','recibo',c.id,'','doc');}
+    acts=(c.cobrado?chip('Cobrado hoje','info'):btn('Cobrar','cobrar',c.id,'wa','chat'))+btn('Dados do Pix','pix',c.id)+btn('Registrar pagamento','pagar',c.id,'pri','check');}
+  else if(c.fin==='avencer'){sub+='vence em '+dm(c.due);acts=(c.cobrado?chip('Lembrete enviado','info'):btn('Lembrete','lembrete',c.id,'','send'))+btn('Registrar pagamento','pagar',c.id,'ghost','check');}
+  else {sub+='pago em '+dm(c.pagoEm)+' · '+c.via+' · registrado por '+(c.regPor||'Helen');acts=btn('Recibo','recibo',c.id,'','doc');}
   return li(av(c.ini,c.fin==='vencida'?'bad':c.fin==='avencer'?'warn':''),c.ini+' · <span class="money">'+brl(valorAberto(c))+'</span>',sub,finChip(c)+acts,null,' data-s="'+esc(norm(c.ini+' '+c.resp))+'"');
 }
 function financeiroHTML(){
@@ -1075,9 +1081,9 @@ function financeiroHTML(){
       aven=clientes.filter(function(c){return c.fin==='avencer'}),pagos=clientes.filter(function(c){return c.fin==='pago'});
   var vV=sum(venc.map(valorAberto)),vA=sum(aven.map(function(c){return c.valor})),vP=sum(pagos.map(function(c){return c.valor}));
   h+=tabsHTML('financeiro',[{f:'periodo=mes',alt:['']
-    ,n:'Visão do mês'},{f:'status=inadimplente',n:'Vencidas',q:venc.length},{f:'status=avencer',n:'A vencer',q:aven.length},{f:'status=pago',n:'Em dia',q:pagos.length},{f:'aba=conciliar',n:'Pix a conciliar',q:pixSemId.filter(function(p){return p.st==='aberto'}).length}]);
-  if(f.aba==='conciliar') return h+conciliarHTML()+rodape('financeiro');
-  var regra='<div class="insight">'+icon('alert')+' O sistema <b>nunca marca como pago sozinho</b>. O status muda quando o banco confirma o Pix feito pelo link, ou quando você confirma manualmente (fica registrado quem confirmou). A cobrança sai pelo seu WhatsApp, com a mensagem pronta.</div>';
+    ,n:'Visão do mês'},{f:'status=inadimplente',n:'Vencidas',q:venc.length},{f:'status=avencer',n:'A vencer',q:aven.length},{f:'status=pago',n:'Em dia',q:pagos.length},{f:'aba=extrato',n:'Conferir extrato',q:aConferir().length}]);
+  if(f.aba==='extrato') return h+versaoFin()+extratoHTML()+rodape('financeiro');
+  var regra=versaoFin()+'<div class="insight">'+icon('alert')+' Na versão 1.0, <b>quem diz que foi pago é a Helen</b>. O sistema gera a mensalidade de cada aluno e marca como <b>vencida</b> sozinho quando passa o vencimento. Ela só vira <b>paga</b> quando a Helen registra o pagamento, a partir do comprovante recebido no WhatsApp ou do extrato do banco. Fica registrado quem registrou e quando.</div>';
   if(f.categoria){
     var ln=linhas.filter(function(l){return l.k===f.categoria})[0];
     h+=extraFiltro('financeiro',ln.n);
@@ -1274,7 +1280,6 @@ var preMat=[
   {id:'p1',resp:'Camila Rocha',rel:'Mãe',ini:'D.R.',idade:6,plano:'essencial',hor:'terça e quinta, à tarde',quando:diasAtras(1),origem:'Instagram',st:'novo'},
   {id:'p2',resp:'Eduardo Lins',rel:'Pai',ini:'M.L.',idade:9,plano:'basico',hor:'sábado de manhã',quando:diasAtras(2),origem:'Indicação da Clínica Girassol',st:'novo'}
 ];
-var pixSemId=[{id:'x1',v:880,d:diasAtras(2),pagador:'J. MELO',banco:'Nubank',st:'aberto'}];
 leads.filter(function(l){return l.etapa==='contato'}).slice(0,3).forEach(function(l,i){l.form=true;l.semResp=[26,31,49][i];l.origem='Instagram'});
 var famPedidos=[], famAval=null, famReacoes={};
 /* garante que a Marina (perfil Profissional) tenha relatórios pedidos para mostrar; o total continua 5 */
@@ -1290,12 +1295,12 @@ function registrosLiberadosDe(c){var r=rng(parseInt(c.id.slice(1),10)*53),o=[];
 var FONTE={auto:'Automático',reg:'Depende de registro',manual:'Manual'};
 function fonte(t,tipo){return '<span class="src src-'+tipo+'"><i></i><b>'+FONTE[tipo]+'</b> · '+t+'</span>'}
 function pendenciasHTML(){
-  var aul=ontemSem.filter(function(o){return !o.ok}),pre=preMat.filter(function(p){return p.st==='novo'}),pix=pixSemId.filter(function(p){return p.st==='aberto'}),ld=leads.filter(function(l){return l.semResp});
+  var aul=ontemSem.filter(function(o){return !o.ok}),pre=preMat.filter(function(p){return p.st==='novo'}),ext=aConferir(),ld=leads.filter(function(l){return l.semResp});
   var porProf={};aul.forEach(function(o){porProf[o.prof]=(porProf[o.prof]||0)+1});
   var itens=[
     sessao==='admin'?['aulas','aba=pendentes',aul.length,'Aulas de ontem sem presença',Object.keys(porProf).map(function(k){return k+' '+porProf[k]}).join(', ')||'tudo registrado','sem isso, aulas dadas e presença ficam erradas']:null,
     ['clientes','aba=pre',pre.length,'Pré-matrículas para aprovar','preenchidas pelas famílias pelo link','viram aluno ativo depois da sua conferência'],
-    ['financeiro','aba=conciliar',pix.length,'Pix sem identificação','caiu na chave sem passar pelo link','diga de qual aluno é para baixar a cobrança'],
+    ['financeiro','aba=extrato',ext.length,'Pagamentos da semana para conferir','registrados pela Gestora nos últimos 7 dias','bater com o extrato do banco evita erro de digitação'],
     ['recuperacao','aba=leads',ld.length,'Leads do formulário sem resposta','há mais de 24 horas','responder rápido aumenta a conversão']
   ].filter(Boolean);
   return '<div class="card pend"><div class="ch"><div><div class="ct">Pendências de registro</div><div class="cs">O que falta a equipe registrar para os números do painel ficarem certos. Nada aqui é preenchido sozinho.</div></div></div><div class="list">'+
@@ -1307,9 +1312,9 @@ function painelGestorHTML(){
   var venc=clientes.filter(function(c){return c.fin==='vencida'}),aven=clientes.filter(function(c){return c.fin==='avencer'}),
       para=saidasL.filter(function(s){return s.st==='recuperar'}).length;
   var h='<section class="summary"><div class="card sum-text"><span class="eyebrow">Seu dia, Helen</span><p>Há <em>'+venc.length+' cobranças vencidas</em> para cobrar, <em>'+preMat.filter(function(p){return p.st==='novo'}).length+' pré-matrículas</em> para conferir e <em>'+leads.filter(function(l){return l.semResp}).length+' leads</em> esperando resposta.</p></div>'+
-    '<div class="card"><div class="ct">O que é seu</div><ul class="todo" style="margin-top:10px"><li>Cobranças e conciliação de pagamentos</li><li>Matrículas, cadastro de responsáveis e termo LGPD</li><li>Leads, follow-up e recuperação de inativos</li></ul><div class="insight">Registros de aula e plano terapêutico ficam só com a equipe clínica.</div></div></section>';
+    '<div class="card"><div class="ct">O que é seu</div><ul class="todo" style="margin-top:10px"><li>Cobrar pelo WhatsApp e registrar cada pagamento (comprovante ou extrato)</li><li>Matrículas, cadastro de responsáveis e termo LGPD</li><li>Leads, follow-up e recuperação de inativos</li></ul><div class="insight">Registros de aula e plano terapêutico ficam só com a equipe clínica.</div></div></section>';
   h+='<div class="sec-t">Fazer hoje</div><section class="grid alerts">'+
-    go('financeiro','status=inadimplente','card alert bad','<span class="n">'+venc.length+'</span><span class="t"><b>Cobranças vencidas</b>'+brl(sum(venc.map(valorAberto)))+' em aberto'+fonte('vencimento passou sem o banco confirmar','auto')+'</span>'+goBtn())+
+    go('financeiro','status=inadimplente','card alert bad','<span class="n">'+venc.length+'</span><span class="t"><b>Cobranças vencidas</b>'+brl(sum(venc.map(valorAberto)))+' em aberto'+fonte('vencimento passou sem pagamento registrado pela Gestora','reg')+'</span>'+goBtn())+
     go('financeiro','status=avencer','card alert warn','<span class="n">'+aven.length+'</span><span class="t"><b>Lembretes a enviar</b>vencem até 25/11'+fonte('vencimento das cobranças','auto')+'</span>'+goBtn())+
     go('recuperacao','aba=leads','card alert warn','<span class="n">'+leads.filter(function(l){return l.semResp}).length+'</span><span class="t"><b>Leads sem resposta</b>chegaram pelo formulário'+fonte('formulário do link da bio','auto')+'</span>'+goBtn())+
     go('recuperacao','status=inativo','card alert info','<span class="n">'+para+'</span><span class="t"><b>Inativos para recuperar</b>com WhatsApp do responsável'+fonte('saída com motivo + suas tentativas','reg')+'</span>'+goBtn())+
@@ -1324,12 +1329,25 @@ function painelGestorHTML(){
 }
 
 /* ---------- conciliação, pré-matrículas, pendências de aula ---------- */
-function conciliarHTML(){
-  return '<div class="insight">'+icon('alert')+' Pix feito direto na chave do studio, sem usar o link da cobrança, chega <b>sem dizer de qual aluno é</b>. Diga de quem é, e a cobrança é baixada com registro de quem conciliou. Quanto mais famílias pagarem pelo link, menos isso acontece.</div>'+
-    cardList('Pix recebidos sem identificação','Extrato do gateway, últimos 7 dias',pixSemId.map(function(p){
-      var cand=clientes.filter(function(c){return c.fin==='vencida'&&c.valor===p.v});
-      return '<div class="li conc">'+av(icon('coin'),'ic')+'<span class="m"><b>'+brl(p.v)+' · '+p.pagador+' ('+p.banco+')</b><small>Recebido em '+dm(p.d)+' · sem código de cobrança</small></span><span class="r">'+
-        (p.st==='aberto'?'<span class="cs">É de:</span>'+cand.map(function(c){return '<button type="button" class="btn sm" data-act="conciliar" data-id="'+p.id+'" data-c="'+c.id+'">'+c.ini+' · '+c.resp.split(' ')[0]+'</button>'}).join('')+btn('Outro','outro',p.id,'sm ghost'):chip('Conciliado: '+p.de,'good'))+'</span></div>'}),'',' Nenhum Pix sem identificação.');
+var CHAVE_PIX='CNPJ 12.345.678/0001-90';
+function aConferir(){return clientes.filter(function(c){return c.fin==='pago'&&c.pagoEm>=diasAtras(6)&&!c.conferido})}
+function versaoFin(){return '<div class="card versao"><div class="ch"><div><div class="ct">'+chip('Versão 1.0','info')+' Controle manual de pagamentos</div><div class="cs">Sem gateway de pagamento: a Helen cobra pelo WhatsApp com a chave Pix do studio e registra cada pagamento.</div></div></div>'+
+  '<div class="vgrid"><div><b>Agora (1.0)</b><ul class="todo"><li>Mensalidade gerada todo mês pelo sistema</li><li>Vencida marcada sozinha pela data</li><li>Cobrança pelo WhatsApp com chave Pix e valor</li><li>Pagamento registrado pela Helen, com recibo</li></ul></div>'+
+  '<div><b>Próximas versões (com gateway)</b><ul class="todo prox"><li>Pix com código único por mensalidade</li><li>Baixa automática quando o banco confirma</li><li>Lembretes automáticos antes do vencimento</li><li>Cartão com cobrança recorrente</li></ul></div></div></div>'}
+function extratoHTML(){
+  var lst=clientes.filter(function(c){return c.fin==='pago'&&c.pagoEm>=diasAtras(6)}).sort(function(a,b){return b.pagoEm-a.pagoEm});
+  return '<div class="insight">Uma vez por semana, compare os pagamentos registrados com o extrato do banco. Se algum não aparecer no extrato, o registro pode estar errado. Se aparecer no extrato um Pix que ninguém registrou, procure o aluno pelo valor e pelo nome de quem pagou.</div>'+
+    cardList('Pagamentos registrados nos últimos 7 dias',lst.length+' pagamentos · '+brl(sum(lst.map(function(c){return c.valor})))+' no total',lst.map(function(c){
+      return li(av(c.ini,c.conferido?'good':''),c.ini+' · <span class="money">'+brl(c.valor)+'</span>',dm(c.pagoEm)+' · '+c.via+' · registrado por '+(c.regPor||'Helen'),c.conferido?chip('Bateu com o extrato','good'):btn('Bateu com o extrato','conferir',c.id,'pri','check')+btn('Não achei','nao-achei',c.id,'sm ghost'),null)}),'','Nenhum pagamento registrado nesta semana.');
+}
+function registrarPagHTML(c){
+  return '<h2 id="modal-t">Registrar pagamento</h2><p class="cs">'+c.ini+' · '+c.rel+': '+c.resp+' · mensalidade de '+(c.parcelas>1?'outubro e novembro':'novembro')+'</p>'+
+    '<form class="form" id="pag-form" data-cli="'+c.id+'">'+
+    '<div class="two"><label class="fld"><span>Valor recebido</span><input class="inp" name="valor" inputmode="decimal" value="'+valorAberto(c)+'"></label><label class="fld"><span>Data do pagamento</span><input class="inp" name="data" type="date" value="2026-11-17"></label></div>'+
+    '<div class="fld"><span>Forma</span>'+pickGroup('forma',['Pix','Transferência','Dinheiro','Cartão na maquininha'],[0],true)+'</div>'+
+    '<div class="fld"><span>Como você confirmou?</span>'+pickGroup('conf',['Comprovante no WhatsApp','Vi no extrato','Recebi em mãos'],[0],true)+'</div>'+
+    '<label class="check"><input type="checkbox" name="recibo" checked> Disponibilizar o recibo no portal da família</label>'+
+    '<div class="auth-err" id="pag-err" role="alert"></div><button class="btn pri big" type="submit">'+icon('check')+'Registrar pagamento</button></form>';
 }
 function preMatHTML(){
   return '<div class="insight">A família preenche a <a class="lnk" href="#pre-matricula">pré-matrícula pelo link</a> (dados, responsável financeiro e termo LGPD). Você só confere, define profissional e horário, e aprova. '+btn('Copiar link da pré-matrícula','copiar-link','pre-matricula','sm')+'</div>'+
@@ -1367,13 +1385,13 @@ function clienteHTML(){
       '<div class="kv"><span>Plano</span><b>'+PNOME[c.plano]+', '+PVEZ[c.plano]+'x por semana</b></div>'+
       '<div class="kv"><span>Valor acordado</span><b>'+brl(c.valor)+(c.valor!==PRECO[c.plano]?' <small class="mut">(tabela '+brl(PRECO[c.plano])+')</small>':'')+'</b></div>'+
       '<div class="kv"><span>Vencimento</span><b>todo dia '+c.venc+'</b></div>'+
-      '<div class="kv"><span>Cobrança</span><b>Gerada todo mês no gateway, com Pix e código próprio</b></div></div></div>';
+      '<div class="kv"><span>Cobrança</span><b>Mensalidade gerada todo mês; a Helen cobra pelo WhatsApp e registra o pagamento</b>'+chip('Versão 1.0','info')+'</div></div></div>';
   var fam='<div class="card '+(prof?'c6':'c4')+'"><div class="ct">Família e portal</div><div class="kvs">'+
       '<div class="kv"><span>Último retorno</span><b>'+(c.feedback>30?'<span class="neg">há '+c.feedback+' dias</span>':'há '+c.feedback+' dias')+'</b></div>'+
       '<div class="kv"><span>Acessos ao portal</span><b>'+c.acessos+' na semana</b></div>'+
       '<div class="kv"><span>Relatório pedido</span><b>'+(c.relatorio?c.relatorio.tipo:'Nenhum')+'</b></div></div></div>';
   h+='<section class="grid g12">'+resp+(prof?'':cob)+fam+
-    (prof?'':'<div class="card '+(gest?'c12':'c6')+'"><div class="ct">Mensalidades</div><div class="cs">Status vindo do banco, pelo código de cada cobrança</div><div class="kvs">'+meses.join('')+'</div></div>')+
+    (prof?'':'<div class="card '+(gest?'c12':'c6')+'"><div class="ct">Mensalidades</div><div class="cs">Pago quando a Helen registra; vencida sozinha pela data</div><div class="kvs">'+meses.join('')+'</div></div>')+
     (gest?'':'<div class="card '+(prof?'c12':'c6')+'"><div class="ct">Últimas aulas</div><div class="cs">Registradas pelo profissional. A família só vê depois de liberado.</div><div class="kvs">'+aulas.join('')+'</div></div>'+
       '<div class="card c12"><div class="ch"><div><div class="ct">Plano terapêutico</div><div class="cs">Metas do semestre, revisadas com a família. Visível no portal dos pais.</div></div>'+chip('Liberado à família','good')+'</div><div class="rows">'+
       metasDe(c).map(function(m){return row(m[0],'<b>'+m[1]+'%</b> da meta',m[1],m[1]<50?'warn':'')}).join('')+'</div></div>')+
@@ -1475,10 +1493,10 @@ function famEvolucaoHTML(){
 }
 function famPagamentosHTML(){
   var c=famCli,meses=[];for(var i=5;i>=0;i--){var d=new Date(2026,10-i,1);var pago=i>0||c.fin==='pago';
-    meses.push(li(av(icon(pago?'check':'coin'),pago?'good':'bad'),MES[d.getMonth()]+'/'+String(d.getFullYear()).slice(2)+' · '+brl(c.valor),pago?'Pago'+(i===0?' em '+dm(c.pagoEm):'')+' · Pix pelo link':'Vence '+dm(c.due),pago?btn('Recibo','recibo-fam',d.getMonth(),'sm','doc'):btn('Pagar com Pix','pix-fam','nov','pri','coin'),null))}
+    meses.push(li(av(icon(pago?'check':'coin'),pago?'good':'bad'),MES[d.getMonth()]+'/'+String(d.getFullYear()).slice(2)+' · '+brl(c.valor),pago?'Pago'+(i===0?' em '+dm(c.pagoEm):'')+' · registrado pelo studio':'Vence '+dm(c.due),pago?btn('Recibo','recibo-fam',d.getMonth(),'sm','doc'):btn('Pagar com Pix','pix-fam','nov','pri','coin'),null))}
   var h='<div class="card"><div class="ch"><div><div class="ct">Próxima mensalidade</div><div class="cs">Dezembro · Plano '+PNOME[c.plano]+'</div></div>'+chip('Vence 05/12','warn')+'</div>'+
-    '<div class="big-v">'+brl(c.valor)+'</div><div class="acts">'+btn('Pagar com Pix','pix-fam','dez','pri big','coin')+btn('Pagar com cartão','cartao','dez','big')+'</div>'+
-    '<div class="insight">Qualquer pessoa pode pagar por este link: o pagamento é reconhecido pelo <b>código da cobrança</b>, não por quem paga. Assim que o banco confirma, aparece como pago aqui e no studio. Não precisa mandar comprovante.</div></div>';
+    '<div class="big-v">'+brl(c.valor)+'</div><div class="acts">'+btn('Pagar com Pix','pix-fam','dez','pri big','coin')+btn('Enviar comprovante','comprovante','dez','big wa','chat')+'</div>'+
+    '<div class="insight">Pague pelo Pix do studio e envie o comprovante para a Helen pelo WhatsApp. A mensalidade aparece como paga aqui assim que ela registrar, normalmente no mesmo dia. Pode pagar quem quiser: o que vale é o comprovante.</div></div></div>';
   h+=cardList('Histórico','Recibos ficam disponíveis assim que o pagamento é confirmado',meses.reverse());
   h+='<div class="card"><div class="ct">Responsável financeiro</div><div class="kvs"><div class="kv"><span>Nome</span><b>'+c.resp+'</b></div><div class="kv"><span>Vencimento</span><b>todo dia '+c.venc+'</b></div><div class="kv"><span>Aviso</span><b>Lembrete pelo WhatsApp 3 dias antes</b></div></div></div>';
   return h+'<p class="foot">Protótipo com dados fictícios. Visão do perfil Família.</p>';
@@ -1574,10 +1592,10 @@ function fakeQR(){var r=rng(42),n=25,s='';
   return '<svg class="qr" viewBox="-2 -2 29 29" role="img" aria-label="QR code do Pix (ilustrativo)"><rect x="-2" y="-2" width="29" height="29" fill="#fff"/><g fill="#14262e">'+s+'</g></svg>'}
 function pixHTML(mes){
   var c=famCli;
-  return '<h2 id="modal-t">Pagar com Pix</h2><p class="cs">Mensalidade de '+(mes==='dez'?'dezembro':'novembro')+' de '+c.ini+' · '+brl(c.valor)+'</p>'+fakeQR()+
-    '<div class="copia"><code>00020126580014br.gov.bcb.pix0136studio-ts-'+c.id+'-'+mes+'5204000053039865406'+c.valor+'.00</code>'+btn('Copiar código','copiar-pix','','pri')+'</div>'+
-    '<div class="insight">Este código é <b>único desta cobrança</b>. Quando o banco confirmar, a mensalidade muda para paga sozinha, aqui e no sistema do studio.</div>'+
-    '<div class="acts">'+btn('Simular confirmação do banco','simular-pago',mes,'','check')+'</div>';
+  return '<h2 id="modal-t">Pagar com Pix</h2><p class="cs">Mensalidade de '+(mes==='dez'?'dezembro':'novembro')+' de '+c.ini+'</p>'+
+    '<div class="kvs"><div class="kv"><span>Valor</span><b class="big-v" style="font-size:24px">'+brl(c.valor)+'</b></div><div class="kv"><span>Chave Pix</span><b>'+CHAVE_PIX+'</b></div><div class="kv"><span>Favorecido</span><b>Studio Thiago Santos</b></div><div class="kv"><span>Vencimento</span><b>'+(mes==='dez'?'05/12':dm(c.due))+'</b></div></div>'+
+    '<div class="acts">'+btn('Copiar chave Pix','copiar-pix','','pri big')+btn('Enviar comprovante','comprovante',mes,'big wa','chat')+'</div>'+
+    '<div class="insight">Depois de pagar, envie o comprovante para a Helen pelo WhatsApp. A mensalidade muda para paga quando ela registrar. '+chip('Versão 1.0','info')+'<br><small class="mut">Nas próximas versões, o Pix vai ter um código próprio e a baixa vai ser automática.</small></div>';
 }
 function pedirRelatorioHTML(){
   return '<h2 id="modal-t">Pedir relatório</h2><p class="cs">'+famCli.prof+' recebe o pedido no app. Prazo combinado: até 10 dias.</p>'+
@@ -1610,15 +1628,13 @@ function acaoPerfil(el){
     case 'registrar-cli': location.hash=(sessao==='profissional'?'#prof-registros?aba=novo&id=':'#aulas?aba=registro&id=')+id; return true;
     case 'lembrar-prof': var o=ontemSem.filter(function(x){return x.id===id})[0];toast('Lembrete enviado para o app de '+o.prof+': “Falta marcar a presença de '+o.c.ini+' de ontem, '+o.h+'”.');return true;
     case 'marcar-ontem': ontemSem.forEach(function(x){if(x.id===id)x.ok=true});toast('Presença registrada. Fica na auditoria que foi marcada pelo administrador.');break;
-    case 'conciliar': var px=pixSemId.filter(function(x){return x.id===id})[0],c=cliPorId(el.getAttribute('data-c'));px.st='ok';px.de=c.ini;c.fin='pago';c.pagoEm=diasAtras(0);c.via='Pix conciliado manualmente';c.parcelas=1;
-      toast('Pix de '+brl(px.v)+' conciliado com a cobrança de '+c.ini+'. Fica registrado quem conciliou.');break;
-    case 'outro': toast('Abriria a busca de alunos para escolher de quem é o Pix.');return true;
-    case 'aprovar-pre': preMat.forEach(function(p){if(p.id===id)p.st='ok'});toast('Matrícula aprovada. O aluno entra como ativo, a agenda é gerada e a primeira cobrança é criada no gateway.');break;
+    case 'conferir': var cf=cliPorId(id);cf.conferido=true;toast('Pagamento de '+cf.ini+' conferido com o extrato.');break;
+    case 'nao-achei': toast('Marcado para revisão. O Thiago vê um alerta para checar esse pagamento com a Helen.');return true;
+    case 'aprovar-pre': preMat.forEach(function(p){if(p.id===id)p.st='ok'});toast('Matrícula aprovada. O aluno entra como ativo, a agenda é gerada e a primeira mensalidade é criada no sistema.');break;
     case 'copiar-link': toast('Link copiado: <b>pedroduefarias.github.io/prototipo-sistema-thiagosantos/#'+id+'</b>');return true;
     case 'pix-fam': openModal(pixHTML(id)); return true;
-    case 'copiar-pix': toast('Código Pix copiado. Cole no app do seu banco, na opção Pix copia e cola.');return true;
-    case 'simular-pago': closeModal(); toast('Banco confirmou o pagamento. A mensalidade aparece como paga aqui e no sistema do studio, sem ninguém digitar nada.');return true;
-    case 'cartao': toast('Abriria o pagamento com cartão do gateway, com opção de cobrança automática todo mês.');return true;
+    case 'copiar-pix': toast('Chave Pix copiada: <b>'+CHAVE_PIX+'</b>. Cole no app do seu banco e use o valor da mensalidade.');return true;
+    case 'comprovante': toast('Abriria o WhatsApp do studio para você mandar o comprovante para a Helen. <small>Protótipo: nada é enviado.</small>');return true;
     case 'recibo-fam': toast('Recibo em PDF baixado. '+'<small>Protótipo: nenhum arquivo é gerado.</small>');return true;
     case 'baixar': toast('Relatório em PDF baixado. <small>Protótipo: nenhum arquivo é gerado.</small>');return true;
     case 'pedir-relatorio': openModal(pedirRelatorioHTML()); return true;
@@ -1645,6 +1661,11 @@ function enviarForm(form){
   if(id==='lead-form'){var el=document.getElementById('lead-err');if(!form.nome.value.trim()||!form.fone.value.trim()){el.textContent='Preencha seu nome e o WhatsApp.';return}
     var o=form.getAttribute('data-origem');leads.unshift({id:'l'+leads.length,ini:'?',idade:form.idade.value||'?',resp:form.nome.value.trim(),rel:'Responsável',etapa:'contato',origem:o.charAt(0).toUpperCase()+o.slice(1),data:diasAtras(0),interesse:picked(form,'interesse')[0]||'Psicomotricidade',form:true,semResp:0});
     location.hash='#agendar?enviado=1&origem='+o;return}
+  if(id==='pag-form'){var pc=cliPorId(form.getAttribute('data-cli')),v=parseFloat(String(form.valor.value).replace(/\./g,'').replace(',','.'));
+    if(!(v>0)){document.getElementById('pag-err').textContent='Informe o valor recebido.';return}
+    var dt=form.data.value?new Date(form.data.value+'T12:00:00'):diasAtras(0),fm=picked(form,'forma')[0]||'Pix',cfm=picked(form,'conf')[0]||'';
+    pc.fin='pago';pc.pagoEm=dt;pc.via=fm+(cfm?', '+cfm.toLowerCase():'');pc.regPor=perfil().curto;pc.parcelas=1;pc.cobrado=false;
+    closeModal();toast('Pagamento de '+pc.ini+' registrado ('+brl(v)+'). Fica na auditoria: registrado por '+perfil().curto+' em 17/11.'+(form.recibo.checked?' O recibo já está no portal da família.':''));render();return}
   if(id==='registro-form'){
     var cli=cliPorId(form.getAttribute('data-cli')),aula=agendaHoje.filter(function(x){return x.id===form.getAttribute('data-aula')})[0],
         lib=form.querySelector('[data-sw]').getAttribute('aria-checked')==='true',at=picked(form,'ativ'),pres=picked(form,'pres')[0];
@@ -1665,11 +1686,11 @@ function acao(el){
   var a=el.getAttribute('data-act'),id=el.getAttribute('data-id'),c=cliPorId(id),s=saidasL.filter(function(x){return x.id===id})[0];
   var nota='<small>Protótipo: nada é enviado de verdade.</small>';
   switch(a){
-    case 'cobrar': c.cobrado=true;toast('<b>WhatsApp de '+c.resp.split(' ')[0]+'</b> abriria com: “Oi, '+c.resp.split(' ')[0]+'! Tudo bem? A mensalidade de novembro de '+c.ini+' ('+brl(valorAberto(c))+') venceu em '+dm(c.due)+'. Segue o link para pagar com Pix: pague.studio/'+c.id+'”'+nota);break;
+    case 'cobrar': c.cobrado=true;toast('<b>WhatsApp de '+c.resp.split(' ')[0]+'</b> abriria com: “Oi, '+c.resp.split(' ')[0]+'! Tudo bem? A mensalidade de novembro de '+c.ini+' ('+brl(valorAberto(c))+') venceu em '+dm(c.due)+'. Chave Pix do studio: CNPJ 12.345.678/0001-90. Quando pagar, me manda o comprovante por aqui?”'+nota);break;
     case 'cobrar-todos': clientes.forEach(function(x){if(x.fin==='vencida')x.cobrado=true});toast('Abriria o WhatsApp de cada responsável, um por vez, com a mensagem pronta. Você só aperta enviar. '+nota);break;
-    case 'lembrete': c.cobrado=true;toast('Lembrete amigável preparado para '+c.resp.split(' ')[0]+': vencimento em '+dm(c.due)+', com o link de pagamento. '+nota);break;
-    case 'pix': toast('Link Pix de '+c.ini+' copiado: <b>pague.studio/'+c.id+'</b>. Quando o banco confirmar, o status muda sozinho para pago.');break;
-    case 'pagar': c.fin='pago';c.pagoEm=diasAtras(0);c.via='Confirmado manualmente por Thiago';c.parcelas=1;c.valor=PRECO[c.plano];toast('Pagamento de '+c.ini+' confirmado manualmente. Fica registrado na auditoria: quem confirmou e quando.');break;
+    case 'lembrete': c.cobrado=true;toast('Lembrete amigável preparado para '+c.resp.split(' ')[0]+': vencimento em '+dm(c.due)+', com o valor e a chave Pix do studio. '+nota);break;
+    case 'pix': toast('Copiado para colar no WhatsApp: <b>Chave Pix '+CHAVE_PIX+' · '+brl(valorAberto(c))+' · '+c.ini+'</b>');return;
+    case 'pagar': openModal(registrarPagHTML(c));return;
     case 'recibo': toast('Recibo em PDF de '+c.ini+' gerado e disponível no portal dos pais. '+nota);break;
     case 'portal': toast('Link do portal preparado para '+c.resp.split(' ')[0]+'. Pelo WhatsApp vai só o link; o acesso pede o código de 6 dígitos. '+nota);break;
     case 'recuperar': s.aberto=true;toast('<b>WhatsApp de '+s.resp.split(' ')[0]+'</b> abriria com: “Oi, '+s.resp.split(' ')[0]+'! Aqui é a Helen, do Studio Thiago Santos. Sentimos falta de '+s.ini+' por aqui...” Depois, marque o resultado em 1 toque.');break;
@@ -1732,7 +1753,7 @@ function render(){
   document.getElementById('tabbar').innerHTML=tabHTML(key);
   document.getElementById('sheet-in').innerHTML=sheetHTML();
   document.getElementById('brand-sub').textContent=sessao==='familia'?'Portal da família':sessao==='profissional'?'Área do profissional':'Gestão do studio';
-  document.getElementById('side-foot').innerHTML='<b>'+p.n+'</b><br>Perfil '+p.papel+' · protótipo com dados fictícios<br><button type="button" class="lnk" data-act="sair">Sair</button>';
+  document.getElementById('side-foot').innerHTML='<b>'+p.n+'</b><br>Perfil '+p.papel+' · versão 1.0 do protótipo, com dados fictícios<br><button type="button" class="lnk" data-act="sair">Sair</button>';
   view.className=state.src?'src-on':'';
   view.innerHTML = key==='painel' ? (sessao==='gestor'?painelGestorHTML():painelHTML()) : TELAS[key]();
   document.title = ROUTES[key].t+' · Studio Thiago Santos';
