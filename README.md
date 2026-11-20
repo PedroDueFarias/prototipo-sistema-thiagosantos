@@ -13,7 +13,7 @@ Senha `123` para todos os perfis. A tela de login mostra os acessos.
 | `admin` | Administrador | Thiago | Tudo |
 | `gestor` | Gestor | Helen | Painel, Clientes, Financeiro, Recuperação, Parcerias. Não vê registros de aula nem plano terapêutico. |
 | `profissional` | Profissional | Marina | As próprias aulas, presença, registros e relatórios. Não vê o financeiro. |
-| `pais` | Família | Mãe de L.M. | Só o que foi liberado do próprio filho, mensalidades e recibos |
+| `pais` | Família | Mãe do Lucas Moura | Só o que foi liberado do próprio filho, mensalidades e recibos |
 
 Páginas públicas, sem login: `#agendar?origem=instagram` (formulário de lead para a bio do Instagram), `#pre-matricula` e `#convite` (primeiro acesso da família).
 O botão **?** na tela de login ensina a colocar o sistema na tela do celular (Android e iPhone).
