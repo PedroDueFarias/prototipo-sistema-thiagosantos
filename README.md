@@ -55,7 +55,7 @@ No protótipo a escolha fica guardada no navegador; no sistema real, fica no usu
 
 ## De onde vem cada número
 
-Passe o mouse sobre um card do Dashboard para ver a origem do dado:
+Cada card do Dashboard mostra a origem do dado (botão "Origem dos dados"). Com o botão desligado, a origem aparece ao passar o mouse sobre o card:
 
 - **Automático**: sai sozinho de algo que já existe (matrícula, datas, agenda).
 - **Depende de registro**: só fica certo se alguém da equipe registrar (presença, pagamento, saída com motivo).

@@ -151,6 +151,7 @@ a.card.kpi{display:flex;flex-direction:column;gap:6px;padding:16px}
 .cx-m.parc .cx-b i{opacity:.55}
 .cx-m span{font-size:11.5px;color:var(--muted)}
 .cx-m small{font-size:10.5px;font-weight:700;color:var(--good);white-space:nowrap}
+.src-on .src{display:block}
 .tip.src-tip{max-width:300px;font-weight:500}
 .de{display:flex;flex-direction:column;gap:6px;margin:4px 0}
 .de-r{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:12px}
@@ -662,7 +663,7 @@ var FL = {
 motivos.forEach(function(m){FL['motivo='+m.k]='Motivo: '+m.n});
 equipe.forEach(function(e){FL['profissional='+e.n.toLowerCase()]='Profissional: '+e.n});
 
-var state = {range:6, filter:'', route:'dashboard'};
+var state = {range:6, filter:'', route:'dashboard', src:true};
 
 /* ---------- utilitários ---------- */
 var IC = {
@@ -782,7 +783,7 @@ function painelHTML(){
   });
   fecha();
   if(!h) h='<div class="card empty">Nenhum bloco escolhido. Toque em <b>Personalizar</b> para montar o seu dashboard.</div>';
-  return h+'<p class="foot">Protótipo visual com dados fictícios. Atualizado hoje às 15:20.'+(sessao==='admin'?' Passe o mouse sobre um card para ver de onde vem o número.':'')+'</p>';
+  return h+'<p class="foot">Protótipo visual com dados fictícios. Atualizado hoje às 15:20.'+' Com a origem dos dados desligada, passe o mouse sobre um card para ver de onde vem o número.'+'</p>';
 }
 
 var feedOk=53, feedTot=62;
@@ -1963,6 +1964,7 @@ function topHTML(key){
   var r=ROUTES[key], p=perfil(), theme=effectiveTheme(), painel=key==='dashboard';
   var ctrl='<div class="top-r"><span class="pill">Protótipo</span>'+
     (painel&&sessao==='admin'?'<div class="seg" role="group" aria-label="Período dos gráficos">'+[3,6,12].map(function(n){return '<button type="button" data-range="'+n+'" aria-pressed="'+(state.range===n)+'">'+n+' meses</button>'}).join('')+'</div>':'')+
+    (painel?'<button type="button" class="tgl" data-src-toggle aria-pressed="'+state.src+'">'+icon('alert')+'Origem dos dados</button>':'')+
     (painel&&sessao==='admin'?'<button type="button" class="tgl" data-act="dash-editar">'+icon('edit')+'Personalizar</button>':'')+
     '<button type="button" class="icon-btn" data-theme-toggle aria-label="Alternar tema claro e escuro">'+icon(theme==='dark'?'sun':'moon')+'</button>'+
     '<button type="button" class="icon-btn" data-act="sair" aria-label="Sair da conta">'+icon('logout')+'</button></div>';
@@ -2002,7 +2004,7 @@ function render(){
   document.getElementById('sheet-in').innerHTML=sheetHTML();
   document.getElementById('brand-sub').textContent=sessao==='familia'?'Portal da família':sessao==='profissional'?'Área do profissional':'Gestão do studio';
   document.getElementById('side-foot').innerHTML='<b>'+p.n+'</b><br>Perfil '+p.papel+' · versão 1.0 do protótipo, com dados fictícios<br><button type="button" class="lnk" data-act="sair">Sair</button>';
-  view.className='';
+  view.className=state.src?'src-on':'';
   view.innerHTML = key==='dashboard' ? (sessao==='gestor'?painelGestorHTML():painelHTML()) : TELAS[key]();
   document.title = ROUTES[key].t+' · Studio Thiago Santos';
   if(key==='dashboard'&&sessao==='admin') drawAll();
@@ -2060,6 +2062,7 @@ document.addEventListener('click',function(ev){
   var eye=t.closest&&t.closest('[data-eye]');
   if(eye){var inp=eye.parentNode.querySelector('input'),show=inp.type==='password';inp.type=show?'text':'password';
     eye.setAttribute('aria-pressed',show);eye.setAttribute('aria-label',show?'Esconder senha':'Mostrar senha');eye.innerHTML=icon(show?'eyeOff':'eye');inp.focus();return}
+  if(t.closest&&t.closest('[data-src-toggle]')){state.src=!state.src;render();return}
   if(t.closest&&t.closest('[data-close]')||t.id==='modal'){closeModal();return}
   var rb=t.closest&&t.closest('[data-range]');
   if(rb){state.range=parseInt(rb.getAttribute('data-range'),10);render();return}
@@ -2085,7 +2088,7 @@ function showTip(el,x,y){
   var nx=Math.min(Math.max(8,x+14),window.innerWidth-w-8), ny=y-h-14; if(ny<8) ny=y+18;
   tip.style.left=nx+'px'; tip.style.top=ny+'px';
 }
-/* origem do dado: escondida na tela, aparece ao passar o mouse sobre o card (só com mouse) */
+/* origem do dado: com o botão desligado, aparece ao passar o mouse sobre o card (só com mouse) */
 function srcDe(t){
   var c=t.closest&&t.closest('.card,.lg,.row'); if(!c) return null;
   if(!c.classList.contains('card')) c=c.closest('.card'); if(!c) return null;
@@ -2094,7 +2097,7 @@ function srcDe(t){
 document.addEventListener('pointermove',function(ev){
   var el=ev.target.closest&&ev.target.closest('[data-tip]');
   if(el){showTip(el,ev.clientX,ev.clientY);return}
-  var o=ev.pointerType==='mouse'&&srcDe(ev.target);
+  var o=ev.pointerType==='mouse'&&!state.src&&srcDe(ev.target);
   if(o){showTip({getAttribute:function(){return o}},ev.clientX,ev.clientY);tip.classList.add('src-tip')} else tip.classList.remove('on');
   if(!o) tip.classList.remove('src-tip');
 });
