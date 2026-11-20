@@ -43,7 +43,7 @@ O registro manual continua existindo para dinheiro, transferência e casos fora 
 
 ## Dashboard personalizável
 
-O Administrador toca em **Personalizar** e escolhe quais blocos aparecem, em que ordem, e quais indicadores ficam no topo. **Restaurar padrão** volta ao modelo padrão, que segue o que painéis de gestão de clínicas e studios costumam mostrar primeiro: o que precisa de ação hoje, caixa (entradas e saídas), receita, inadimplência, retenção e funil de novos alunos.
+O Administrador toca em **Personalizar**, liga ou desliga os blocos, arrasta para mudar a ordem (no celular: tocar, segurar e arrastar) e escolhe e quais indicadores ficam no topo. **Restaurar padrão** volta ao modelo padrão, que segue o que painéis de gestão de clínicas e studios costumam mostrar primeiro: o que precisa de ação hoje, caixa (entradas e saídas), receita, inadimplência, retenção e funil de novos alunos.
 No protótipo a escolha fica guardada no navegador; no sistema real, fica no usuário e vale em qualquer aparelho.
 
 ## Financeiro: entradas e saídas
