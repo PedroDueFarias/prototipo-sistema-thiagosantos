@@ -11,7 +11,7 @@ Senha `123` para todos os perfis. A tela de login mostra os acessos.
 | E-mail | Perfil | Quem | O que vê |
 |---|---|---|---|
 | `admin` | Administrador | Thiago | Tudo |
-| `gestor` | Gestor | Helen | Painel, Clientes, Financeiro, Recuperação, Parcerias. Não vê registros de aula nem plano terapêutico. |
+| `gestor` | Gestor | Helen | Dashboard, Clientes, Financeiro, Recuperação, Parcerias. Não vê registros de aula nem plano terapêutico; vê a folha da equipe só como total. |
 | `profissional` | Profissional | Marina | As próprias aulas, presença, registros e relatórios. Não vê o financeiro. |
 | `pais` | Família | Mãe do Lucas Moura | Só o que foi liberado do próprio filho, mensalidades e recibos |
 
@@ -41,9 +41,21 @@ Com um gateway (a escolher, por exemplo Asaas, Efí ou Mercado Pago; taxas a com
 
 O registro manual continua existindo para dinheiro, transferência e casos fora do gateway.
 
+## Dashboard personalizável
+
+O Administrador toca em **Personalizar** e escolhe quais blocos aparecem, em que ordem, e quais indicadores ficam no topo. **Restaurar padrão** volta ao modelo padrão, que segue o que painéis de gestão de clínicas e studios costumam mostrar primeiro: o que precisa de ação hoje, caixa (entradas e saídas), receita, inadimplência, retenção e funil de novos alunos.
+No protótipo a escolha fica guardada no navegador; no sistema real, fica no usuário e vale em qualquer aparelho.
+
+## Financeiro: entradas e saídas
+
+- **Entradas**: mensalidades e lançamentos (eventos, loja, palestras, home care, consultoria).
+- **Saídas** (aba Saídas): contas a pagar por categoria (equipe, aluguel, impostos, contas de consumo, material, marketing, contador e sistemas, taxas). A Helen lança cada conta; as **fixas** se repetem sozinhas todo mês; as de valor variável entram quando a conta chega. Uma conta só vira **paga** quando alguém registra o pagamento, com comprovante. O valor de cada profissional vem do cadastro: fixo, ou aulas dadas (presenças) × valor por aula.
+- **Fluxo de caixa** (aba Fluxo de caixa): entradas, saídas e resultado mês a mês, com a previsão de fechamento do mês.
+- A conferência semanal do extrato vale para os dois lados.
+
 ## De onde vem cada número
 
-Cada card do Painel mostra a origem do dado (botão "Origem dos dados"):
+Passe o mouse sobre um card do Dashboard para ver a origem do dado:
 
 - **Automático**: sai sozinho de algo que já existe (matrícula, datas, agenda).
 - **Depende de registro**: só fica certo se alguém da equipe registrar (presença, pagamento, saída com motivo).
