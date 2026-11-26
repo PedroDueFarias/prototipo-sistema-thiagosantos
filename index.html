@@ -519,13 +519,29 @@ body.perfil-familia .wrap,body.perfil-profissional .wrap{max-width:880px}
 @media (max-width:380px){
   .alerts{grid-template-columns:1fr}
 }
-/* entrada do dashboard: só transform/opacity, roda uma vez ao abrir a tela */
-#view.entra .card{animation:entra .42s cubic-bezier(.2,.7,.2,1) both}
-#view.entra .bar-fill{transform-origin:left center;animation:enche .7s .18s cubic-bezier(.2,.7,.2,1) both}
-#view.entra .chart .bar{transform-box:fill-box;transform-origin:center bottom;animation:sobe .6s .2s cubic-bezier(.2,.7,.2,1) both}
-@keyframes entra{from{opacity:0;transform:translateY(8px)}}
-@keyframes enche{from{transform:scaleX(0)}}
-@keyframes sobe{from{transform:scaleY(0)}}
+/* animação de entrada do dashboard (1ª vez após entrar): cada card anima quando aparece na tela.
+   Só transform/opacity/stroke em CSS; o JS apenas marca o card visível (IntersectionObserver). */
+.od{display:inline-flex;height:1.1em;line-height:1.1em;overflow:hidden;vertical-align:baseline;font-variant-numeric:tabular-nums}
+.od-s{display:block;white-space:pre;transform:translateY(calc(var(--d) * -1.1em))}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#view.anima.pronto .rv{transition:opacity .8s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+#view.anima .rv:not(.vis){opacity:0;transform:translateY(28px)}
+#view.anima.pronto .od-s{transition:transform var(--t,2s) cubic-bezier(.25,.6,.2,1) .4s}
+#view.anima .rv:not(.vis) .od-s{transform:translateY(0)}
+#view.anima.pronto .cx-b i{transform-origin:center bottom;transition:transform 1.6s cubic-bezier(.25,.8,.25,1) calc(var(--i,0) * 140ms + .4s)}
+#view.anima .rv:not(.vis) .cx-b i{transform:scaleY(0)}
+#view.anima.pronto .bar-fill{transform-origin:left center;transition:transform 1.8s cubic-bezier(.25,.8,.25,1) calc(var(--i,0) * 120ms + .4s)}
+#view.anima .rv:not(.vis) .bar-fill{transform:scaleX(0)}
+#view.anima.pronto .chart .bar{transform-box:fill-box;transform-origin:center bottom;transition:transform 1.6s cubic-bezier(.25,.8,.25,1) calc(var(--i,0) * 120ms + .4s)}
+#view.anima .chart .bar.out{transform-origin:center top}
+#view.anima .rv:not(.vis) .chart .bar{transform:scaleY(0)}
+#view.anima .chart .line{stroke-dasharray:1}
+#view.anima.pronto .chart .line{transition:stroke-dashoffset 2.4s cubic-bezier(.45,0,.25,1) .4s}
+#view.anima .rv:not(.vis) .chart .line{stroke-dashoffset:1}
+#view.anima.pronto #ch-cli circle,#view.anima.pronto #ch-cli path:not(.line),#view.anima.pronto #ch-rev .pt,#view.anima.pronto #ch-rev .plan{transition:opacity .8s ease 2s}
+#view.anima .rv:not(.vis) #ch-cli circle,#view.anima .rv:not(.vis) #ch-cli path:not(.line),#view.anima .rv:not(.vis) #ch-rev .pt,#view.anima .rv:not(.vis) #ch-rev .plan{opacity:0}
+#view.anima.pronto #ch-don svg,#view.anima.pronto #ch-ring svg{transition:transform 2s cubic-bezier(.25,.8,.25,1) .4s,opacity 1s ease .4s}
+#view.anima .rv:not(.vis) #ch-don svg,#view.anima .rv:not(.vis) #ch-ring svg{transform:rotate(-120deg) scale(.85);opacity:0}
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
 }
@@ -1062,7 +1078,7 @@ function drawClients(){
   ticksA.forEach(function(t){s+='<line class="grid-l" x1="'+m.l+'" x2="'+(w-m.r)+'" y1="'+ya(t)+'" y2="'+ya(t)+'"/><text class="axis" x="'+(m.l-8)+'" y="'+(ya(t)+4)+'" text-anchor="end">'+t+'</text>'});
   var pts=at.map(function(v,i){return [m.l+band*i+band/2, ya(v)]});
   var d=pts.map(function(p,i){return (i?'L':'M')+p[0]+' '+p[1]}).join(' ');
-  s+='<path d="'+d+' L'+pts[n-1][0]+' '+(m.t+h1)+' L'+pts[0][0]+' '+(m.t+h1)+' Z" fill="url(#g-cli)"/><path class="line" d="'+d+'"/>';
+  s+='<path d="'+d+' L'+pts[n-1][0]+' '+(m.t+h1)+' L'+pts[0][0]+' '+(m.t+h1)+' Z" fill="url(#g-cli)"/><path class="line" pathLength="1" d="'+d+'"/>';
   pts.forEach(function(p,i){ if(i<n-1) s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="3" style="fill:var(--surface);stroke:var(--brand);stroke-width:2"/>'});
   var L=pts[n-1];
   s+='<circle cx="'+L[0]+'" cy="'+L[1]+'" r="9" style="fill:var(--brand);fill-opacity:.18"/><circle cx="'+L[0]+'" cy="'+L[1]+'" r="5" style="fill:var(--brand)"/>'+
@@ -1528,7 +1544,7 @@ function parentDe(k){return k==='cliente'?(sessao==='profissional'?'prof-alunos'
 function entrar(email,senha){
   var e=String(email||'').trim().toLowerCase().split('@')[0].normalize('NFD').replace(/[̀-ͯ]/g,''), p=LOGINS[e];
   if(!p||senha!=='123') return false;
-  sessao=p; try{localStorage.setItem('sessao',p)}catch(x){}
+  sessao=p; animarDash=true; try{localStorage.setItem('sessao',p)}catch(x){}
   location.hash='#'+PERFIS[p].home; return true;
 }
 function sair(){sessao=null;try{localStorage.removeItem('sessao')}catch(x){}location.hash='#login'}
@@ -2100,25 +2116,37 @@ function render(){
   view.innerHTML = key==='dashboard' ? (sessao==='gestor'?painelGestorHTML():painelHTML()) : TELAS[key]();
   document.title = ROUTES[key].t+' · Studio Thiago Santos';
   if(key==='dashboard'&&sessao==='admin') drawAll();
-  if(key==='dashboard'&&ultimaTela!=='dashboard') entradaDash(view);
+  if(key==='dashboard'&&ultimaTela!=='dashboard') entradaDash(view); else if(revObs&&key!=='dashboard'){revObs.disconnect();revObs=null}
   ultimaTela=key;
 }
-/* efeito leve ao abrir o dashboard: cards sobem em cascata, barras enchem e números contam (≈0,7 s, sem atrasar o uso) */
-var ultimaTela=null, entraT;
+/* animação de entrada: só na 1ª vez que o dashboard abre após carregar a página ou entrar no sistema */
+var ultimaTela=null, animarDash=true, revObs=null, revT;
+function odometro(el){
+  /* troca os dígitos de um valor em R$ por "rolos" de caça-níquel (só CSS); o leitor de tela lê o texto original */
+  var t=el.firstChild; if(!t||t.nodeType!==3||t.nodeValue.indexOf('R$')<0) return;
+  var txt=t.nodeValue, dig=txt.replace(/\D/g,'').length, j=0, h='';
+  for(var i=0;i<txt.length;i++){var c=txt.charAt(i);
+    if(/\d/.test(c)){h+='<span class="od" aria-hidden="true"><span class="od-s" style="--d:'+(20+ +c)+';--t:'+(2-(dig-1-j)*.1).toFixed(2)+'s">'+'0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n'.repeat(3)+'</span></span>';j++}
+    else h+='<span aria-hidden="true">'+esc(c)+'</span>'}
+  var w=document.createElement('span'); w.innerHTML='<span class="sr-only">'+esc(txt)+'</span>'+h; el.replaceChild(w,t);
+}
 function entradaDash(view){
+  if(revObs){revObs.disconnect();revObs=null} clearTimeout(revT); view.classList.remove('anima','pronto');
+  if(!animarDash) return; animarDash=false;
   if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  view.classList.add('entra');
-  [].forEach.call(view.querySelectorAll('.card'),function(c,i){c.style.animationDelay=Math.min(i,10)*35+'ms'});
-  clearTimeout(entraT); entraT=setTimeout(function(){view.classList.remove('entra');[].forEach.call(view.querySelectorAll('.card'),function(c){c.style.animationDelay=''})},1200);
-  [].forEach.call(view.querySelectorAll('.kpi-v'),function(el){
-    var t=el.firstChild; if(!t||t.nodeType!==3) return;
-    var m=t.nodeValue.match(/^(\D*)(\d{1,3}(?:\.\d{3})*|\d+)(?:,(\d+))?(.*)$/); if(!m) return;
-    var dec=m[3]?m[3].length:0, alvo=parseFloat(m[2].replace(/\./g,'')+(dec?'.'+m[3]:'')), t0=null, orig=t.nodeValue;
-    function fmt(v){return m[1]+v.toLocaleString('pt-BR',{minimumFractionDigits:dec,maximumFractionDigits:dec})+m[4]}
-    function passo(ts){if(t0===null)t0=ts;var k=Math.min(1,(ts-t0)/650);k=1-Math.pow(1-k,3);
-      if(!t.parentNode) return; t.nodeValue=k<1?fmt(alvo*k):orig; if(k<1) requestAnimationFrame(passo)}
-    t.nodeValue=fmt(0); requestAnimationFrame(passo);
+  var cards=[].slice.call(view.querySelectorAll('.card')); if(!cards.length) return;
+  cards.forEach(function(c){
+    c.classList.add('rv');
+    [].forEach.call(c.querySelectorAll('.cx-b i,.bar-fill,.chart .bar'),function(b,i){b.style.setProperty('--i',b.parentNode.classList.contains('cx-b')?i>>1:i)});
+    [].forEach.call(c.querySelectorAll('.kpi-v,.row .val b'),odometro);
   });
+  view.classList.add('anima'); void view.offsetHeight; view.classList.add('pronto'); /* estado inicial sem transição, depois liga as transições */
+  var falta=cards.length;
+  function mostra(c){if(c.classList.contains('vis'))return;c.classList.add('vis');
+    if(--falta===0) revT=setTimeout(function(){view.classList.remove('anima','pronto')},4500)}
+  if(!('IntersectionObserver' in window)){cards.forEach(mostra);return}
+  revObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){mostra(e.target);revObs.unobserve(e.target)}})},{threshold:0,rootMargin:'0px 0px -12% 0px'});
+  requestAnimationFrame(function(){cards.forEach(function(c){revObs.observe(c)})});
 }
 function setRoute(){
   var hs=(location.hash||'').slice(1).split('?'), k=hs[0]==='painel'?'dashboard':hs[0], alvo=k;
