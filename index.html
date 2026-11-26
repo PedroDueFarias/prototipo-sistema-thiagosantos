@@ -178,6 +178,9 @@ body.arrastando,body.arrastando *{cursor:grabbing!important}
 .de-r b{display:block;font-size:13.5px}.de-r small{display:block;font-size:12px;color:var(--muted)}
 .de-k{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;padding-top:4px}
 .de-k button{cursor:pointer}
+.de-mod{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:2px 0 6px}
+.de-info{margin:0;font-size:12.5px;color:var(--muted);flex:1 1 220px}.de-info b{color:var(--ink)}
+.de.lock .de-r{cursor:default}.de.lock .de-h{width:6px}.de.lock .sw,.de.lock .de-k button{cursor:not-allowed}
 .de-acts{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;margin-top:6px}
 
 /* gráficos */
@@ -818,12 +821,20 @@ var DASH_PADRAO={ordem:BLOCOS.map(function(b){return b.k}),
   ocultos:['linhas','ocupacao','motivos','profissionais','planos','parcerias'],
   kpis:['ativos','receita','resultado','inad','perdas','ticket']};
 function copia(o){return JSON.parse(JSON.stringify(o))}
-function dashLer(){
-  try{var d=JSON.parse(localStorage.getItem('dash-admin'));
-    if(d&&d.ordem){BLOCOS.forEach(function(b){if(d.ordem.indexOf(b.k)<0)d.ordem.push(b.k)});return d}}catch(e){}
-  return copia(DASH_PADRAO);
+/* modelos salvos: o Padrão é fixo; Personalizado 1 e 2 guardam cada um a sua montagem (blocos, ordem, indicadores e quando foi salvo) */
+var MODELOS=[{k:'padrao',n:'Padrão',l:'Padrão'},{k:'p1',n:'Pers. 1',l:'Personalizado 1'},{k:'p2',n:'Pers. 2',l:'Personalizado 2'}];
+function modeloNome(k){return MODELOS.filter(function(m){return m.k===k})[0].l}
+function dashTodos(){
+  var t=null; try{t=JSON.parse(localStorage.getItem('dash-admin'))}catch(e){}
+  if(t&&t.ordem) t={ativo:'p1',p1:t}; /* formato antigo: o que já tinha sido mexido vira o Personalizado 1 */
+  if(!t||typeof t!=='object') t={};
+  if(['padrao','p1','p2'].indexOf(t.ativo)<0) t.ativo='padrao';
+  ['p1','p2'].forEach(function(k){var d=t[k];
+    if(d&&d.ordem&&d.ocultos&&d.kpis) BLOCOS.forEach(function(b){if(d.ordem.indexOf(b.k)<0)d.ordem.push(b.k)}); else t[k]=null});
+  return t;
 }
-function dashGravar(d){try{localStorage.setItem('dash-admin',JSON.stringify(d))}catch(e){}}
+function dashLer(){var t=dashTodos(); return t.ativo!=='padrao'&&t[t.ativo]?t[t.ativo]:copia(DASH_PADRAO)}
+function dashGravar(t){try{localStorage.setItem('dash-admin',JSON.stringify({ativo:t.ativo,p1:t.p1,p2:t.p2}))}catch(e){}}
 function blocoDe(k){return BLOCOS.filter(function(b){return b.k===k})[0]}
 
 function painelHTML(){
@@ -1896,20 +1907,35 @@ function comentarHTML(id){
 }
 /* ---------- editor do dashboard (Administrador) ---------- */
 var dashDraft=null;
+/* montagem que está sendo vista no editor (o Padrão é só leitura) */
+function dashVer(){var a=dashDraft.ativo; return a==='padrao'?DASH_PADRAO:(dashDraft[a]||DASH_PADRAO)}
+/* montagem editável: um personalizado ainda vazio começa como cópia do padrão */
+function dashEd(){var a=dashDraft.ativo; if(a==='padrao') return null; if(!dashDraft[a]) dashDraft[a]=copia(DASH_PADRAO); return dashDraft[a]}
+function dashResumo(d){var v=d.ordem.filter(function(k){return d.ocultos.indexOf(k)<0}).length;
+  return v+' de '+BLOCOS.length+' blocos · '+d.kpis.length+' indicadores'}
+function quando(ms){var t=new Date(ms),z=function(n){return (n<10?'0':'')+n};
+  return z(t.getDate())+'/'+z(t.getMonth()+1)+' às '+z(t.getHours())+':'+z(t.getMinutes())}
 function dashEditorHTML(){
-  var d=dashDraft, vis=d.ordem.filter(function(k){return d.ocultos.indexOf(k)<0}).length;
-  return '<h2 id="modal-t">Personalizar dashboard</h2><p class="cs">Ligue os blocos que importam para você. Para mudar a ordem, arraste o bloco para cima ou para baixo (no celular, toque, segure e arraste). '+vis+' de '+BLOCOS.length+' blocos ligados. Fica salvo no seu usuário.</p>'+
-    '<div class="de">'+d.ordem.map(function(k,i){
+  var a=dashDraft.ativo, d=dashVer(), lock=a==='padrao', sl=dashDraft[a];
+  var info=lock?'<b>Padrão</b> · '+dashResumo(d)+'. Modelo fixo do sistema: serve de referência e não muda.'
+    : sl?'<b>'+modeloNome(a)+'</b> · '+dashResumo(sl)+(sl.em?' · salvo em '+quando(sl.em):JSON.parse(dashDraft.orig)[a]?' · já salvo':' · ainda não salvo'):'<b>'+modeloNome(a)+'</b> · ainda vazio. Começa igual ao padrão: mexa e salve.';
+  return '<h2 id="modal-t">Personalizar dashboard</h2>'+
+    '<div class="de-mod"><div class="seg" role="group" aria-label="Modelo do dashboard">'+MODELOS.map(function(m){
+      return '<button type="button" data-act="dash-modelo" data-id="'+m.k+'" aria-pressed="'+(m.k===a)+'" title="'+m.l+'">'+m.n+'</button>'}).join('')+'</div>'+
+    '<p class="de-info">'+info+'</p></div>'+
+    '<p class="cs">'+(lock?'Para montar o seu, escolha <b>Pers. 1</b> ou <b>Pers. 2</b>. Cada um guarda os blocos ligados, a ordem e os indicadores, e você volta para o Padrão quando quiser.'
+      :'Ligue os blocos que importam para você. Para mudar a ordem, arraste o bloco para cima ou para baixo (no celular, toque, segure e arraste). Fica salvo no seu usuário.')+'</p>'+
+    '<div class="de'+(lock?' lock':'')+'">'+d.ordem.map(function(k,i){
       var b=blocoDe(k), on=d.ocultos.indexOf(k)<0;
       var kp=k==='kpis'&&on?'<div class="de-k">'+KPIS.map(function(x){var o=d.kpis.indexOf(x.k)>-1;
-        return '<button type="button" class="chip '+(o?'info on':'mute')+'" data-act="dash-kpi" data-id="'+x.k+'" aria-pressed="'+o+'">'+(o?'✓ ':'')+x.n+'</button>'}).join('')+'</div>':'';
-      return '<div class="de-r'+(on?'':' off')+'" data-k="'+k+'"><button type="button" class="de-h" aria-label="Arrastar '+b.n+'. Use as setas do teclado para mover." title="Arraste para mudar a ordem">'+icon('grip')+'</button><button type="button" class="sw" role="switch" aria-checked="'+on+'" aria-label="Mostrar '+b.n+'" data-act="dash-on" data-id="'+k+'"></button>'+
+        return '<button type="button" class="chip '+(o?'info on':'mute')+'" data-act="dash-kpi" data-id="'+x.k+'" aria-pressed="'+o+'"'+(lock?' disabled':'')+'>'+(o?'✓ ':'')+x.n+'</button>'}).join('')+'</div>':'';
+      return '<div class="de-r'+(on?'':' off')+'" data-k="'+k+'">'+(lock?'<span class="de-h" aria-hidden="true"></span>':'<button type="button" class="de-h" aria-label="Arrastar '+b.n+'. Use as setas do teclado para mover." title="Arraste para mudar a ordem">'+icon('grip')+'</button>')+'<button type="button" class="sw" role="switch" aria-checked="'+on+'" aria-label="Mostrar '+b.n+'" data-act="dash-on" data-id="'+k+'"'+(lock?' disabled':'')+'></button>'+
         '<span><b>'+b.n+'</b><small>'+b.d+'</small></span>'+
         kp+'</div>'}).join('')+'</div>'+
     '<div class="insight">'+icon('alert')+' O <b>modelo padrão</b> segue o que painéis de gestão de clínicas e studios costumam mostrar primeiro: o que precisa de ação hoje, caixa (entradas e saídas), receita, inadimplência, retenção de alunos e funil de novos alunos.</div>'+
-    '<div class="de-acts">'+btn('Restaurar padrão','dash-padrao','','','refresh')+'<span style="display:flex;gap:8px">'+btn('Cancelar','dash-cancelar','')+btn('Salvar','dash-salvar','','pri','check')+'</span></div>';
+    '<div class="de-acts">'+(lock?'<span></span>':btn('Começar do padrão','dash-padrao','','','refresh'))+'<span style="display:flex;gap:8px">'+btn('Cancelar','dash-cancelar','')+btn('Salvar','dash-salvar','','pri','check')+'</span></div>';
 }
-function dashMover(k,dir){var o=dashDraft.ordem,i=o.indexOf(k),j=i+dir;if(j<0||j>=o.length)return;o[i]=o[j];o[j]=k}
+function dashMover(k,dir){var d=dashEd(); if(!d) return; var o=d.ordem,i=o.indexOf(k),j=i+dir;if(j<0||j>=o.length)return;o[i]=o[j];o[j]=k}
 /* arrastar para reordenar: mouse arrasta direto; no celular, pela alça arrasta direto e no resto do bloco é tocar, segurar e arrastar */
 var arr=null, arrPend=null, arrFim=0;
 function arrIni(row){
@@ -1929,14 +1955,14 @@ function arrSolta(){
   if(arrPend&&arrPend.t)clearTimeout(arrPend.t); arrPend=null;
   if(!arr) return;
   var k=arr.row.getAttribute('data-k'), st=arr.box.scrollTop;
-  dashDraft.ordem=[].map.call(arr.lista.children,function(r){return r.getAttribute('data-k')});
+  var de=dashEd(); if(de) de.ordem=[].map.call(arr.lista.children,function(r){return r.getAttribute('data-k')});
   document.body.classList.remove('arrastando'); arr=null; arrFim=Date.now();
   document.getElementById('modal-c').innerHTML=dashEditorHTML();
   var bx=document.querySelector('#modal .modal-in'); bx.scrollTop=st;
   var h=document.querySelector('#modal .de-r[data-k="'+k+'"]'); if(h){h.classList.add('drag');setTimeout(function(){h.classList.remove('drag')},250)}
 }
 document.addEventListener('pointerdown',function(ev){
-  var row=ev.target.closest&&ev.target.closest('.de-r'); if(!row||ev.button>0) return;
+  var row=ev.target.closest&&ev.target.closest('.de-r'); if(!row||ev.button>0||row.closest('.de.lock')) return;
   var alca=ev.target.closest('.de-h');
   if(!alca&&ev.target.closest('button')) return;
   if(alca){ev.preventDefault();arrIni(row);return}
@@ -1995,12 +2021,17 @@ function acaoPerfil(el){
     case 'enviar-comentario': famReacoes[id]=famReacoes[id]||{};famReacoes[id].coment=true;closeModal();toast('Comentário enviado para '+famCli.prof+'.');break;
     case 'avisar-falta': toast('Falta do dia '+id+' avisada. '+famCli.prof+' e a recepção recebem o aviso e a reposição é sugerida.');return true;
     case 'falar-studio': toast('Abriria o WhatsApp do studio. <small>Protótipo: nada é enviado.</small>');return true;
-    case 'dash-editar': dashDraft=dashLer(); openModal(dashEditorHTML()); return true;
-    case 'dash-on': var oc=dashDraft.ocultos,io=oc.indexOf(id); if(io>-1)oc.splice(io,1); else oc.push(id); document.getElementById('modal-c').innerHTML=dashEditorHTML(); return true;
-    case 'dash-kpi': var kk=dashDraft.kpis,ik=kk.indexOf(id); if(ik>-1)kk.splice(ik,1); else kk.push(id); document.getElementById('modal-c').innerHTML=dashEditorHTML(); return true;
-    case 'dash-padrao': dashDraft=copia(DASH_PADRAO); document.getElementById('modal-c').innerHTML=dashEditorHTML(); toast('Modelo padrão carregado. Toque em Salvar para aplicar.'); return true;
+    case 'dash-editar': var tt=dashTodos(); dashDraft={ativo:tt.ativo,p1:tt.p1,p2:tt.p2,orig:JSON.stringify(tt)}; openModal(dashEditorHTML()); return true;
+    case 'dash-modelo': dashDraft.ativo=id; document.getElementById('modal-c').innerHTML=dashEditorHTML(); return true;
+    case 'dash-on': if(!dashEd()) return true; var oc=dashEd().ocultos,io=oc.indexOf(id); if(io>-1)oc.splice(io,1); else oc.push(id); document.getElementById('modal-c').innerHTML=dashEditorHTML(); return true;
+    case 'dash-kpi': if(!dashEd()) return true; var kk=dashEd().kpis,ik=kk.indexOf(id); if(ik>-1)kk.splice(ik,1); else kk.push(id); document.getElementById('modal-c').innerHTML=dashEditorHTML(); return true;
+    case 'dash-padrao': if(dashDraft.ativo==='padrao') return true; dashDraft[dashDraft.ativo]=copia(DASH_PADRAO); document.getElementById('modal-c').innerHTML=dashEditorHTML(); toast(modeloNome(dashDraft.ativo)+' voltou a ser igual ao padrão. Toque em Salvar para guardar.'); return true;
     case 'dash-cancelar': dashDraft=null; closeModal(); return true;
-    case 'dash-salvar': dashGravar(dashDraft); dashDraft=null; closeModal(); toast('Dashboard salvo. Na versão real, fica guardado no seu usuário e vale em qualquer aparelho.'); break;
+    case 'dash-salvar':
+      var org=JSON.parse(dashDraft.orig), sem=function(d){if(!d)return '';var c=copia(d);delete c.em;return JSON.stringify(c)};
+      ['p1','p2'].forEach(function(k){var d=dashDraft[k]; if(d&&sem(d)!==sem(org[k])) d.em=Date.now()});
+      var ativo=dashDraft.ativo; dashGravar(dashDraft); dashDraft=null; closeModal();
+      toast(ativo==='padrao'?'Usando o <b>Padrão</b>. Seus personalizados continuam guardados.':'Dashboard salvo no <b>'+modeloNome(ativo)+'</b>. Na versão real, fica no seu usuário e vale em qualquer aparelho.'); break;
     case 'nova-conta': toast('Na versão real abre o formulário: descrição, categoria, valor, vencimento, forma de pagamento, <b>fixa (repete todo mês)</b> ou avulsa, e comprovante.'); return true;
     case 'conta-pagar': var ct=contas[+id]; ct.st='paga'; ct.reg=true; toast('Pagamento de <b>'+ct.d.toLowerCase()+'</b> registrado ('+brl(ct.v)+'). Fica gravado quem registrou e quando; anexe o comprovante na versão real.'); pagoMes[11]=totD(function(x){return x.st==='paga'}); break;
     case 'aceitar-termo': if(!document.getElementById('aceite').checked){document.getElementById('conv-err').textContent='Para continuar, marque que leu e concorda com o termo.';return true}location.hash='#convite?passo=3';return true;
