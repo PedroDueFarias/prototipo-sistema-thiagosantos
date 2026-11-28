@@ -1,6 +1,6 @@
-# Protótipo do sistema, Studio Thiago Santos
+# Protótipo da BemTec, com a marca do Studio Thiago Santos
 
-Protótipo navegável do sistema de gestão do Studio Thiago Santos, publicado em https://pedroduefarias.github.io/prototipo-sistema-thiagosantos/.
+Protótipo navegável da **BemTec**, o sistema de gestão da DGTec (Dué Gestão e Tecnologia) para empresários liberais de saúde e bem-estar. Aqui ele aparece com a marca do Studio Thiago Santos, primeiro cliente-parceiro (white label). Publicado publicado em https://pedroduefarias.github.io/prototipo-sistema-thiagosantos/.
 Serve para o Thiago e a Helen verem as telas, opinarem e aprovarem antes de cada tela virar código no sistema real.
 Tudo é fictício: números, nomes e iniciais de alunos. Não há back-end, banco ou integração. O que é feito nas telas vale só até recarregar a página.
 
@@ -11,12 +11,30 @@ Senha `123` para todos os perfis. A tela de login mostra os acessos.
 | E-mail | Perfil | Quem | O que vê |
 |---|---|---|---|
 | `admin` | Administrador | Thiago | Tudo |
-| `gestor` | Gestor | Helen | Dashboard, Clientes, Financeiro, Recuperação, Parcerias. Não vê registros de aula nem plano terapêutico; vê a folha da equipe só como total. |
-| `profissional` | Profissional | Marina | As próprias aulas, presença, registros e relatórios. Não vê o financeiro. |
-| `pais` | Família | Mãe do Lucas Moura | Só o que foi liberado do próprio filho, mensalidades e recibos |
+| `gestor` | Gestor | Helen | Dashboard, Clientes, Financeiro (e Recuperação e Parcerias, se ligados). Vê só a parte operacional do plano de atendimento; vê a folha da equipe só como total. |
+| `profissional` | Profissional | Marina | As próprias aulas, presença e o plano de atendimento dos seus alunos (só leitura). Registros e relatórios só com o Feedback dos pais ligado. Não vê o financeiro. |
+| `pais` | Família | Mãe do Lucas Moura | Depois da versão 1 (módulo Feedback dos pais). Só o que foi liberado do próprio filho, mensalidades e recibos. |
 
-Páginas públicas, sem login: `#agendar?origem=instagram` (formulário de lead para a bio do Instagram), `#pre-matricula` e `#convite` (primeiro acesso da família).
+Páginas públicas, sem login: `#pre-matricula`, `#convite` (primeiro acesso da família) e, com o módulo Recuperação ligado, `#agendar?origem=instagram` (formulário de lead para a bio do Instagram).
 O botão **?** na tela de login ensina a colocar o sistema na tela do celular (Android e iPhone).
+
+## Escopo da versão 1 e módulos
+
+A versão 1 vem com **Financeiro, Aulas, Equipe e Clientes**, mais o **Dashboard**, que só exibe o que esses módulos registram. Ordem de desenvolvimento: Financeiro → Aulas → Equipe → Clientes → Dashboard.
+
+**Feedback dos pais** (portal da família e registros de evolução), **Recuperação e leads** e **Parcerias** entram depois da versão 1. No protótipo eles ficam desligados: não aparecem no menu, no dashboard nem no Personalizar, e o login `pais` avisa que o portal vem depois. Para mostrar como vão ser, entre como `admin`, toque em **Módulos** no dashboard e ligue o módulo (fica guardado no navegador).
+
+## Plano de atendimento (depois da matrícula)
+
+Depois da matrícula, o aluno fica **Em planejamento** (aba em Clientes) até o **Administrador** montar o plano de atendimento. Só o Administrador monta e renova o plano.
+
+- **Parte operacional:** período, dias da semana, horário, duração, local e profissionais (um principal e, se houver, outros que dividem os dias ou cobrem como substitutos).
+- **Parte clínica:** objetivos do período e sequência de aulas (etapas em ordem).
+- Ao salvar, o sistema gera o cronograma de aulas até o fim do período, cada aula já com o profissional, e a primeira mensalidade. O aluno passa a Ativo.
+- O profissional vê o plano dos próprios alunos, sem editar. A Gestora vê só a parte operacional.
+- Planos que terminam nos próximos 15 dias aparecem em **Planos a renovar** e nas Pendências do Administrador.
+
+Ciclo do cliente: pré-matrícula → matriculado → em planejamento → ativo (renovação do plano; pausa a definir) → inativo → rematrícula com o mesmo cadastro.
 
 ## Versões
 

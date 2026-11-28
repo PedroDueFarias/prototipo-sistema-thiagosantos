@@ -697,13 +697,13 @@ var ROUTES = {
 };
 var ORDER = ['dashboard','clientes','financeiro','aulas','pais','recuperacao','equipe','parcerias'];
 var INFO = {
-  clientes:{fase:'semanas 3 a 5', itens:['Alunos, responsáveis e matrículas','Plano, valor acordado e dia de vencimento','Status ativo e inativo, com motivo de saída','Histórico completo de cada aluno']},
-  financeiro:{fase:'semanas 3 a 5', itens:['Mensalidade gerada todo mês por aluno; pagamento registrado pela Gestora (versão 1.0)','Saídas: contas a pagar por categoria, fixas que se repetem e fluxo de caixa','Inadimplentes e a vencer, com botão para cobrar pelo WhatsApp','Receita por linha: mensalidade, home care, eventos, consultoria, palestras e loja','Recibos em PDF']},
-  aulas:{fase:'semanas 8 e 9', itens:['Agenda por profissional','Presença e faltas','Registro rápido de aula pelo celular']},
-  pais:{fase:'semanas 10 a 12', itens:['Registros de aula liberados para as famílias','Plano terapêutico e metas','Relatórios solicitados pelos pais','Acesso das famílias ao portal']},
-  recuperacao:{fase:'semanas 6 e 7', itens:['Clientes inativos com motivo de saída','Botão Recuperar abre o WhatsApp do último responsável','Resultado de cada tentativa','Leads novos e funil de matrícula']},
-  equipe:{fase:'semanas 8 e 9', itens:['Profissionais e carga de alunos','Alunos por profissional','Papéis e acessos']},
-  parcerias:{fase:'semana 13', itens:['Parceiros ativos e inativos','Contato e data de início']}
+  clientes:{fase:'versão 1, etapa 4', itens:['Alunos, responsáveis e matrículas','Plano, valor acordado e dia de vencimento','Status ativo e inativo, com motivo de saída','Histórico completo de cada aluno']},
+  financeiro:{fase:'versão 1, etapa 1', itens:['Mensalidade gerada todo mês por aluno; pagamento registrado pela Gestora (versão 1.0)','Saídas: contas a pagar por categoria, fixas que se repetem e fluxo de caixa','Inadimplentes e a vencer, com botão para cobrar pelo WhatsApp','Receita por linha: mensalidade, home care, eventos, consultoria, palestras e loja','Recibos em PDF']},
+  aulas:{fase:'versão 1, etapa 2', itens:['Plano de atendimento montado pelo Administrador','Agenda por profissional','Presença e faltas','Registro rápido de aula pelo celular']},
+  pais:{fase:'depois da versão 1', itens:['Registros de aula liberados para as famílias','Plano terapêutico e metas','Relatórios solicitados pelos pais','Acesso das famílias ao portal']},
+  recuperacao:{fase:'depois da versão 1', itens:['Clientes inativos com motivo de saída','Botão Recuperar abre o WhatsApp do último responsável','Resultado de cada tentativa','Leads novos e funil de matrícula']},
+  equipe:{fase:'versão 1, etapa 3', itens:['Profissionais e carga de alunos','Alunos por profissional','Papéis e acessos']},
+  parcerias:{fase:'depois da versão 1', itens:['Parceiros ativos e inativos','Contato e data de início']}
 };
 var FL = {
   'aba=saidas':'Saídas','aba=caixa':'Fluxo de caixa',
@@ -713,6 +713,7 @@ var FL = {
   'pendencia=sem-feedback':'Sem feedback há 30+ dias','pendencia=liberar':'Registros por liberar','status=ativa':'Parcerias ativas',
   'categoria=mensalidades':'Mensalidades do studio','categoria=homecare':'Home care','categoria=eventos':'Eventos',
   'categoria=consultoria':'Consultoria online','categoria=palestras':'Palestras e congressos','categoria=loja':'Loja do T',
+  'aba=planejamento':'Em planejamento','aba=renovar':'Planos a renovar','aba=inativos':'Inativos','aba=pre':'Pré-matrículas',
   'plano=basico':'Plano Básico','plano=essencial':'Plano Essencial','plano=premium':'Plano Premium'
 };
 motivos.forEach(function(m){FL['motivo='+m.k]='Motivo: '+m.n});
@@ -793,11 +794,11 @@ pagoMes[11]=totD(function(x){return x.st==='paga'});
 var KPIS=[
   {k:'ativos',n:'Clientes ativos'},{k:'receita',n:'Receita do mês'},{k:'resultado',n:'Resultado do mês'},
   {k:'inad',n:'Inadimplentes'},{k:'perdas',n:'Perdas em 3 meses'},{k:'ticket',n:'Ticket médio'},
-  {k:'conversao',n:'Conversão de leads'},{k:'equipe',n:'Profissionais e ocupação'},{k:'parcerias',n:'Parcerias ativas'}
+  {k:'conversao',n:'Conversão de leads',mod:'recuperacao'},{k:'equipe',n:'Profissionais e ocupação'},{k:'parcerias',n:'Parcerias ativas',mod:'parcerias'}
 ];
 var BLOCOS=[
   {k:'resumo',n:'Resumo do mês',d:'Texto com o essencial e o semáforo de saúde',w:'full'},
-  {k:'alertas',n:'Precisa de você hoje',d:'Cobranças vencidas, relatórios pedidos, famílias sem retorno e inativos',w:'full'},
+  {k:'alertas',n:'Precisa de você hoje',d:'Cobranças e contas vencidas, clientes sem plano de atendimento e planos a renovar',w:'full'},
   {k:'pendencias',n:'Pendências de registro',d:'O que a equipe ainda precisa registrar',w:'full'},
   {k:'kpis',n:'Indicadores',d:'Números principais. Escolha quais aparecem.',w:'full'},
   {k:'caixa',n:'Entradas e saídas',d:'Fluxo de caixa mês a mês',w:'c8'},
@@ -805,15 +806,15 @@ var BLOCOS=[
   {k:'receita',n:'Receita prevista e recebida',d:'Gráfico mensal da receita',w:'c8'},
   {k:'carteira',n:'Saúde da carteira',d:'Mensalidades em dia, a vencer e vencidas',w:'c4'},
   {k:'clientes',n:'Clientes ativos, entradas e saídas',d:'Evolução da base de alunos',w:'c8'},
-  {k:'funil',n:'Funil de novos alunos',d:'Do contato à matrícula',w:'c4'},
+  {k:'funil',n:'Funil de novos alunos',d:'Do contato à matrícula',w:'c4',mod:'recuperacao'},
   {k:'hoje',n:'Aulas de hoje',d:'Agenda do dia com presença',w:'c8'},
-  {k:'feedback',n:'Feedback aos pais',d:'Retorno às famílias nos últimos 30 dias',w:'c4'},
+  {k:'feedback',n:'Feedback aos pais',d:'Retorno às famílias nos últimos 30 dias',w:'c4',mod:'pais'},
   {k:'linhas',n:'Receita por linha',d:'Mensalidades, home care, eventos, loja…',w:'c4'},
   {k:'ocupacao',n:'Ocupação semanal das aulas',d:'Mapa de horários cheios e vazios',w:'c8'},
   {k:'motivos',n:'Motivos de saída',d:'Por que os alunos saíram em 12 meses',w:'c4'},
   {k:'profissionais',n:'Alunos por profissional',d:'Carga de cada profissional',w:'c4'},
   {k:'planos',n:'Alunos por plano',d:'Quantidade e receita por plano',w:'c4'},
-  {k:'parcerias',n:'Parcerias ativas',d:'Clínicas e escolas parceiras',w:'c4'}
+  {k:'parcerias',n:'Parcerias ativas',d:'Clínicas e escolas parceiras',w:'c4',mod:'parcerias'}
 ];
 /* modelo padrão: o que painéis de gestão de clínicas e studios costumam trazer primeiro
    (caixa, receita, inadimplência, retenção, ocupação e o que precisa de ação hoje) */
@@ -841,7 +842,7 @@ function painelHTML(){
   var d=dashLer(), h='', grade='';
   function fecha(){if(grade){h+='<section class="grid g12 dense">'+grade+'</section>';grade=''}}
   d.ordem.forEach(function(k){
-    var b=blocoDe(k); if(!b||d.ocultos.indexOf(k)>-1) return;
+    var b=blocoDe(k); if(!b||d.ocultos.indexOf(k)>-1||!modOn(b.mod)) return;
     var html=BLOCO[k](d); if(!html) return;
     if(b.w==='full'){fecha();h+=html} else grade+=html;
   });
@@ -865,7 +866,7 @@ var BLOCO={
       '<div class="h-item"><small>Resultado previsto</small><b><span class="dot good"></span>Positivo, '+pct(prevRes,totPrev)+'% de margem</b></div>'+
       '<div class="h-item"><small>Inadimplência, meta até 8%</small><b><span class="dot warn"></span>Atenção, '+pct(venc,totC)+'%</b></div>'+
       '<div class="h-item"><small>Retenção</small><b><span class="dot good"></span>Estável, '+churn+'% ao mês</b></div>'+
-      '<div class="h-item"><small>Feedback aos pais</small><b><span class="dot warn"></span>Atenção, '+pct(feedOk,feedTot)+'% em dia</b></div>'+
+      (modOn('pais')?'<div class="h-item"><small>Feedback aos pais</small><b><span class="dot warn"></span>Atenção, '+pct(feedOk,feedTot)+'% em dia</b></div>':'<div class="h-item"><small>Planos de atendimento</small><b><span class="dot warn"></span>'+planejarAbertos().length+' sem plano, '+renovar().length+' a renovar</b></div>')+
     '</div>'+fonte('pagamentos e contas registrados pela Gestora; retenção pelas saídas com motivo','reg')+'</div></section>';
   },
   alertas:function(){
@@ -873,14 +874,16 @@ var BLOCO={
     return '<div class="sec-t">Precisa de você hoje</div><section class="grid alerts">'+
     go('financeiro','status=inadimplente','card alert bad','<span class="n">'+venc+'</span><span class="t"><b>Cobranças vencidas</b>'+brl(inadV)+' em aberto'+fonte('vencimento passou sem pagamento registrado pela Gestora','reg')+'</span>'+goBtn())+
     go('financeiro','aba=saidas&status=vencida','card alert bad','<span class="n">'+cv.length+'</span><span class="t"><b>Conta vencida</b>'+cv.map(function(x){return x.d.toLowerCase()+', '+brl(x.v)}).join('; ')+fonte('conta lançada pela Gestora, vencimento passou sem pagamento registrado','reg')+'</span>'+goBtn())+
-    go('pais','pendencia=relatorios','card alert warn','<span class="n">5</span><span class="t"><b>Relatórios pedidos</b>pelos pais, aguardando'+fonte('botão Pedir relatório no portal','auto')+'</span>'+goBtn())+
-    go('pais','pendencia=sem-feedback','card alert warn','<span class="n">'+(feedTot-feedOk)+'</span><span class="t"><b>Famílias sem retorno</b>há mais de 30 dias'+fonte('data do último registro liberado','reg')+'</span>'+goBtn())+
-    go('recuperacao','status=inativo','card alert info','<span class="n">11</span><span class="t"><b>Inativos para recuperar</b>com WhatsApp do responsável'+fonte('saída com motivo + tentativas da Gestora','reg')+'</span>'+goBtn())+
+    go('clientes','aba=planejamento','card alert warn','<span class="n">'+planejarAbertos().length+'</span><span class="t"><b>Sem plano de atendimento</b>matriculados, sem agenda nem mensalidade'+fonte('matrícula feita e plano ainda não montado pelo Administrador','auto')+'</span>'+goBtn())+
+    go('clientes','aba=renovar','card alert warn','<span class="n">'+renovar().length+'</span><span class="t"><b>Planos a renovar</b>terminam nos próximos 15 dias'+fonte('fim do período do plano de atendimento','auto')+'</span>'+goBtn())+
+    (modOn('pais')?go('pais','pendencia=relatorios','card alert warn','<span class="n">5</span><span class="t"><b>Relatórios pedidos</b>pelos pais, aguardando'+fonte('botão Pedir relatório no portal','auto')+'</span>'+goBtn())+
+    go('pais','pendencia=sem-feedback','card alert warn','<span class="n">'+(feedTot-feedOk)+'</span><span class="t"><b>Famílias sem retorno</b>há mais de 30 dias'+fonte('data do último registro liberado','reg')+'</span>'+goBtn()):'')+
+    (modOn('recuperacao')?go('recuperacao','status=inativo','card alert info','<span class="n">11</span><span class="t"><b>Inativos para recuperar</b>com WhatsApp do responsável'+fonte('saída com motivo + tentativas da Gestora','reg')+'</span>'+goBtn()):'')+
     '</section>';
   },
   pendencias:function(){return '<div style="margin-top:18px">'+pendenciasHTML()+'</div>'},
   kpis:function(d){
-    var ks=KPIS.filter(function(x){return d.kpis.indexOf(x.k)>-1}); if(!ks.length) return '';
+    var ks=KPIS.filter(function(x){return d.kpis.indexOf(x.k)>-1&&modOn(x.mod)}); if(!ks.length) return '';
     return '<div class="sec-t">Indicadores</div><section class="grid kpis">'+ks.map(function(x){return KPI[x.k]()}).join('')+'</section>';
   },
   caixa:function(){
@@ -966,11 +969,11 @@ var BLOCO={
   motivos:function(){
     var maxMot=motivos[0].q;
     return '<div class="card c4"><div class="ch"><div><div class="ct">Motivos de saída</div><div class="cs">Últimos 12 meses, '+sum(motivos.map(function(m){return m.q}))+' saídas'+fonte('motivo obrigatório no cancelamento','reg')+'</div></div></div><div class="rows">'+
-      motivos.map(function(m){return row(m.n,'<b>'+m.q+'</b>',pct(m.q,maxMot),'bad','recuperacao','motivo='+m.k)}).join('')+'</div></div>';
+      motivos.map(function(m){return row(m.n,'<b>'+m.q+'</b>',pct(m.q,maxMot),'bad',modOn('recuperacao')?'recuperacao':'clientes',(modOn('recuperacao')?'':'aba=inativos&')+'motivo='+m.k)}).join('')+'</div></div>';
   },
   profissionais:function(){
     var maxEq=equipe[0].q;
-    return '<div class="card c4"><div class="ch"><div><div class="ct">Alunos por profissional</div><div class="cs">'+ativos[11]+' alunos ativos'+fonte('profissional definido na matrícula','auto')+'</div></div></div><div class="rows">'+
+    return '<div class="card c4"><div class="ch"><div><div class="ct">Alunos por profissional</div><div class="cs">'+ativos[11]+' alunos ativos'+fonte('profissionais designados no plano de atendimento','auto')+'</div></div></div><div class="rows">'+
       equipe.map(function(e){return row(e.n,'<b>'+e.q+'</b>',pct(e.q,maxEq),'','equipe','profissional='+e.n.toLowerCase())}).join('')+'</div></div>';
   },
   planos:function(){
@@ -980,7 +983,7 @@ var BLOCO={
       '<div class="insight">Ticket médio: <b>'+brl(ticketMedio())+'</b></div></div>';
   },
   hoje:function(){
-    return '<div class="card c8"><div class="ch"><div><div class="ct">Aulas de hoje</div><div class="cs">18 aulas: 11 concluídas, 1 falta e 6 a seguir.'+fonte('agenda gerada pela matrícula + presença marcada pelo profissional','reg')+'</div></div>'+
+    return '<div class="card c8"><div class="ch"><div><div class="ct">Aulas de hoje</div><div class="cs">18 aulas: 11 concluídas, 1 falta e 6 a seguir.'+fonte('agenda gerada pelo plano de atendimento + presença marcada pelo profissional','reg')+'</div></div>'+
       '<a class="chip info" href="#aulas?periodo=hoje">Abrir agenda</a></div>'+
       hoje.map(function(a){return '<div class="today-row"><span class="hh">'+a.h+'</span><span>'+a.a+' com '+a.p+'<small>'+a.s+'</small></span><span class="chip '+a.c+'">'+a.st+'</span></div>'}).join('')+'</div>';
   },
@@ -1014,7 +1017,7 @@ var KPI={
       '<div class="kpi-s"><span class="chip warn">'+pct(venc,totC)+'% da carteira</span><span>'+brl(inadV)+'</span></div>'+
       '<div class="bar-track" style="margin-top:4px"><div class="bar-fill warn" style="width:'+pct(venc,totC)+'%"></div></div>'+fonte('mensalidades vencidas sem pagamento registrado','reg'))},
   perdas:function(){var perdas3=sum(saidas.slice(-3)),churn=(perdas3/3/(sum(ativos.slice(-3))/3)*100).toFixed(1).replace('.',',');
-    return go('recuperacao','status=inativo&periodo=3m','card kpi',
+    return go(modOn('recuperacao')?'recuperacao':'clientes',modOn('recuperacao')?'status=inativo&periodo=3m':'aba=inativos&periodo=3m','card kpi',
       '<div class="kpi-h">'+icon('down').replace('class="i"','class="i neg"')+'Perdas em 3 meses'+goBtn()+'</div>'+
       '<div class="kpi-v">'+perdas3+' <small>clientes</small></div>'+
       '<div class="kpi-s"><span class="chip mute">'+churn+'% ao mês</span><span>2 voltaram</span></div>'+
@@ -1280,7 +1283,7 @@ function cardList(title,sub,rows,head,vazio){
     (rows.length?'<div class="list">'+rows.join('')+'</div>':'<div class="empty">'+(vazio||'Nada por aqui.')+'</div>')+'</div>';
 }
 function busca(ph){return '<label class="search">'+icon('search')+'<input type="search" placeholder="'+ph+'" data-search aria-label="'+ph+'"></label>'}
-function rodape(key){var i=INFO[key];return '<p class="foot">Protótipo com dados fictícios. '+(i?'Tela prevista para as '+i.fase+' do roadmap.':'')+'</p>'}
+function rodape(key){var i=INFO[key];return '<p class="foot">Protótipo com dados fictícios. '+(i?'Roadmap: '+i.fase+'.':'')+'</p>'}
 function finChip(c){
   if(c.fin==='vencida') return chip('Vencida há '+c.dias+' dias'+(c.parcelas>1?' · 2 meses':''),'bad');
   if(c.fin==='avencer') return chip('Vence '+dm(c.due),'warn');
@@ -1295,8 +1298,11 @@ function clientesHTML(){
   var f=fp(), lista=clientes.filter(function(c){return !f.plano||c.plano===f.plano}).sort(porNome);
   var prev=sum(lista.map(function(c){return PRECO[c.plano]})), venc=lista.filter(function(c){return c.fin==='vencida'}).length;
   var novos=lista.filter(function(c){return c.desde.getMonth()===10&&c.desde.getFullYear()===2026}).length;
-  var h=backLink()+tabsHTML('clientes',[{f:'status=ativo',alt:[''],n:'Todos os ativos',q:clientes.length}].concat(planos.map(function(p){return {f:'plano='+p.k,n:p.n+' · '+PVEZ[p.k]+'x por semana',q:p.q}}),[{f:'aba=pre',n:'Pré-matrículas',q:preMat.filter(function(p){return p.st==='novo'}).length}]));
+  var h=backLink()+tabsHTML('clientes',[{f:'status=ativo',alt:[''],n:'Todos os ativos',q:clientes.length}].concat(planos.map(function(p){return {f:'plano='+p.k,n:p.n+' · '+PVEZ[p.k]+'x por semana',q:p.q}}),[{f:'aba=pre',n:'Pré-matrículas',q:preMat.filter(function(p){return p.st==='novo'}).length},{f:'aba=planejamento',n:'Em planejamento',q:planejarAbertos().length},{f:'aba=renovar',n:'Planos a renovar',q:renovar().length}],modOn('recuperacao')?[]:[{f:'aba=inativos',alt:['aba=inativos&periodo=3m'].concat(motivos.map(function(m){return 'aba=inativos&motivo='+m.k})),n:'Inativos',q:saidasL.length}]));
   if(f.aba==='pre') return h+preMatHTML()+rodape('clientes');
+  if(f.aba==='planejamento') return h+planejamentoHTML()+rodape('clientes');
+  if(f.aba==='renovar') return h+renovarHTML()+rodape('clientes');
+  if(f.aba==='inativos') return h+inativosHTML(f)+rodape('clientes');
   h+=stats([stat('Alunos'+(f.plano?' no '+PNOME[f.plano]:' ativos'),lista.length,f.plano?brl(PRECO[f.plano])+' por mês':'meta de 100'),
     stat('Receita mensal prevista','R$ '+mil(prev)+' mil','ticket médio '+brl(Math.round(prev/lista.length))),
     stat('Com pagamento vencido',venc,venc?'cobrar no Financeiro':'ninguém atrasado',venc?'bad':''),
@@ -1306,7 +1312,7 @@ function clientesHTML(){
       chip(PNOME[c.plano])+finChip(c),href('cliente','id='+c.id),' data-s="'+esc(norm(c.ini+' '+c.resp+' '+c.prof+' '+c.serv))+'"')}),
     btn('Novo aluno','novo-aluno','','pri','plus'))
     .replace('<div class="list">',busca('Buscar por aluno, responsável ou profissional')+'<div class="list">');
-  h+='<div class="insight">Inativos ficam em <a class="lnk" href="'+href('recuperacao','status=inativo')+'">Recuperação</a>, com o motivo da saída e o WhatsApp do último responsável.</div>';
+  h+='<div class="insight">'+(modOn('recuperacao')?'Inativos ficam em <a class="lnk" href="'+href('recuperacao','status=inativo')+'">Recuperação</a>, com o motivo da saída e o WhatsApp do último responsável.':'Inativos ficam na aba <a class="lnk" href="'+href('clientes','aba=inativos')+'">Inativos</a>, com o motivo da saída. O fluxo de recuperação entra depois da versão 1.')+' Depois da matrícula, o aluno fica <a class="lnk" href="'+href('clientes','aba=planejamento')+'">Em planejamento</a> até o Thiago montar o plano de atendimento.</div>';
   return h+rodape('clientes');
 }
 
@@ -1407,13 +1413,13 @@ function fluxoCaixaHTML(){
 /* ---------- Aulas ---------- */
 function aulasHTML(){
   var f=fp(),h=backLink();
-  h+=tabsHTML('aulas',[{f:'periodo=hoje',n:'Hoje',q:agendaHoje.length},{f:'periodo=mes',alt:[''],n:'Últimas 4 semanas'},{f:'aba=pendentes',n:'Sem presença',q:ontemSem.filter(function(o){return !o.ok}).length},{f:'aba=registro',n:'Registro rápido'}]);
+  h+=tabsHTML('aulas',[{f:'periodo=hoje',n:'Hoje',q:agendaHoje.length},{f:'periodo=mes',alt:[''],n:'Últimas 4 semanas'},{f:'aba=pendentes',n:'Sem presença',q:ontemSem.filter(function(o){return !o.ok}).length}].concat(modOn('pais')?[{f:'aba=registro',n:'Registro rápido'}]:[]));
   if(f.aba==='pendentes') return h+aulasPendentesHTML()+rodape('aulas');
   if(f.periodo==='hoje'){
     var conc=agendaHoje.filter(function(a){return a.st==='concluida'}).length,falt=agendaHoje.filter(function(a){return a.st==='falta'}).length;
     h+=stats([stat('Aulas hoje',agendaHoje.length,'terça, 17 de novembro'),stat('Concluídas',conc,agendaHoje.filter(function(a){return a.reg}).length+' já com registro'),stat('Faltas',falt,'reposição a agendar','bad'),stat('A seguir',agendaHoje.length-conc-falt,'2 em andamento agora')]);
     h+=cardList('Agenda de hoje','Todos os profissionais.',agendaHoje.map(function(a){var s=STA[a.st];
-      var acts=a.st==='concluida'?(a.reg?chip('Registro feito','good'):btn('Registrar','registrar',a.c.id,'pri')):a.st==='falta'?btn('Agendar reposição','repor',a.c.id):a.st==='aconfirmar'?btn('Confirmar presença','confirmar',a.c.id,'wa','chat'):'';
+      var acts=a.st==='concluida'?(!modOn('pais')?chip('Presença marcada','good'):a.reg?chip('Registro feito','good'):btn('Registrar','registrar',a.c.id,'pri')):a.st==='falta'?btn('Agendar reposição','repor',a.c.id):a.st==='aconfirmar'?btn('Confirmar presença','confirmar',a.c.id,'wa','chat'):'';
       return li('<span class="hh">'+a.h+'</span>',a.c.ini+' com '+a.c.prof,a.c.serv+(a.c.serv==='Home care'?' · na casa da família':' · studio Jatiúca'),chip(s[0],s[1])+acts,null)}));
     return h+rodape('aulas');
   }
@@ -1508,16 +1514,16 @@ function equipeHTML(){
     h+=extraFiltro('equipe','Profissional: '+prof.n);
     h+='<div class="card hero"><div class="hero-l">'+av(prof.n.charAt(0),'lg')+'<div><div class="ct" style="font-size:20px">'+prof.n+'</div><div class="cs">'+FUNCAO[prof.n]+'</div>'+
       '<div class="filters" style="margin-top:8px">'+chip(prof.n==='Thiago'?'Administrador':'Profissional','info')+chip(al.length+' alunos')+chip(aulasSem+' aulas por semana')+'</div></div></div></div>';
-    h+=stats([stat('Alunos',al.length,'de 62 ativos'),stat('Aulas por semana',aulasSem,'pelo plano de cada aluno'),stat('Registros pendentes',registros.filter(function(r){return r.c.prof===prof.n&&!r.liberado}).length,'para liberar'),stat('Famílias sem retorno',al.filter(function(c){return c.feedback>30}).length,'há 30+ dias','warn')]);
-    h+=cardList('Alunos de '+prof.n,'Toque para ver o histórico',al.map(function(c){return li(av(c.ini),c.ini+' · '+c.idade+' anos',c.serv+' · '+PNOME[c.plano]+' ('+PVEZ[c.plano]+'x por semana) · último retorno há '+c.feedback+' dias',c.feedback>30?chip('Sem retorno','warn'):chip('Em dia','good'),href('cliente','id='+c.id))}));
+    h+=stats([stat('Alunos',al.length,'de 62 ativos'),stat('Aulas por semana',aulasSem,'pelo plano de atendimento de cada aluno')].concat(modOn('pais')?[stat('Registros pendentes',registros.filter(function(r){return r.c.prof===prof.n&&!r.liberado}).length,'para liberar'),stat('Famílias sem retorno',al.filter(function(c){return c.feedback>30}).length,'há 30+ dias','warn')]:[stat('Planos a renovar',al.filter(function(c){return renovar().indexOf(c)>-1}).length,'nos próximos 15 dias','warn'),stat('Ocupação da grade',ocupMedia()+'%','média da semana')]));
+    h+=cardList('Alunos de '+prof.n,'Toque para ver o histórico',al.map(function(c){return li(av(c.ini),c.ini+' · '+c.idade+' anos',c.serv+' · '+PNOME[c.plano]+' · '+diasTxt(c.pa)+' às '+c.pa.hora+(modOn('pais')?' · último retorno há '+c.feedback+' dias':' · plano até '+dm(c.pa.fim)),modOn('pais')?(c.feedback>30?chip('Sem retorno','warn'):chip('Em dia','good')):(renovar().indexOf(c)>-1?chip('Renovar plano','warn'):chip('Plano ativo','good')),href('cliente','id='+c.id))}));
     return h+rodape('equipe');
   }
-  h+=stats([stat('Profissionais',equipe.length,'mais 1 pessoa na gestão'),stat('Alunos ativos',62,(62/equipe.length).toFixed(1).replace('.',',')+' por profissional'),stat('Ocupação da grade',ocupMedia()+'%','média da semana'),stat('Registros pendentes',registros.filter(function(r){return !r.liberado}).length,'para liberar','warn')]);
+  h+=stats([stat('Profissionais',equipe.length,'mais 1 pessoa na gestão'),stat('Alunos ativos',62,(62/equipe.length).toFixed(1).replace('.',',')+' por profissional'),stat('Ocupação da grade',ocupMedia()+'%','média da semana'),modOn('pais')?stat('Registros pendentes',registros.filter(function(r){return !r.liberado}).length,'para liberar','warn'):stat('Aguardando plano',planejarAbertos().length,'o Thiago monta depois da matrícula','warn')]);
   h+=cardList('Equipe','Toque em um profissional para ver os alunos dele',equipe.map(function(e){var al=clientes.filter(function(c){return c.prof===e.n});
       return li(av(e.n.charAt(0)),e.n,FUNCAO[e.n]+' · '+sum(al.map(function(c){return PVEZ[c.plano]}))+' aulas por semana',chip(e.q+' alunos','info')+chip(e.n==='Thiago'?'Administrador':'Profissional'),href('equipe','profissional='+norm(e.n)))})
     .concat([li(av('H'),'Helen','Gestão: cobranças, matrículas, leads e follow-up · 20h por semana',chip('Gestor'),null)]),btn('Convidar pessoa','convidar','','pri','plus'));
-  var papeis=[['Administrador','Thiago','Tudo, inclusive financeiro, equipe e auditoria'],['Profissional','Marina, Rafael e mais 5','Os próprios alunos, aulas, registros e relatórios. Não vê o financeiro.'],
-    ['Gestor','Helen','Matrículas, cadastro de responsáveis, cobranças, conciliação, leads e Recuperação. Não vê registros de aula nem plano terapêutico.'],['Família','62 famílias','Só o que foi liberado do próprio filho: registros, plano, relatórios e recibos.']];
+  var papeis=[['Administrador','Thiago','Tudo, inclusive financeiro, equipe e auditoria. Só ele monta e renova o plano de atendimento depois da matrícula.'],['Profissional','Marina, Rafael e mais 5','Os próprios alunos, o plano de atendimento deles (só leitura) e a presença'+(modOn('pais')?', registros e relatórios':'')+'. Não vê o financeiro.'],
+    ['Gestor','Helen','Matrículas, cadastro de responsáveis, cobranças e conciliação'+(modOn('recuperacao')?', leads e Recuperação':'')+'. Vê a parte operacional do plano (horários, profissionais), sem objetivos nem registros de aula.']].concat(modOn('pais')?[['Família','62 famílias','Só o que foi liberado do próprio filho: registros, plano, relatórios e recibos.']]:[]);
   h+='<div class="card"><div class="ct">Papéis e acessos</div><div class="cs">Cada pessoa vê só o necessário (LGPD: dado de saúde de criança). Toda visualização e alteração fica registrada.</div><div class="kvs" style="margin-top:10px">'+
     papeis.map(function(p){return '<div class="kv"><span>'+p[0]+'</span><b class="tx">'+p[2]+'</b>'+chip(p[1])+'</div>'}).join('')+'</div></div>';
   return h+rodape('equipe');
@@ -1547,14 +1553,23 @@ var PERFIS={
 };
 var LOGINS={admin:'admin',admim:'admin',gestor:'gestor',profissional:'profissional',professor:'profissional',pais:'familia',familia:'familia'};
 var PUBLICAS={login:1,convite:1,'pre-matricula':1,agendar:1};
-var SHORT={dashboard:'Dashboard',clientes:'Clientes',financeiro:'Financeiro',pais:'Pais',recuperacao:'Recuperar',parcerias:'Parcerias','prof-hoje':'Hoje','prof-alunos':'Alunos','prof-registros':'Registros','fam-inicio':'Início','fam-evolucao':'Evolução','fam-pagamentos':'Pagamentos'};
+var SHORT={dashboard:'Dashboard',clientes:'Clientes',financeiro:'Financeiro',aulas:'Aulas',equipe:'Equipe',pais:'Pais',recuperacao:'Recuperar',parcerias:'Parcerias','prof-hoje':'Hoje','prof-alunos':'Alunos','prof-registros':'Registros','fam-inicio':'Início','fam-evolucao':'Evolução','fam-pagamentos':'Pagamentos'};
+/* módulos por negócio (HLD: ADR 0006 e 0009). A versão 1 vem com Financeiro, Aulas, Equipe, Clientes e Dashboard;
+   os outros entram depois e só aparecem quando o Administrador liga o módulo */
+var MODS_V1=[['Financeiro','mensalidades, pagamentos, saídas e fluxo de caixa'],['Aulas','plano de atendimento, agenda e presença'],['Equipe','profissionais, papéis e forma de pagamento'],['Clientes','matrícula, responsáveis e saídas'],['Dashboard','exibe o que os outros módulos registram']];
+var MODS_FUT={pais:['Feedback dos pais','portal da família, registros de evolução, metas e relatórios'],recuperacao:['Recuperação e leads','inativos para recuperar, formulário da bio e funil'],parcerias:['Parcerias','clínicas e escolas parceiras']};
+var MOD_DA_ROTA={pais:'pais',recuperacao:'recuperacao',parcerias:'parcerias','prof-registros':'pais','fam-inicio':'pais','fam-evolucao':'pais','fam-pagamentos':'pais'};
+var modsOn={}; try{modsOn=JSON.parse(localStorage.getItem('mods-on'))||{}}catch(e){modsOn={}}
+function modOn(k){return !k||!MODS_FUT[k]||!!modsOn[k]}
+function menuDe(){return perfil().menu.filter(function(k){return modOn(MOD_DA_ROTA[k])})}
 var sessao=null; try{sessao=localStorage.getItem('sessao')}catch(e){} if(!PERFIS[sessao]) sessao=null;
 function perfil(){return PERFIS[sessao]}
-function permitido(k){return PUBLICAS[k]||(sessao&&(perfil().menu.indexOf(k)>-1||(k==='cliente'&&sessao!=='familia')))}
+function permitido(k){return PUBLICAS[k]||(sessao&&(menuDe().indexOf(k)>-1||(k==='cliente'&&sessao!=='familia')))}
 function parentDe(k){return k==='cliente'?(sessao==='profissional'?'prof-alunos':'clientes'):k}
 function entrar(email,senha){
   var e=String(email||'').trim().toLowerCase().split('@')[0].normalize('NFD').replace(/[̀-ͯ]/g,''), p=LOGINS[e];
   if(!p||senha!=='123') return false;
+  if(p==='familia'&&!modOn('pais')) return 'off';
   sessao=p; animarDash=true; try{localStorage.setItem('sessao',p)}catch(x){}
   location.hash='#'+PERFIS[p].home; return true;
 }
@@ -1588,9 +1603,11 @@ function pendenciasHTML(){
   var porProf={};aul.forEach(function(o){porProf[o.prof]=(porProf[o.prof]||0)+1});
   var itens=[
     sessao==='admin'?['aulas','aba=pendentes',aul.length,'Aulas de ontem sem presença',Object.keys(porProf).map(function(k){return k+' '+porProf[k]}).join(', ')||'tudo registrado','sem isso, aulas dadas e presença ficam erradas']:null,
-    ['clientes','aba=pre',pre.length,'Pré-matrículas para aprovar','preenchidas pelas famílias pelo link','viram aluno ativo depois da sua conferência'],
+    ['clientes','aba=pre',pre.length,'Pré-matrículas para aprovar','preenchidas pelas famílias pelo link','depois da sua conferência, vão para Em planejamento'],
     ['financeiro','aba=extrato',ext.length,'Pagamentos da semana para conferir','registrados pela Gestora nos últimos 7 dias','bater com o extrato do banco evita erro de digitação'],
-    ['recuperacao','aba=leads',ld.length,'Leads do formulário sem resposta','há mais de 24 horas','responder rápido aumenta a conversão']
+    sessao==='admin'?['clientes','aba=planejamento',planejarAbertos().length,'Clientes sem plano de atendimento','matriculados, esperando o seu plano','sem plano não há agenda, aula nem mensalidade']:null,
+    sessao==='admin'?['clientes','aba=renovar',renovar().length,'Planos de atendimento a renovar','terminam nos próximos 15 dias','sem renovação a agenda acaba']:null,
+    modOn('recuperacao')?['recuperacao','aba=leads',ld.length,'Leads do formulário sem resposta','há mais de 24 horas','responder rápido aumenta a conversão']:null
   ].filter(Boolean);
   return '<div class="card pend"><div class="ch"><div><div class="ct">Pendências de registro</div><div class="cs">O que falta a equipe registrar para os números do dashboard ficarem certos. Nada aqui é preenchido sozinho.</div></div></div><div class="list">'+
     itens.map(function(x){return li('<span class="pn'+(x[2]?'':' ok')+'">'+x[2]+'</span>',x[3],x[4]+' · '+x[5],x[2]?goBtn():chip('Em dia','good'),href(x[0],x[1]))}).join('')+'</div></div>';
@@ -1600,22 +1617,136 @@ function pendenciasHTML(){
 function painelGestorHTML(){
   var venc=clientes.filter(function(c){return c.fin==='vencida'}),aven=clientes.filter(function(c){return c.fin==='avencer'}),
       para=saidasL.filter(function(s){return s.st==='recuperar'}).length;
-  var h='<section class="summary"><div class="card sum-text"><span class="eyebrow">Seu dia, Helen</span><p>Há <em>'+venc.length+' cobranças vencidas</em> para cobrar, <em>'+preMat.filter(function(p){return p.st==='novo'}).length+' pré-matrículas</em> para conferir e <em>'+leads.filter(function(l){return l.semResp}).length+' leads</em> esperando resposta.</p></div>'+
-    '<div class="card"><div class="ct">O que é seu</div><ul class="todo" style="margin-top:10px"><li>Cobrar pelo WhatsApp e registrar cada pagamento (comprovante ou extrato)</li><li>Lançar as contas do studio e registrar quando forem pagas</li><li>Matrículas, cadastro de responsáveis e termo LGPD</li><li>Leads, follow-up e recuperação de inativos</li></ul><div class="insight">Registros de aula e plano terapêutico ficam só com a equipe clínica.</div></div></section>';
+  var h='<section class="summary"><div class="card sum-text"><span class="eyebrow">Seu dia, Helen</span><p>Há <em>'+venc.length+' cobranças vencidas</em> para cobrar, <em>'+preMat.filter(function(p){return p.st==='novo'}).length+' pré-matrículas</em> para conferir'+(modOn('recuperacao')?' e <em>'+leads.filter(function(l){return l.semResp}).length+' leads</em> esperando resposta':'')+'. '+planejarAbertos().length+' clientes aguardam o plano de atendimento do Thiago.</p></div>'+
+    '<div class="card"><div class="ct">O que é seu</div><ul class="todo" style="margin-top:10px"><li>Cobrar pelo WhatsApp e registrar cada pagamento (comprovante ou extrato)</li><li>Lançar as contas do studio e registrar quando forem pagas</li><li>Matrículas, cadastro de responsáveis e termo LGPD</li>'+(modOn('recuperacao')?'<li>Leads, follow-up e recuperação de inativos</li>':'')+'</ul><div class="insight">Depois da matrícula, quem monta o plano de atendimento (horários, profissionais, objetivos) é o Thiago. Você vê a parte operacional do plano, sem objetivos nem registros de aula.</div></div></section>';
   h+='<div class="sec-t">Fazer hoje</div><section class="grid alerts">'+
     go('financeiro','status=inadimplente','card alert bad','<span class="n">'+venc.length+'</span><span class="t"><b>Cobranças vencidas</b>'+brl(sum(venc.map(valorAberto)))+' em aberto'+fonte('vencimento passou sem pagamento registrado pela Gestora','reg')+'</span>'+goBtn())+
     go('financeiro','aba=saidas','card alert bad','<span class="n">'+contas.filter(function(x){return x.st!=='paga'}).length+'</span><span class="t"><b>Contas a pagar</b>'+contas.filter(function(x){return x.st==='vencida'}).length+' vencida, '+brl(totD(function(x){return x.st!=='paga'}))+' até 30/11'+fonte('contas lançadas por você; fixas se repetem todo mês','reg')+'</span>'+goBtn())+
     go('financeiro','status=avencer','card alert warn','<span class="n">'+aven.length+'</span><span class="t"><b>Lembretes a enviar</b>vencem até 25/11'+fonte('vencimento das cobranças','auto')+'</span>'+goBtn())+
-    go('recuperacao','aba=leads','card alert warn','<span class="n">'+leads.filter(function(l){return l.semResp}).length+'</span><span class="t"><b>Leads sem resposta</b>chegaram pelo formulário'+fonte('formulário do link da bio','auto')+'</span>'+goBtn())+
-    go('recuperacao','status=inativo','card alert info','<span class="n">'+para+'</span><span class="t"><b>Inativos para recuperar</b>com WhatsApp do responsável'+fonte('saída com motivo + suas tentativas','reg')+'</span>'+goBtn())+
+    (modOn('recuperacao')?go('recuperacao','aba=leads','card alert warn','<span class="n">'+leads.filter(function(l){return l.semResp}).length+'</span><span class="t"><b>Leads sem resposta</b>chegaram pelo formulário'+fonte('formulário do link da bio','auto')+'</span>'+goBtn())+
+    go('recuperacao','status=inativo','card alert info','<span class="n">'+para+'</span><span class="t"><b>Inativos para recuperar</b>com WhatsApp do responsável'+fonte('saída com motivo + suas tentativas','reg')+'</span>'+goBtn()):'')+
   '</section>';
   h+='<div class="sec-t">Pendências</div>'+pendenciasHTML();
   h+='<div class="sec-t">Números do mês</div>'+stats([
     stat('Clientes ativos',62,'+3 no mês, meta de 100'),
     stat('Recebido no mês','R$ '+mil(recebido[11])+' mil',pct(recebido[11],previsto[11])+'% do previsto'),
     stat('Inadimplência',pct(venc.length,62)+'%','meta: até 8%','warn'),
-    stat('Leads no mês',leads.length,'5 viraram matrícula')]);
+    modOn('recuperacao')?stat('Leads no mês',leads.length,'5 viraram matrícula'):stat('Aguardando plano',planejarAbertos().length,'o Thiago monta depois da matrícula','warn')]);
   return h+'<p class="foot">Protótipo com dados fictícios. Visão do perfil Gestor.</p>';
+}
+
+
+/* ---------- plano de atendimento (HLD 06): só o Administrador monta, logo depois da matrícula ---------- */
+var DSEM=['segunda','terça','quarta','quinta','sexta','sábado'];
+var SEQ_PAD=['Avaliação inicial e vínculo','Consciência corporal e equilíbrio','Coordenação motora com objetos','Circuitos com sequência de comandos','Autonomia nas transições','Reavaliação e devolutiva à família'];
+var HOJE=new Date(2026,10,17);
+function addMeses(d,n){var x=new Date(d.getTime());x.setMonth(x.getMonth()+n);return x}
+function dmy(d){return dm(d)+'/'+String(d.getFullYear()).slice(2)}
+function diasTxt(pa){var d=pa.dias.map(function(i){return DSEM[i]});return d.length>1?d.slice(0,-1).join(', ')+' e '+d[d.length-1]:d[0]}
+function aulasEntre(pa,de,ate){var n=0,x=new Date(de.getTime());while(x<=ate){var w=(x.getDay()+6)%7;if(pa.dias.indexOf(w)>-1)n++;x.setDate(x.getDate()+1)}return n}
+function proximas(pa,q){var o=[],x=new Date(HOJE.getTime());x.setDate(x.getDate()+1);while(o.length<q&&x<=pa.fim){var w=(x.getDay()+6)%7;if(pa.dias.indexOf(w)>-1){var i=o.length+aulasEntre(pa,pa.ini,HOJE);o.push({d:new Date(x.getTime()),prof:pa.profs[pa.dias.indexOf(w)%pa.profs.length]})}x.setDate(x.getDate()+1)}return o}
+function etapaAtual(pa){var t=(HOJE-pa.ini)/(pa.fim-pa.ini);return Math.max(0,Math.min(pa.seq.length-1,Math.floor(t*pa.seq.length)))}
+(function(){
+  var hrs=['08:00','09:00','10:00','14:00','15:00','16:00','17:00'];
+  clientes.forEach(function(c){
+    var r=rng(parseInt(c.id.slice(1),10)*17), n=PVEZ[c.plano], base=new Date(2026,5+Math.floor(r()*3),2+Math.floor(r()*24));
+    var ini=c.desde>base?c.desde:base, dias=[], op=[0,1,2,3,4,5];
+    while(dias.length<n){var k=op.splice(Math.floor(r()*op.length),1)[0];dias.push(k)} dias.sort();
+    var profs=[c.prof]; if(n===3&&r()<.35){var o=equipe.filter(function(e){return e.n!==c.prof&&e.n!=='Caio'});profs.push(o[Math.floor(r()*o.length)].n)}
+    c.pa={ini:ini,fim:addMeses(ini,6),dias:dias,hora:hrs[Math.floor(r()*hrs.length)],dur:c.serv==='Home care'?60:50,local:c.serv==='Home care'?'Home care':'Studio Jatiúca',profs:profs,obj:metasDe(c).map(function(m){return m[0]}),seq:SEQ_PAD.slice()};
+  });
+  /* quem tem aula hoje (terça) tem a terça e o horário de hoje no plano, para a agenda bater com o plano */
+  agendaHoje.forEach(function(a){var pa=a.c&&a.c.pa;if(!pa)return;pa.hora=a.h;if(pa.dias.indexOf(1)<0){pa.dias[0]=1;pa.dias.sort()}});
+  /* 4 planos terminam nos próximos 15 dias */
+  clientes.filter(function(c){return c.desde<new Date(2026,4,1)}).slice(3,7).forEach(function(c,i){c.pa.ini=new Date(2026,4,[19,22,26,29][i]);c.pa.fim=addMeses(c.pa.ini,6)});
+})();
+function renovar(){var lim=new Date(2026,10,17+15);return clientes.filter(function(c){return c.pa.fim>=HOJE&&c.pa.fim<=lim})}
+var planejar=[
+  {id:'n1',ini:'Alice Prado',idade:7,resp:'Renata Prado',rel:'Mãe',plano:'essencial',pref:'segunda e quarta, de manhã',desde:diasAtras(1),st:'planejamento'},
+  {id:'n2',ini:'Bento Siqueira',idade:5,resp:'Marcos Siqueira',rel:'Pai',plano:'basico',pref:'sábado de manhã',desde:diasAtras(4),st:'planejamento'}
+];
+function planejarAbertos(){return planejar.filter(function(x){return x.st==='planejamento'})}
+function kvx(a,b){return '<div class="kv"><span>'+a+'</span><b class="tx">'+b+'</b></div>'}
+function planoCardHTML(c){
+  var pa=c.pa, gest=sessao==='gestor', adm=sessao==='admin', et=etapaAtual(pa), ren=renovar().indexOf(c)>-1, total=aulasEntre(pa,pa.ini,pa.fim), dadas=aulasEntre(pa,pa.ini,HOJE);
+  var oper='<div class="kvs">'+kvx('Período',dmy(pa.ini)+' a '+dmy(pa.fim)+(ren?' '+chip('Renovar até '+dm(pa.fim),'warn'):''))+
+    kvx('Dias e horário',diasTxt(pa)+' às '+pa.hora+' · '+pa.dur+' min')+kvx('Local',pa.local)+
+    kvx('Profissionais',pa.profs.map(function(n,i){return n+(i?'':' (principal)')}).join(', '))+
+    kvx('Cronograma',total+' aulas no período · '+dadas+' já passaram · próximas: '+proximas(pa,3).map(function(a){return dm(a.d)+' com '+a.prof}).join(', '))+'</div>';
+  var clin=gest?'':'<div class="ct" style="margin-top:16px;font-size:13.5px">Objetivos do período</div><ul class="todo" style="margin-top:6px">'+pa.obj.map(function(o){return '<li>'+o+'</li>'}).join('')+'</ul>'+
+    '<div class="ct" style="margin-top:16px;font-size:13.5px">Sequência de aulas</div><div class="kvs">'+pa.seq.map(function(s,i){
+      return '<div class="kv"><span>Etapa '+(i+1)+'</span><b class="tx">'+s+'</b>'+(i<et?chip('Feita','good'):i===et?chip('Etapa atual','info'):chip('A seguir'))+'</div>'}).join('')+'</div>';
+  var head=adm?btn(ren?'Renovar plano':'Editar plano','editar-plano',c.id,ren?'pri':'','edit'):chip(gest?'Parte operacional':'Só o Administrador edita','info');
+  return '<div class="card c12"><div class="ch"><div><div class="ct">Plano de atendimento</div><div class="cs">Montado pelo Administrador depois da matrícula. A agenda e o cronograma saem daqui.'+fonte('plano montado pelo Administrador; aulas geradas pelo sistema','auto')+'</div></div>'+head+'</div>'+oper+clin+'</div>';
+}
+function planejamentoHTML(){
+  var adm=sessao==='admin';
+  return '<div class="insight">'+icon('alert')+' Depois da matrícula, o aluno fica aqui até o <b>Administrador</b> montar o plano de atendimento: período, dias e horários, profissionais, objetivos e sequência de aulas. Sem plano não há agenda, aula nem mensalidade. Ao salvar, o sistema gera o cronograma e a primeira mensalidade.</div>'+
+    cardList('Em planejamento','Matriculados, esperando o plano de atendimento',planejar.map(function(x){
+      var right=x.st==='pronto'?chip('Plano pronto · ativo','good'):adm?btn('Montar plano','montar-plano',x.id,'pri','edit'):chip('Aguardando o Thiago','warn');
+      var sub=x.st==='pronto'?x.rel+': '+x.resp+' · '+diasTxt(x.pa)+' às '+x.pa.hora+' com '+x.pa.profs[0]+' · '+x.aulas+' aulas geradas até '+dm(x.pa.fim):x.rel+': '+x.resp+' · prefere '+x.pref+' · matriculado '+(x.desde.getTime()===diasAtras(0).getTime()?'hoje':'em '+dm(x.desde));
+      return li(av(x.ini,x.st==='pronto'?'good':'warn'),x.ini+' · '+x.idade+' anos · Plano '+PNOME[x.plano]+' ('+PVEZ[x.plano]+'x por semana)',sub,right,null)}),'','Ninguém esperando plano.');
+}
+function renovarHTML(){
+  var adm=sessao==='admin', l=renovar().slice().sort(function(a,b){return a.pa.fim-b.pa.fim});
+  return '<div class="insight">'+icon('alert')+' Quando o período do plano acaba, a agenda acaba junto. O Administrador revisa os objetivos e renova ou ajusta o plano; a mensalidade segue igual, a não ser que o plano mude.</div>'+
+    cardList('Planos a renovar','Terminam nos próximos 15 dias',l.map(function(c){
+      return li(av(c.ini,'warn'),c.ini+' · '+c.idade+' anos','Plano até '+dm(c.pa.fim)+' · '+diasTxt(c.pa)+' às '+c.pa.hora+' com '+c.pa.profs.join(' e '),adm?btn('Renovar plano','editar-plano',c.id,'pri','edit'):chip('Com o Thiago','warn'),href('cliente','id='+c.id))}),'','Nenhum plano terminando.');
+}
+function inativosHTML(f){
+  var l=saidasL.slice();
+  if(f.motivo) l=l.filter(function(s){return s.motivo===f.motivo});
+  if(f.periodo==='3m') l=l.filter(function(s){return s.m>=9});
+  l.sort(function(a,b){return b.saida-a.saida});
+  return (f.motivo?extraFiltro('clientes?aba=inativos','Motivo: '+MOTN[f.motivo]):f.periodo==='3m'?extraFiltro('clientes?aba=inativos','Últimos 3 meses'):'')+
+    cardList('Inativos',l.length+' saídas com motivo registrado. O histórico fica guardado; se o aluno voltar, a rematrícula usa o mesmo cadastro.',l.map(function(s){
+      return li(av(s.ini),s.ini+' · '+s.idade+' anos · saiu em '+my(s.saida),MOTN[s.motivo]+' · '+s.rel+': '+s.resp+' · era '+PNOME[s.plano]+' com '+s.prof,chip(s.st==='voltou'?'Voltou':'Inativo',s.st==='voltou'?'good':'mute'),null)}))+
+    '<div class="insight">O fluxo de recuperação (WhatsApp do último responsável e resultado em 2 toques) entra depois da versão 1, com o módulo Recuperação.</div>';
+}
+function planoFormHTML(x,novo){
+  var pa=x.pa||{ini:new Date(2026,10,18),dias:[],hora:'15:00',dur:50,local:'Studio Jatiúca',profs:[],obj:[],seq:SEQ_PAD.slice()};
+  var dur=novo?6:Math.max(3,Math.round((pa.fim-pa.ini)/(30.4*864e5))), nomes=equipe.map(function(e){return e.n});
+  var iso=function(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)};
+  var ini=novo?pa.ini:(renovar().indexOf(x)>-1?new Date(pa.fim.getTime()+864e5):pa.ini);
+  return '<h2 id="modal-t">'+(novo?'Montar plano de atendimento':renovar().indexOf(x)>-1?'Renovar plano de atendimento':'Editar plano de atendimento')+'</h2><p class="cs">'+x.ini+' · Plano '+PNOME[x.plano]+' ('+PVEZ[x.plano]+'x por semana)'+(x.pref?' · prefere '+x.pref:'')+'</p>'+
+    '<form class="form" id="plano-form" data-alvo="'+x.id+'" data-novo="'+(novo?1:0)+'">'+
+    '<div class="two"><label class="fld"><span>Início</span><input class="inp" name="ini" type="date" value="'+iso(ini)+'"></label><div class="fld"><span>Duração do período</span>'+pickGroup('dur',['3 meses','6 meses','12 meses'],[dur>=12?2:dur>=6?1:0],true)+'</div></div>'+
+    '<div class="fld"><span>Dias da semana</span>'+pickGroup('dias',DSEM.map(function(d){return d.charAt(0).toUpperCase()+d.slice(1)}),pa.dias,false)+'<small class="mut">O plano '+PNOME[x.plano]+' prevê '+PVEZ[x.plano]+' por semana.</small></div>'+
+    '<div class="two"><label class="fld"><span>Horário</span><input class="inp" name="hora" type="time" value="'+pa.hora+'"></label><div class="fld"><span>Duração da aula</span>'+pickGroup('sess',['45 min','50 min','60 min'],[pa.dur===45?0:pa.dur===60?2:1],true)+'</div></div>'+
+    '<div class="fld"><span>Local</span>'+pickGroup('local',['Studio Jatiúca','Home care','Online'],[pa.local==='Home care'?1:pa.local==='Online'?2:0],true)+'</div>'+
+    '<div class="fld"><span>Profissional principal</span>'+pickGroup('prof',nomes,pa.profs.length?[nomes.indexOf(pa.profs[0])]:[],true)+'</div>'+
+    '<div class="fld"><span>Outros profissionais (opcional)</span>'+pickGroup('outros',nomes,pa.profs.slice(1).map(function(n){return nomes.indexOf(n)}),false)+'<small class="mut">Dividem os dias da semana com o principal ou cobrem como substitutos.</small></div>'+
+    '<label class="fld"><span>Objetivos do período (um por linha)</span><textarea class="inp" name="obj" rows="3" placeholder="Ex.: Equilíbrio dinâmico na trave">'+pa.obj.join('\n')+'</textarea></label>'+
+    '<label class="fld"><span>Sequência de aulas (uma etapa por linha)</span><textarea class="inp" name="seq" rows="5">'+pa.seq.join('\n')+'</textarea></label>'+
+    '<div class="insight">Só o Administrador edita o plano. O profissional vê o plano dos próprios alunos; a Gestora vê só a parte operacional. '+(novo?'Ao salvar, o sistema gera o cronograma até o fim do período e a primeira mensalidade.':'Ao salvar, as aulas futuras são refeitas a partir do início informado; as passadas ficam como estão.')+'</div>'+
+    '<div class="auth-err" id="plano-err" role="alert"></div><button class="btn pri big" type="submit">'+icon('check')+'Salvar e gerar cronograma</button></form>';
+}
+function salvarPlano(form){
+  var er=document.getElementById('plano-err'), novo=form.getAttribute('data-novo')==='1', id=form.getAttribute('data-alvo');
+  var x=novo?planejar.filter(function(p){return p.id===id})[0]:cliPorId(id);
+  var dias=picked(form,'dias').map(function(d){return DSEM.indexOf(d.toLowerCase())}).sort(), prof=picked(form,'prof')[0];
+  var outros=picked(form,'outros').filter(function(n){return n!==prof});
+  var obj=form.obj.value.split('\n').map(function(t){return t.trim()}).filter(Boolean), seq=form.seq.value.split('\n').map(function(t){return t.trim()}).filter(Boolean);
+  if(!form.ini.value){er.textContent='Informe a data de início.';return}
+  if(!dias.length){er.textContent='Escolha pelo menos um dia da semana.';return}
+  if(!form.hora.value){er.textContent='Informe o horário.';return}
+  if(!prof){er.textContent='Escolha o profissional principal.';return}
+  if(!seq.length){er.textContent='Escreva pelo menos uma etapa na sequência de aulas.';return}
+  var ini=new Date(form.ini.value+'T12:00:00'), meses=parseInt(picked(form,'dur')[0]||'6',10);
+  var pa={ini:ini,fim:addMeses(ini,meses),dias:dias,hora:form.hora.value,dur:parseInt(picked(form,'sess')[0]||'50',10),local:picked(form,'local')[0]||'Studio Jatiúca',profs:[prof].concat(outros),obj:obj,seq:seq};
+  var n=aulasEntre(pa,ini,pa.fim);
+  x.pa=pa; if(novo){x.st='pronto';x.aulas=n}
+  closeModal();
+  toast('Plano de '+x.ini+' salvo. Cronograma gerado: <b>'+n+' aulas</b> de '+dm(ini)+' a '+dmy(pa.fim)+', cada uma já com o profissional.'+(novo?' A primeira mensalidade foi gerada e o aluno passa a <b>Ativo</b>.':(dias.length!==PVEZ[x.plano]?' Atenção: o plano comercial prevê '+PVEZ[x.plano]+' por semana; confira o valor com a Helen.':'')));
+  render();
+}
+function modulosHTML(){
+  return '<h2 id="modal-t">Módulos do studio</h2><p class="cs">Cada negócio liga só os módulos que contratou. A versão 1 vem com os cinco abaixo; os outros entram depois e aparecem sozinhos no menu e no dashboard quando forem ligados.</p>'+
+    '<div class="ct" style="margin-top:12px">Versão 1</div><div class="kvs">'+MODS_V1.map(function(m){return '<div class="kv"><span>'+m[0]+'</span><b class="tx">'+m[1]+'</b>'+chip('Incluído','good')+'</div>'}).join('')+'</div>'+
+    '<div class="ct" style="margin-top:16px">Depois da versão 1</div><div class="kvs">'+Object.keys(MODS_FUT).map(function(k){var on=modOn(k);
+      return '<div class="kv"><span>'+MODS_FUT[k][0]+'</span><b class="tx">'+MODS_FUT[k][1]+'</b><button type="button" class="sw" role="switch" aria-checked="'+on+'" aria-label="Ligar '+MODS_FUT[k][0]+' para demonstração" data-act="mod-on" data-id="'+k+'"></button></div>'}).join('')+'</div>'+
+    '<div class="insight">No protótipo, ligar um módulo futuro serve só para mostrar como ele vai ser. A escolha fica guardada neste navegador.</div>'+
+    '<div class="acts">'+btn('Pronto','fechar-modal','','pri','check')+'</div>';
 }
 
 /* ---------- conciliação, pré-matrículas, pendências de aula ---------- */
@@ -1636,7 +1767,7 @@ function registrarPagHTML(c){
     '<div class="two"><label class="fld"><span>Valor recebido</span><input class="inp" name="valor" inputmode="decimal" value="'+valorAberto(c)+'"></label><label class="fld"><span>Data do pagamento</span><input class="inp" name="data" type="date" value="2026-11-17"></label></div>'+
     '<div class="fld"><span>Forma</span>'+pickGroup('forma',['Pix','Transferência','Dinheiro','Cartão na maquininha'],[0],true)+'</div>'+
     '<div class="fld"><span>Como você confirmou?</span>'+pickGroup('conf',['Comprovante no WhatsApp','Vi no extrato','Recebi em mãos'],[0],true)+'</div>'+
-    '<label class="check"><input type="checkbox" name="recibo" checked> Disponibilizar o recibo no portal da família</label>'+
+    (modOn('pais')?'<label class="check"><input type="checkbox" name="recibo" checked> Disponibilizar o recibo no portal da família</label>':'')+
     '<div class="auth-err" id="pag-err" role="alert"></div><button class="btn pri big" type="submit">'+icon('check')+'Registrar pagamento</button></form>';
 }
 function preMatHTML(){
@@ -1646,7 +1777,7 @@ function preMatHTML(){
         p.st==='novo'?btn('Aprovar matrícula','aprovar-pre',p.id,'pri','check')+btn('Chamar no WhatsApp','lead',p.id,'wa','chat'):chip('Matriculado','good'),null)}));
 }
 function aulasPendentesHTML(){
-  return '<div class="insight">'+icon('alert')+' Cada aula da agenda nasce da matrícula. O profissional só confirma presença ou falta no celular. Se ninguém marcar, a aula fica aqui, e não é contada como dada.</div>'+
+  return '<div class="insight">'+icon('alert')+' Cada aula da agenda nasce do plano de atendimento montado pelo Thiago. O profissional só confirma presença ou falta no celular. Se ninguém marcar, a aula fica aqui, e não é contada como dada.</div>'+
     cardList('Aulas de ontem sem presença','Segunda, 16 de novembro',ontemSem.map(function(o){
       return li('<span class="hh">'+o.h+'</span>',o.c.ini+' com '+o.prof,o.c.serv,o.ok?chip('Registrado','good'):btn('Lembrar '+o.prof,'lembrar-prof',o.id,'','send')+btn('Marcar presença','marcar-ontem',o.id,'pri','check'),null)}));
 }
@@ -1655,23 +1786,23 @@ function aulasPendentesHTML(){
 function clienteHTML(){
   var c=cliPorId(fp().id); if(!c) return sessao==='profissional'?profAlunosHTML():clientesHTML();
   var prof=sessao==='profissional',gest=sessao==='gestor';
-  if(prof&&c.prof!==perfil().n) return '<div class="empty">Este aluno não está na sua lista.</div>';
+  if(prof&&c.prof!==perfil().n&&c.pa.profs.indexOf(perfil().n)<0) return '<div class="empty">Este aluno não está na sua lista.</div>';
   var h=prof?backLink('prof-alunos','Voltar para meus alunos'):backLink('clientes','Voltar para clientes');
   h+='<div class="card hero"><div class="hero-l">'+av(c.ini,'lg')+'<div><div class="ct" style="font-size:20px">'+c.ini+' · '+c.idade+' anos</div>'+
     '<div class="cs">'+c.serv+' com '+c.prof+' · aluno desde '+my(c.desde)+'</div>'+
     '<div class="filters" style="margin-top:8px">'+chip('Plano '+PNOME[c.plano]+' · '+PVEZ[c.plano]+'x por semana','info')+(prof?'':finChip(c))+chip('Consentimento assinado','good')+'</div></div></div>'+
-    '<div class="hero-r">'+(prof?btn('Registrar aula','registrar-cli',c.id,'pri','doc'):(c.fin==='vencida'?btn('Cobrar no WhatsApp','cobrar',c.id,'wa','chat'):'')+btn('Enviar acesso ao portal','portal',c.id,'','send')+btn('Gerar recibo','recibo',c.id,'','doc'))+'</div></div>';
+    '<div class="hero-r">'+(prof?(modOn('pais')?btn('Registrar aula','registrar-cli',c.id,'pri','doc'):''):(sessao==='admin'?btn('Editar plano','editar-plano',c.id,'pri','edit'):'')+(c.fin==='vencida'?btn('Cobrar no WhatsApp','cobrar',c.id,'wa','chat'):'')+(modOn('pais')?btn('Enviar acesso ao portal','portal',c.id,'','send'):'')+btn('Gerar recibo','recibo',c.id,'','doc'))+'</div></div>';
   var meses=[];for(var i=5;i>=0;i--){var d=new Date(2026,10-i,1);if(d<new Date(c.desde.getFullYear(),c.desde.getMonth(),1))continue;
     var st=i===0?c.fin:(i===1&&c.parcelas>1?'vencida':'pago');
     meses.push('<div class="kv"><span>'+MES[d.getMonth()]+'/'+String(d.getFullYear()).slice(2)+'</span><b>'+brl(c.valor)+'</b>'+
       (st==='pago'?chip(i===0?'Pago em '+dm(c.pagoEm):'Pago','good'):st==='avencer'?chip('Vence '+dm(c.due),'warn'):chip('Em aberto','bad'))+'</div>')}
   var aulas=registrosLiberadosDe(c).slice(0,5).map(function(r,k){return '<div class="kv"><span>'+dm(r.data)+'</span><b class="tx">'+r.ativ+'</b>'+(k===0&&!prof?chip('Por liberar','warn'):chip('Liberado à família','good'))+'</div>'});
-  var resp='<div class="card '+(prof?'c6':'c4')+'"><div class="ct">Responsáveis</div><div class="kvs">'+
+  var resp='<div class="card '+(prof||!modOn('pais')?'c6':'c4')+'"><div class="ct">Responsáveis</div><div class="kvs">'+
       '<div class="kv"><span>'+c.rel+'</span><b>'+c.resp+'</b>'+chip(prof?'Principal':'Financeiro','info')+'</div>'+
       (prof?'':'<div class="kv"><span>WhatsApp</span><b>'+c.fone+'</b></div>')+
       (c.resp2?'<div class="kv"><span>'+c.rel2+'</span><b>'+c.resp2+'</b>'+chip('Acompanha')+'</div>':'')+
       '<div class="kv"><span>LGPD</span><b>Termo aceito em '+dm(c.consent)+'/'+String(c.consent.getFullYear()).slice(2)+'</b></div></div></div>';
-  var cob='<div class="card c4"><div class="ct">Plano e cobrança</div><div class="kvs">'+
+  var cob='<div class="card '+(modOn('pais')?'c4':'c6')+'"><div class="ct">Plano e cobrança</div><div class="kvs">'+
       '<div class="kv"><span>Plano</span><b>'+PNOME[c.plano]+', '+PVEZ[c.plano]+'x por semana</b></div>'+
       '<div class="kv"><span>Valor acordado</span><b>'+brl(c.valor)+(c.valor!==PRECO[c.plano]?' <small class="mut">(tabela '+brl(PRECO[c.plano])+')</small>':'')+'</b></div>'+
       '<div class="kv"><span>Vencimento</span><b>todo dia '+c.venc+'</b></div>'+
@@ -1680,13 +1811,14 @@ function clienteHTML(){
       '<div class="kv"><span>Último retorno</span><b>'+(c.feedback>30?'<span class="neg">há '+c.feedback+' dias</span>':'há '+c.feedback+' dias')+'</b></div>'+
       '<div class="kv"><span>Acessos ao portal</span><b>'+c.acessos+' na semana</b></div>'+
       '<div class="kv"><span>Relatório pedido</span><b>'+(c.relatorio?c.relatorio.tipo:'Nenhum')+'</b></div></div></div>';
-  h+='<section class="grid g12">'+resp+(prof?'':cob)+fam+
-    (prof?'':'<div class="card '+(gest?'c12':'c6')+'"><div class="ct">Mensalidades</div><div class="cs">Pago quando a Helen registra; vencida sozinha pela data</div><div class="kvs">'+meses.join('')+'</div></div>')+
-    (gest?'':'<div class="card '+(prof?'c12':'c6')+'"><div class="ct">Últimas aulas</div><div class="cs">Registradas pelo profissional. A família só vê depois de liberado.</div><div class="kvs">'+aulas.join('')+'</div></div>'+
+  if(!modOn('pais')) fam='';
+  h+='<section class="grid g12">'+planoCardHTML(c)+resp+(prof?'':cob)+fam+
+    (prof?'':'<div class="card '+(gest||!modOn('pais')?'c12':'c6')+'"><div class="ct">Mensalidades</div><div class="cs">Pago quando a Helen registra; vencida sozinha pela data</div><div class="kvs">'+meses.join('')+'</div></div>')+
+    (gest||!modOn('pais')?'':'<div class="card '+(prof?'c12':'c6')+'"><div class="ct">Últimas aulas</div><div class="cs">Registradas pelo profissional. A família só vê depois de liberado.</div><div class="kvs">'+aulas.join('')+'</div></div>'+
       '<div class="card c12"><div class="ch"><div><div class="ct">Plano terapêutico</div><div class="cs">Metas do semestre, revisadas com a família. Visível no portal dos pais.</div></div>'+chip('Liberado à família','good')+'</div><div class="rows">'+
       metasDe(c).map(function(m){return row(m[0],'<b>'+m[1]+'%</b> da meta',m[1],m[1]<50?'warn':'')}).join('')+'</div></div>')+
   '</section>';
-  if(gest) h+='<div class="insight">'+icon('alert')+' Registros de aula e plano terapêutico não aparecem para o perfil Gestor (LGPD: dado de saúde de criança).</div>';
+  if(gest) h+='<div class="insight">'+icon('alert')+' Objetivos, sequência de aulas e registros não aparecem para o perfil Gestor (LGPD: dado de saúde de criança). Você vê só a parte operacional do plano.</div>';
   return h+'<p class="foot">Protótipo com dados fictícios. Ficha vista pelo perfil '+perfil().papel+'.</p>';
 }
 
@@ -1716,17 +1848,17 @@ function profHojeHTML(){
   var au=minhasAulas(),feitas=au.filter(function(a){return a.pres!==undefined}).length,semReg=au.filter(function(a){return a.st==='concluida'&&!a.reg}).length;
   var meus=clientes.filter(function(c){return c.prof===perfil().n}),sem=sum(meus.map(function(c){return PVEZ[c.plano]}));
   var h=stats([stat('Aulas hoje',au.length,'terça, 17 de novembro'),stat('Presença marcada',feitas+' de '+au.length,feitas<au.length?'falta marcar':'tudo marcado',feitas<au.length?'warn':'good'),
-    stat('Sem registro',semReg,'aulas já dadas',semReg?'warn':''),stat('Na semana',sem+' aulas',meus.length+' alunos')]);
+    modOn('pais')?stat('Sem registro',semReg,'aulas já dadas',semReg?'warn':''):stat('Faltas hoje',au.filter(function(a){return a.pres===false}).length,'reposição pelo plano'),stat('Na semana',sem+' aulas',meus.length+' alunos')]);
   h+=cardList('Minhas aulas de hoje','Toque em Presente ou Falta logo depois da aula. É isso que conta como aula dada.',au.map(function(a){var s=STA[a.st];
-    var acts=a.pres===undefined?btn('Presente','presente',a.id,'pri big','check')+btn('Falta','falta',a.id,'big'):a.pres===false?chip('Falta','bad')+btn('Sugerir reposição','repor',a.c.id):(a.reg?chip('Presente','good')+chip('Registro feito','good'):chip('Presente','good')+btn('Registrar evolução','registrar-aula',a.id,'pri','doc'));
+    var acts=a.pres===undefined?btn('Presente','presente',a.id,'pri big','check')+btn('Falta','falta',a.id,'big'):a.pres===false?chip('Falta','bad')+btn('Sugerir reposição','repor',a.c.id):(!modOn('pais')?chip('Presente','good'):a.reg?chip('Presente','good')+chip('Registro feito','good'):chip('Presente','good')+btn('Registrar evolução','registrar-aula',a.id,'pri','doc'));
     return li('<span class="hh">'+a.h+'</span>',a.c.ini+' · '+a.c.idade+' anos',a.c.serv+' · '+(a.c.serv==='Home care'?'na casa da família':'studio Jatiúca')+(a.pres===undefined?' · '+s[0].toLowerCase():''),acts,null)}));
-  h+='<div class="insight">A agenda vem da matrícula de cada aluno. Você não cadastra aula: só confirma presença e, se quiser, registra a evolução. Se esquecer, a aula aparece como pendência para o Thiago.</div>';
+  h+='<div class="insight">A agenda vem do plano de atendimento de cada aluno, montado pelo Thiago. Você não cadastra aula: só confirma presença'+(modOn('pais')?' e, se quiser, registra a evolução':'')+'. Se esquecer, a aula aparece como pendência para o Thiago.</div>';
   return h+'<p class="foot">Protótipo com dados fictícios. Visão do perfil Profissional.</p>';
 }
 function profAlunosHTML(){
   var meus=clientes.filter(function(c){return c.prof===perfil().n}).sort(porNome);
-  return stats([stat('Meus alunos',meus.length,'de 62 do studio'),stat('Sem retorno há 30+ dias',meus.filter(function(c){return c.feedback>30}).length,'famílias','warn'),stat('Relatórios pedidos',meus.filter(function(c){return c.relatorio}).length,'para você')])+
-    cardList('Meus alunos','Você vê só os seus alunos, sem dados financeiros.',meus.map(function(c){return li(av(c.ini),c.ini+' · '+c.idade+' anos',c.serv+' · '+PVEZ[c.plano]+'x por semana · último retorno há '+c.feedback+' dias',c.feedback>30?chip('Sem retorno','warn'):chip('Em dia','good'),href('cliente','id='+c.id),' data-s="'+esc(norm(c.ini))+'"')})).replace('<div class="list">',busca('Buscar por nome')+'<div class="list">')+
+  return stats([stat('Meus alunos',meus.length,'de 62 do studio')].concat(modOn('pais')?[stat('Sem retorno há 30+ dias',meus.filter(function(c){return c.feedback>30}).length,'famílias','warn'),stat('Relatórios pedidos',meus.filter(function(c){return c.relatorio}).length,'para você')]:[stat('Planos a renovar',meus.filter(function(c){return renovar().indexOf(c)>-1}).length,'o Thiago revisa com você','warn'),stat('Aulas por semana',sum(meus.map(function(c){return c.pa.dias.length})),'pelo plano de cada aluno')]))+
+    cardList('Meus alunos','Você vê só os seus alunos, sem dados financeiros.',meus.map(function(c){return li(av(c.ini),c.ini+' · '+c.idade+' anos',c.serv+' · '+diasTxt(c.pa)+' às '+c.pa.hora+(modOn('pais')?' · último retorno há '+c.feedback+' dias':' · plano até '+dm(c.pa.fim)),modOn('pais')?(c.feedback>30?chip('Sem retorno','warn'):chip('Em dia','good')):(renovar().indexOf(c)>-1?chip('Renovar plano','warn'):chip('Plano ativo','good')),href('cliente','id='+c.id),' data-s="'+esc(norm(c.ini))+'"')})).replace('<div class="list">',busca('Buscar por nome')+'<div class="list">')+
     '<p class="foot">Protótipo com dados fictícios. Visão do perfil Profissional.</p>';
 }
 function profRegistrosHTML(){
@@ -1804,9 +1936,9 @@ function loginHTML(){
       '<button class="btn pri big" type="submit">Entrar</button></form>'+
     '<a class="lnk sm" href="#convite">Recebi um convite (primeiro acesso)</a></div>'+
     '<div class="card demo"><b>Acesso do protótipo</b><span>Senha <code>123</code> para todos. Toque em um perfil para preencher.</span>'+
-      '<div class="demo-l">'+[['admin','Administrador','Thiago'],['gestor','Gestor','Helen'],['profissional','Profissional','Marina'],['pais','Família','mãe do Lucas']].map(function(x){
+      '<div class="demo-l">'+[['admin','Administrador','Thiago'],['gestor','Gestor','Helen'],['profissional','Profissional','Marina'],['pais','Família',modOn('pais')?'mãe do Lucas':'depois da versão 1']].map(function(x){
         return '<button type="button" data-login="'+x[0]+'"><code>'+x[0]+'</code><small>'+x[1]+' · '+x[2]+'</small></button>'}).join('')+'</div></div>'+
-    '<p class="pub-links">Páginas públicas, sem login: <a href="#agendar?origem=instagram">Agende uma avaliação</a> · <a href="#pre-matricula">Pré-matrícula</a></p></div>';
+    '<p class="pub-links">Páginas públicas, sem login: '+(modOn('recuperacao')?'<a href="#agendar?origem=instagram">Agende uma avaliação</a> · ':'')+'<a href="#pre-matricula">Pré-matrícula</a></p><p class="pub-links">Sistema <b>BemTec</b>, da DGTec · Dué Gestão e Tecnologia</p></div>';
 }
 function conviteHTML(){
   var c=famCli,p=fp().passo||'1',h='<div class="auth"><div class="card auth-card wide">'+marcaPub('Primeiro acesso da família');
@@ -1925,14 +2057,14 @@ function dashEditorHTML(){
     '<p class="de-info">'+info+'</p></div>'+
     '<p class="cs">'+(lock?'Para montar o seu, escolha <b>Pers. 1</b> ou <b>Pers. 2</b>. Cada um guarda os blocos ligados, a ordem e os indicadores, e você volta para o Padrão quando quiser.'
       :'Ligue os blocos que importam para você. Para mudar a ordem, arraste o bloco para cima ou para baixo (no celular, toque, segure e arraste). Fica salvo no seu usuário.')+'</p>'+
-    '<div class="de'+(lock?' lock':'')+'">'+d.ordem.map(function(k,i){
+    '<div class="de'+(lock?' lock':'')+'">'+d.ordem.filter(function(k){var b=blocoDe(k);return b&&modOn(b.mod)}).map(function(k,i){
       var b=blocoDe(k), on=d.ocultos.indexOf(k)<0;
-      var kp=k==='kpis'&&on?'<div class="de-k">'+KPIS.map(function(x){var o=d.kpis.indexOf(x.k)>-1;
+      var kp=k==='kpis'&&on?'<div class="de-k">'+KPIS.filter(function(x){return modOn(x.mod)}).map(function(x){var o=d.kpis.indexOf(x.k)>-1;
         return '<button type="button" class="chip '+(o?'info on':'mute')+'" data-act="dash-kpi" data-id="'+x.k+'" aria-pressed="'+o+'"'+(lock?' disabled':'')+'>'+(o?'✓ ':'')+x.n+'</button>'}).join('')+'</div>':'';
       return '<div class="de-r'+(on?'':' off')+'" data-k="'+k+'">'+(lock?'<span class="de-h" aria-hidden="true"></span>':'<button type="button" class="de-h" aria-label="Arrastar '+b.n+'. Use as setas do teclado para mover." title="Arraste para mudar a ordem">'+icon('grip')+'</button>')+'<button type="button" class="sw" role="switch" aria-checked="'+on+'" aria-label="Mostrar '+b.n+'" data-act="dash-on" data-id="'+k+'"'+(lock?' disabled':'')+'></button>'+
         '<span><b>'+b.n+'</b><small>'+b.d+'</small></span>'+
         kp+'</div>'}).join('')+'</div>'+
-    '<div class="insight">'+icon('alert')+' O <b>modelo padrão</b> segue o que painéis de gestão de clínicas e studios costumam mostrar primeiro: o que precisa de ação hoje, caixa (entradas e saídas), receita, inadimplência, retenção de alunos e funil de novos alunos.</div>'+
+    '<div class="insight">'+icon('alert')+' O <b>modelo padrão</b> segue o que painéis de gestão de clínicas e studios costumam mostrar primeiro: o que precisa de ação hoje, caixa (entradas e saídas), receita, inadimplência e retenção de alunos. Blocos de módulos desligados não aparecem aqui; voltam sozinhos quando o módulo for ligado.</div>'+
     '<div class="de-acts">'+(lock?'<span></span>':btn('Começar do padrão','dash-padrao','','','refresh'))+'<span style="display:flex;gap:8px">'+btn('Cancelar','dash-cancelar','')+btn('Salvar','dash-salvar','','pri','check')+'</span></div>';
 }
 function dashMover(k,dir){var d=dashEd(); if(!d) return; var o=d.ordem,i=o.indexOf(k),j=i+dir;if(j<0||j>=o.length)return;o[i]=o[j];o[j]=k}
@@ -2005,7 +2137,12 @@ function acaoPerfil(el){
     case 'marcar-ontem': ontemSem.forEach(function(x){if(x.id===id)x.ok=true});toast('Presença registrada. Fica na auditoria que foi marcada pelo administrador.');break;
     case 'conferir': var cf=cliPorId(id);cf.conferido=true;toast('Pagamento de '+cf.ini+' conferido com o extrato.');break;
     case 'nao-achei': toast('Marcado para revisão. O Thiago vê um alerta para checar esse pagamento com a Helen.');return true;
-    case 'aprovar-pre': preMat.forEach(function(p){if(p.id===id)p.st='ok'});toast('Matrícula aprovada. O aluno entra como ativo, a agenda é gerada e a primeira mensalidade é criada no sistema.');break;
+    case 'aprovar-pre': preMat.forEach(function(p){if(p.id===id&&p.st==='novo'){p.st='ok';planejar.unshift({id:'n'+(planejar.length+1),ini:p.ini,idade:p.idade,resp:p.resp,rel:p.rel,plano:p.plano,pref:p.hor,desde:diasAtras(0),st:'planejamento'})}});toast('Matrícula aprovada. O aluno fica <b>Em planejamento</b> até o Thiago montar o plano de atendimento; só então a agenda e a primeira mensalidade são geradas.');break;
+    case 'modulos': openModal(modulosHTML()); return true;
+    case 'mod-on': modsOn[id]=!modOn(id); try{localStorage.setItem('mods-on',JSON.stringify(modsOn))}catch(x){} document.getElementById('modal-c').innerHTML=modulosHTML(); render(); return true;
+    case 'fechar-modal': closeModal(); return true;
+    case 'montar-plano': openModal(planoFormHTML(planejar.filter(function(x){return x.id===id})[0],true)); return true;
+    case 'editar-plano': openModal(planoFormHTML(cliPorId(id),false)); return true;
     case 'copiar-link': toast('Link copiado: <b>pedroduefarias.github.io/prototipo-sistema-thiagosantos/#'+id+'</b>');return true;
     case 'pix-fam': openModal(pixHTML(id)); return true;
     case 'copiar-pix': toast('Chave Pix copiada: <b>'+CHAVE_PIX+'</b>. Cole no app do seu banco e use o valor da mensalidade.');return true;
@@ -2041,7 +2178,7 @@ function acaoPerfil(el){
 }
 function enviarForm(form){
   var id=form.id;
-  if(id==='login-form'){if(!entrar(form.email.value,form.senha.value)){document.getElementById('login-err').innerHTML='E-mail ou senha incorretos. No protótipo, use um dos perfis abaixo com a senha <b>123</b>.'}return}
+  if(id==='login-form'){var ok=entrar(form.email.value,form.senha.value);if(ok==='off'){document.getElementById('login-err').innerHTML='O portal da família entra depois da versão 1. Para ver como vai ser, entre como <b>admin</b> e ligue o módulo Feedback dos pais em <b>Módulos</b>.';return}if(!ok){document.getElementById('login-err').innerHTML='E-mail ou senha incorretos. No protótipo, use um dos perfis abaixo com a senha <b>123</b>.'}return}
   if(id==='convite-form'){var e=document.getElementById('conv-err');if(form.s1.value.length<6){e.textContent='A senha precisa ter pelo menos 6 caracteres.';return}if(form.s1.value!==form.s2.value){e.textContent='As duas senhas estão diferentes.';return}location.hash='#convite?passo=4';return}
   if(id==='pre-form'){var er=document.getElementById('pre-err');if(!form.resp.value.trim()||!form.fone.value.trim()||!form.aluno.value.trim()){er.textContent='Preencha o nome do responsável, o WhatsApp e o nome da criança.';return}if(!form.lgpd.checked){er.textContent='Para enviar, aceite o termo de consentimento.';return}
     var nm=form.aluno.value.trim().split(/\s+/),pl=picked(form,'plano')[0]||'';preMat.unshift({id:'p'+(preMat.length+1),resp:form.resp.value.trim(),rel:form.rel.value,ini:nm.join(' '),idade:'?',plano:/premium/i.test(pl)?'premium':/b.sico/i.test(pl)?'basico':'essencial',hor:(picked(form,'periodo').join(' ou ')||'a combinar').toLowerCase(),quando:diasAtras(0),origem:'Link da pré-matrícula',st:'novo'});
@@ -2049,11 +2186,12 @@ function enviarForm(form){
   if(id==='lead-form'){var el=document.getElementById('lead-err');if(!form.nome.value.trim()||!form.fone.value.trim()){el.textContent='Preencha seu nome e o WhatsApp.';return}
     var o=form.getAttribute('data-origem');leads.unshift({id:'l'+leads.length,ini:form.crianca.value.trim()||'Criança (nome não informado)',idade:form.idade.value||'?',resp:form.nome.value.trim(),rel:'Responsável',etapa:'contato',origem:o.charAt(0).toUpperCase()+o.slice(1),data:diasAtras(0),interesse:picked(form,'interesse')[0]||'Psicomotricidade',form:true,semResp:0});
     location.hash='#agendar?enviado=1&origem='+o;return}
+  if(id==='plano-form'){salvarPlano(form);return}
   if(id==='pag-form'){var pc=cliPorId(form.getAttribute('data-cli')),v=parseFloat(String(form.valor.value).replace(/\./g,'').replace(',','.'));
     if(!(v>0)){document.getElementById('pag-err').textContent='Informe o valor recebido.';return}
     var dt=form.data.value?new Date(form.data.value+'T12:00:00'):diasAtras(0),fm=picked(form,'forma')[0]||'Pix',cfm=picked(form,'conf')[0]||'';
     pc.fin='pago';pc.pagoEm=dt;pc.via=fm+(cfm?', '+cfm.toLowerCase():'');pc.regPor=perfil().curto;pc.parcelas=1;pc.cobrado=false;
-    closeModal();toast('Pagamento de '+pc.ini+' registrado ('+brl(v)+'). Fica na auditoria: registrado por '+perfil().curto+' em 17/11.'+(form.recibo.checked?' O recibo já está no portal da família.':''));render();return}
+    closeModal();toast('Pagamento de '+pc.ini+' registrado ('+brl(v)+'). Fica na auditoria: registrado por '+perfil().curto+' em 17/11.'+(form.recibo&&form.recibo.checked?' O recibo já está no portal da família.':' O recibo fica disponível na ficha do aluno.'));render();return}
   if(id==='registro-form'){
     var cli=cliPorId(form.getAttribute('data-cli')),aula=agendaHoje.filter(function(x){return x.id===form.getAttribute('data-aula')})[0],
         lib=form.querySelector('[data-sw]').getAttribute('aria-checked')==='true',at=picked(form,'ativ'),pres=picked(form,'pres')[0];
@@ -2104,7 +2242,7 @@ function topHTML(key){
   var ctrl='<div class="top-r"><span class="pill">Protótipo</span>'+
     (painel&&sessao==='admin'?'<div class="seg" role="group" aria-label="Período dos gráficos">'+[3,6,12].map(function(n){return '<button type="button" data-range="'+n+'" aria-pressed="'+(state.range===n)+'">'+n+' meses</button>'}).join('')+'</div>':'')+
     (painel?'<button type="button" class="tgl" data-src-toggle aria-pressed="'+state.src+'">'+icon('alert')+'Origem dos dados</button>':'')+
-    (painel&&sessao==='admin'?'<button type="button" class="tgl" data-act="dash-editar">'+icon('edit')+'Personalizar</button>':'')+
+    (painel&&sessao==='admin'?'<button type="button" class="tgl" data-act="dash-editar">'+icon('edit')+'Personalizar</button><button type="button" class="tgl" data-act="modulos">'+icon('grip')+'Módulos</button>':'')+
     '<span class="top-ic"><button type="button" class="icon-btn" data-theme-toggle aria-label="Alternar tema claro e escuro">'+icon(theme==='dark'?'sun':'moon')+'</button>'+
     '<button type="button" class="icon-btn" data-act="sair" aria-label="Sair da conta">'+icon('logout')+'</button></span></div>';
   var ola=(sessao==='familia'?'Portal da família':'Boa tarde, '+p.curto)+' · terça, 17 de novembro';
@@ -2112,13 +2250,13 @@ function topHTML(key){
 }
 function navHTML(key){
   var cur=parentDe(key);
-  return perfil().menu.map(function(k){
+  return menuDe().map(function(k){
     var r=ROUTES[k], on=k===cur, bd=sessao==='admin'||sessao==='gestor'?r.badge:null;
     return '<a href="#'+k+'"'+(on?' class="on" aria-current="page"':'')+'>'+icon(r.ic)+'<span>'+r.t+'</span>'+(bd?'<span class="badge '+bd.c+'">'+bd.n+'</span>':'')+'</a>';
   }).join('');
 }
 function tabHTML(key){
-  var m=perfil().menu, cur=parentDe(key), main=m.length<=5?m:['dashboard','clientes','financeiro','pais'], more=m.filter(function(k){return main.indexOf(k)<0});
+  var m=menuDe(), cur=parentDe(key), main=m.length<=5?m:m.slice(0,4), more=m.filter(function(k){return main.indexOf(k)<0});
   document.getElementById('tabbar').style.gridTemplateColumns='repeat('+(main.length+(more.length?1:0))+',1fr)';
   return main.map(function(k){
     var r=ROUTES[k], bd=sessao==='admin'||sessao==='gestor'?r.badge:null;
@@ -2126,7 +2264,7 @@ function tabHTML(key){
   }).join('')+(more.length?'<button type="button" data-sheet'+(more.indexOf(cur)>-1?' class="on"':'')+'>'+icon('more')+'<span>Mais</span></button>':'');
 }
 function sheetHTML(){
-  var m=perfil().menu, main=m.length<=5?m:['dashboard','clientes','financeiro','pais'], more=m.filter(function(k){return main.indexOf(k)<0}), theme=effectiveTheme();
+  var m=menuDe(), main=m.length<=5?m:m.slice(0,4), more=m.filter(function(k){return main.indexOf(k)<0}), theme=effectiveTheme();
   return '<div class="grip"></div>'+more.map(function(k){
     var r=ROUTES[k]; return '<a href="#'+k+'">'+icon(r.ic)+r.t+(r.badge?'<span class="badge '+r.badge.c+'" style="margin-left:auto">'+r.badge.n+'</span>':'')+'</a>';
   }).join('')+'<button type="button" data-theme-toggle>'+icon(theme==='dark'?'sun':'moon')+'Alternar tema</button><button type="button" data-act="sair">'+icon('logout')+'Sair</button>';
@@ -2136,6 +2274,7 @@ function render(){
   document.body.classList.toggle('pub',pub);
   ['admin','gestor','profissional','familia'].forEach(function(k){document.body.classList.toggle('perfil-'+k,!pub&&sessao===k)});
   if(pub){ultimaTela=key;view.className='';view.innerHTML=PUB[key]();document.title=ROUTES[key].t+' · Studio Thiago Santos';return}
+  if(sessao==='familia'&&!modOn('pais')){sair();return}
   var p=perfil();
   document.getElementById('top').innerHTML=topHTML(key);
   document.getElementById('nav').innerHTML=navHTML(key);
